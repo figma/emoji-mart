@@ -19,8 +19,7 @@
   },
   "homepage": "https://github.com/figma/emoji-mart",
   "dependencies": {
-    "measure-scrollbar": "^0.1.0",
-    "rimraf": "2.5.2"
+    "measure-scrollbar": "^0.1.0"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0-0"
@@ -47,6 +46,7 @@
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "rimraf": "2.5.2",
     "svg-jsx-loader": "^0.0.16",
     "webpack": "1.12.14"
   },
