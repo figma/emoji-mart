@@ -5,7 +5,7 @@
   "main": "dist/emoji-mart.js",
   "repository": {
     "type": "git",
-    "url": "git@github.com:missive/emoji-mart.git"
+    "url": "git@github.com:figma/emoji-mart.git"
   },
   "keywords": [
     "react",
@@ -15,9 +15,9 @@
   "author": "Etienne Lemay",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/missive/emoji-mart/issues"
+    "url": "https://github.com/figma/emoji-mart/issues"
   },
-  "homepage": "https://github.com/missive/emoji-mart",
+  "homepage": "https://github.com/figma/emoji-mart",
   "dependencies": {
     "measure-scrollbar": "^0.1.0"
   },
