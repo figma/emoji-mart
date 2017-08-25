@@ -1,1 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="24" width="24"><path d="M13 4h-2l-.001 7H9v2h2v2h2v-2h4v-2h-4z"/><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0m0 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10"/></svg>
+<svg width="20" height="21" viewBox="0 0 20 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>recents</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(1923 1278)">
+<g id="recents">
+<use xlink:href="#path0_fill" transform="translate(-1923 -1277.5)"/>
+</g>
+</g>
+<defs>
+<path id="path0_fill" fill-rule="evenodd" d="M 10 19C 14.9706 19 19 14.9706 19 10C 19 5.02942 14.9706 1 10 1C 5.02942 1 1 5.02942 1 10C 1 14.9706 5.02942 19 10 19ZM 10 20C 15.5228 20 20 15.5228 20 10C 20 4.47717 15.5228 0 10 0C 4.47717 0 0 4.47717 0 10C 0 15.5228 4.47717 20 10 20ZM 9 4L 10 4L 10 10L 16 10L 16 11L 10 11L 9 11L 9 10L 9 4Z"/>
+</defs>
+</svg>

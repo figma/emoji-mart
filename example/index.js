@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { Picker, Emoji } from '../src'
+import { Picker, Emoji, emojiIndex } from '../src'
 
 const CUSTOM_EMOJIS = [
   {
@@ -84,6 +84,8 @@ class Example extends React.Component {
   }
 
   render() {
+    window['emojiIndex'] = emojiIndex
+
     return <div>
       <div>
         <h1 className='demo-title'>Emoji Mart</h1>

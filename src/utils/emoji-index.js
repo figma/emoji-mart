@@ -147,4 +147,4 @@ function search(value, { emojisToShowFilter, maxResults, include, exclude, custo
   return results
 }
 
-export default { search, emojis: emojisList, emoticons: emoticonsList }
+export default { search, emojis: emojisList, emoticons: emoticonsList, getData: getData }
