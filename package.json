@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/figma/emoji-mart",
   "dependencies": {
-    "measure-scrollbar": "^0.1.0"
+    "measure-scrollbar": "^0.1.0",
     "rimraf": "2.5.2",
   },
   "peerDependencies": {
