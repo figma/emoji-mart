@@ -80,8 +80,8 @@ emojiData.forEach((datum) => {
   delete datum.category
   delete datum.sort_order
 
-  for (let key in datum) {
-    let value = datum[key]
+  for (key in datum) {
+    value = datum[key]
 
     if (Array.isArray(value) && !value.length) {
       delete datum[key]
