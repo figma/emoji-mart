@@ -4885,6 +4885,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var id = emoji.id || short_names[0];
 	  var colons = ':' + id + ':';
 
+	  var bits = unified.split('-');
+	  if (bits.length == 2 && unified.endsWith("-FE0F")) {
+	    unified = unified.slice(0, -5);
+	  }
+
 	  if (custom) {
 	    return {
 	      id: id,
