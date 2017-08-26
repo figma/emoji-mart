@@ -4,8 +4,15 @@
   <br><img src="https://cloud.githubusercontent.com/assets/436043/17186519/9e71e8fe-5403-11e6-9314-21365c56a601.png">
   <br><a title="Team email, team chat, team tasks, one app" href="https://missiveapp.com"><img alt="Missive | Team email, team chat, team tasks, one app" src="https://cloud.githubusercontent.com/assets/436043/17186909/17f9cede-5405-11e6-988a-a7c2380af396.png"></a>
   <br>Brought to you by the <a title="Team email, team chat, team tasks, one app" href="https://missiveapp.com">Missive</a> team
-  <br>To be more specific, this is Figma's private forked copy of the emoji-mart repo. It is used by the figma/figma repo for emoji picking
 </div>
+
+## Figma
+To be more specific, this is Figma's private forked copy of the emoji-mart repo. It is used by the figma/figma repo for emoji picking.
+
+To update this code, make changes to the tip of the `figma-release-1` branch. Then run `npm run clean && npm run build`, commit the results, and push the branch to origin. This puts the javascript build artifact itself in our git repo at the tip of that branch. Then go to the web/ directory in figma/figma and update the pinned hash to whatever the resulting commit hash is and commit that; the yarn install process will then update the emojimart package to the build artifacts at that git hash.
+
+You can do this with arbitrary hashes, but if you're not doing it at the tip of `figma-release-1`, you probably want to backport those changes. It is useful to have a history of all the changes we've made to the repo in one place, so continuing to use that branch is useful.
+
 
 ## Components
 ### Picker
