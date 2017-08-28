@@ -1,8 +1,8 @@
-<svg width="20" height="20" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<title>basketball</title>
+<svg width="19" height="19" viewBox="0 0 19 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>activity</title>
 <desc>Created using Figma</desc>
 <g id="Canvas" transform="translate(1243 1293)">
-<g id="basketball">
+<g id="activity">
 <use xlink:href="#path0_fill" transform="translate(-1243 -1293)"/>
 <use xlink:href="#path1_fill" transform="translate(-1243 -1293)"/>
 <use xlink:href="#path2_fill" transform="translate(-1243 -1293)"/>
@@ -10,39 +10,15 @@
 <use xlink:href="#path4_fill" transform="translate(-1243 -1293)"/>
 <use xlink:href="#path5_fill" transform="translate(-1243 -1293)"/>
 <use xlink:href="#path6_fill" transform="translate(-1243 -1293)"/>
-<use xlink:href="#path7_fill" transform="translate(-1243 -1293)"/>
-<use xlink:href="#path8_fill" transform="translate(-1243 -1293)"/>
-<use xlink:href="#path9_fill" transform="translate(-1243 -1293)"/>
-<use xlink:href="#path10_fill" transform="translate(-1243 -1293)"/>
-<use xlink:href="#path11_fill" transform="translate(-1243 -1293)"/>
-<use xlink:href="#path12_fill" transform="translate(-1243 -1293)"/>
-<use xlink:href="#path13_fill" transform="translate(-1243 -1293)"/>
-<use xlink:href="#path14_fill" transform="translate(-1243 -1293)"/>
-<use xlink:href="#path15_fill" transform="translate(-1243 -1293)"/>
-<use xlink:href="#path16_fill" transform="translate(-1243 -1293)"/>
-<use xlink:href="#path17_fill" transform="translate(-1243 -1293)"/>
-<use xlink:href="#path18_fill" transform="translate(-1243 -1293)"/>
 </g>
 </g>
 <defs>
-<path id="path0_fill" d="M 11 0.0493164L 11 0L 10 0L 10 1L 11 1.05493L 11 0.0493164Z"/>
-<path id="path1_fill" d="M 10 19L 10 20L 11 19.9506L 11 18.9451L 10 19Z"/>
-<path id="path2_fill" d="M 11 9L 10 9L 10 10L 11 10L 11 9Z"/>
-<path id="path3_fill" d="M 10 20C 10.3375 20 10.6711 19.9833 11 19.9506L 10 20Z"/>
-<path id="path4_fill" d="M 6.62927 9L 5.62378 9L 5.67871 10L 6.67871 10L 6.62927 9Z"/>
-<path id="path5_fill" d="M 15.0549 9L 14.0494 9L 14 10L 15 10L 15.0549 9Z"/>
-<path id="path6_fill" d="M 20 10L 20 9L 19.9507 9L 18.9451 9L 19 10L 20 10Z"/>
-<path id="path7_fill" d="M 1 10L 1.05493 9L 0.0493758 9L 0 10L 1 10Z"/>
-<path id="path8_fill" d="M 0.0493758 9C 0.0167196 9.32891 0 9.6625 0 10L 0.0493758 9Z"/>
-<path id="path9_fill" d="M 4.05237 16.7549C 5.68335 14.9755 6.67871 12.604 6.67871 10L 5.67871 10C 5.67871 12.3307 4.79285 14.4543 3.33936 16.0529C 1.88586 14.4543 1 12.3307 1 10L 0 10C 0 15.5228 4.47717 20 10 20L 10 19C 7.72009 19 5.63818 18.1523 4.05237 16.7549Z"/>
-<path id="path10_fill" d="M 1 10L 5.67871 10L 5.62378 9L 1.05493 9L 1 10Z"/>
-<path id="path11_fill" d="M 3.33936 3.94714C 4.58203 5.31372 5.40979 7.06445 5.62378 9L 6.62927 9C 6.40991 6.79126 5.47192 4.79382 4.05237 3.24512C 5.63818 1.84766 7.72009 1 10 1L 10 0C 4.81467 0 0.551104 3.94669 0.0493758 9L 1.05493 9C 1.26892 7.06433 2.09668 5.31372 3.33936 3.94714Z"/>
-<path id="path12_fill" d="M 10 1L 10 9L 11 9L 11 1.05493L 10 1Z"/>
-<path id="path13_fill" d="M 19.9507 9C 19.7474 6.95312 18.927 5.08789 17.6781 3.5929C 17.4857 3.36255 17.2831 3.14099 17.071 2.92896C 15.4825 1.34045 13.3622 0.283813 11 0.0493164L 11 1.05493C 13.0648 1.2832 14.9191 2.20996 16.3213 3.59363C 15.0728 5.0885 14.2527 6.95349 14.0494 9L 15.0549 9C 15.2488 7.24634 15.9464 5.64465 17 4.34265C 18.0536 5.64465 18.7512 7.24634 18.9451 9L 19.9507 9Z"/>
-<path id="path14_fill" d="M 18.9451 9L 15.0549 9L 15 10L 19 10L 18.9451 9Z"/>
-<path id="path15_fill" d="M 14.0494 9L 11 9L 11 10L 14 10L 14.0494 9Z"/>
-<path id="path16_fill" d="M 6.67871 10L 10 10L 10 9L 6.62927 9L 6.67871 10Z"/>
-<path id="path17_fill" d="M 10 10L 10 19L 11 18.9451L 11 10L 10 10Z"/>
-<path id="path18_fill" d="M 17 17.1414C 17.2235 16.9222 17.4373 16.6921 17.6395 16.453C 19.1122 14.7113 20 12.4594 20 10L 19 10C 19 12.1433 18.2509 14.1116 17 15.6573C 15.7491 14.1116 15 12.1433 15 10L 14 10C 14 12.4375 14.8721 14.6713 16.3213 16.4064C 14.9191 17.79 13.0648 18.7168 11 18.9451L 11 19.9506C 13.3273 19.7196 15.4195 18.6909 17 17.1414Z"/>
+<path id="path0_fill" d="M 2.83936 4.21875C 3.89404 5.54712 4.55981 7.19824 4.66431 9L 5.66577 9C 5.55701 6.90271 4.76794 4.98523 3.51514 3.46411C 4.9408 2.05042 6.86462 1.13831 9 1.0144L 9.5 0C 4.2533 0 0 4.2533 0 9.5L 1.0144 9C 1.1189 7.19824 1.78467 5.54712 2.83936 4.21875Z"/>
+<path id="path1_fill" d="M 10 10L 13.5485 10L 14.5499 10L 14.5499 9L 13.5485 9L 10 9L 10 1.0144L 9.5 0L 9 1.0144L 9 9L 5.66577 9L 4.66431 9L 4.66431 10L 5.66577 10L 9 10L 9 17.9856L 9.5 19L 10 17.9856L 10 10Z"/>
+<path id="path2_fill" d="M 16.2678 4.35657C 17.2604 5.66052 17.8846 7.26001 17.9856 9L 19 9.5C 19 4.2533 14.7467 0 9.5 0L 10 1.0144C 12.1947 1.14172 14.1659 2.10168 15.6025 3.58313C 14.4058 5.08472 13.6544 6.95703 13.5485 9L 14.5499 9C 14.6509 7.26001 15.2753 5.66064 16.2678 4.35657Z"/>
+<path id="path3_fill" d="M 1.0144 10L 4.66431 10L 4.66431 9L 1.0144 9L 0 9.5L 1.0144 10Z"/>
+<path id="path4_fill" d="M 3.51514 15.5359C 4.76794 14.0148 5.55701 12.0973 5.66577 10L 4.66431 10C 4.55981 11.8018 3.89404 13.4529 2.83936 14.7812C 1.78467 13.4529 1.1189 11.8018 1.0144 10L 0 9.5C 0 14.7467 4.2533 19 9.5 19L 9 17.9856C 6.86462 17.8617 4.9408 16.9496 3.51514 15.5359Z"/>
+<path id="path5_fill" d="M 15.6025 15.4169C 14.1659 16.8983 12.1947 17.8583 10 17.9856L 9.5 19C 14.7467 19 19 14.7467 19 9.5L 17.9856 10C 17.8846 11.74 17.2604 13.3395 16.2678 14.6434C 15.2753 13.3394 14.6509 11.74 14.5499 10L 13.5485 10C 13.6544 12.043 14.4058 13.9153 15.6025 15.4169Z"/>
+<path id="path6_fill" d="M 14.5499 10L 17.9856 10L 19 9.5L 17.9856 9L 14.5499 9L 14.5499 10Z"/>
 </defs>
 </svg>
