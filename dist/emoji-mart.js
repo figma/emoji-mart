@@ -6113,6 +6113,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          'div',
 	          { ref: 'scroll', className: 'emoji-mart-scroll', onScroll: this.handleScroll.bind(this) },
 	          this.getCategories().map(function (category, i) {
+	            if (category.name !== "Symbols") {
+	              return null;
+	            }
 	            return _react2.default.createElement(_.Category, {
 	              ref: 'category-' + i,
 	              key: category.name,

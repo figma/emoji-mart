@@ -356,6 +356,9 @@ export default class Picker extends React.Component {
 
       <div ref="scroll" className='emoji-mart-scroll' onScroll={this.handleScroll.bind(this)}>
         {this.getCategories().map((category, i) => {
+          if (category.name !== "Symbols") {
+            return null
+          }
           return <Category
             ref={`category-${i}`}
             key={category.name}
