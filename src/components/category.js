@@ -7,6 +7,7 @@ import { Emoji } from '.'
 export default class Category extends React.Component {
   componentDidMount() {
     this.container = this.refs.container
+
     this.label = this.refs.label
     this.parent = this.container.parentNode
 
@@ -40,8 +41,16 @@ export default class Category extends React.Component {
 
   memoizeSize() {
     var { top, height } = this.container.getBoundingClientRect()
-    var { top: parentTop } = this.parent.getBoundingClientRect()
+    var { parentTop, parentHeight } = this.parent.getBoundingClientRect()
     var { height: labelHeight } = this.label.getBoundingClientRect()
+
+      console.log(parentTop, parentHeight, top, height)
+      this.onScreen = true
+      if (parentTop + parentHeight < top) {
+          this.onScreen = false
+      } else if (top + height < parentTop) {
+          this.onScreen = false
+      }
 
     this.top = top - parentTop + this.parent.scrollTop
 
@@ -127,6 +136,13 @@ export default class Category extends React.Component {
         position: 'absolute',
       }
     }
+
+    if (!this.onScreen) {
+        return (<div ref='container' className={`emoji-mart-category ${emojis && !emojis.length ? 'emoji-mart-no-results' : ''}`} style={containerStyles}>
+                </div>
+        )
+    }
+
 
     return <div ref='container' className={`emoji-mart-category ${emojis && !emojis.length ? 'emoji-mart-no-results' : ''}`} style={containerStyles}>
       <div style={labelStyles} data-name={name} className='emoji-mart-category-label'>
