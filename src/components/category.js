@@ -5,6 +5,11 @@ import frequently from '../utils/frequently'
 import { Emoji } from '.'
 
 export default class Category extends React.Component {
+
+  componentWillMount() {
+    this.onScreen = false
+  }
+
   componentDidMount() {
     this.container = this.refs.container
 
@@ -41,24 +46,24 @@ export default class Category extends React.Component {
 
   memoizeSize() {
     var { top, height } = this.container.getBoundingClientRect()
-    var { parentTop, parentHeight } = this.parent.getBoundingClientRect()
-    var { height: labelHeight } = this.label.getBoundingClientRect()
-
-      console.log(parentTop, parentHeight, top, height)
-      this.onScreen = true
-      if (parentTop + parentHeight < top) {
-          this.onScreen = false
-      } else if (top + height < parentTop) {
-          this.onScreen = false
-      }
+    var { top: parentTop, height: parentHeight } = this.parent.getBoundingClientRect()
+    if (this.label) {
+      var { height: labelHeight } = this.label.getBoundingClientRect()
+    } else {
+      var labelHeight = 0
+    }
 
     this.top = top - parentTop + this.parent.scrollTop
+    this.height = height
+    this.parentHeight = parentHeight
 
     if (height == 0) {
       this.maxMargin = 0
     } else {
       this.maxMargin = height - labelHeight
     }
+
+    this.handleScroll(this.parent.scrollTop)
   }
 
   handleScroll(scrollTop) {
@@ -66,7 +71,17 @@ export default class Category extends React.Component {
     margin = margin < this.minMargin ? this.minMargin : margin
     margin = margin > this.maxMargin ? this.maxMargin : margin
 
-    if (margin == this.margin) return
+    var onScreen = false
+    if (this.top <= scrollTop + 175 && scrollTop <= this.top + this.height + 175) {
+      onScreen = true
+    } else if (this.top <= scrollTop + this.parentHeight + 175 && scrollTop + this.parentHeight <= this.top + this.height + 175) {
+        onScreen = true
+    }
+    console.log(this.top, this.height, scrollTop, this.parentHeight, onScreen)
+
+    if (margin == this.margin && onScreen == this.onScreen) return
+    this.onScreen = onScreen
+
     var { name } = this.props
 
     if (!this.props.hasStickyPosition) {
@@ -74,6 +89,7 @@ export default class Category extends React.Component {
     }
 
     this.margin = margin
+    this.forceUpdate()
     return true
   }
 
@@ -115,7 +131,7 @@ export default class Category extends React.Component {
   }
 
   render() {
-    var { name, hasStickyPosition, emojiProps, i18n } = this.props,
+    var { name, hasStickyPosition, emojiProps, i18n} = this.props,
         emojis = this.getEmojis(),
         labelStyles = {},
         labelSpanStyles = {},
@@ -137,24 +153,31 @@ export default class Category extends React.Component {
       }
     }
 
-    if (!this.onScreen) {
-        return (<div ref='container' className={`emoji-mart-category ${emojis && !emojis.length ? 'emoji-mart-no-results' : ''}`} style={containerStyles}>
-                </div>
-        )
+    if (emojis) {
+      var extra = 0
+      if (emojis.length % this.props.perLine > 0) {
+        extra = 1
+      }
+      var emptyStyle = {
+        height: 6 + (emojiProps.size + 6) * Math.floor(emojis.length / this.props.perLine + extra)
+      }
+    } else {
+        var emptyStyle = {}
     }
-
 
     return <div ref='container' className={`emoji-mart-category ${emojis && !emojis.length ? 'emoji-mart-no-results' : ''}`} style={containerStyles}>
       <div style={labelStyles} data-name={name} className='emoji-mart-category-label'>
         <span style={labelSpanStyles} ref='label'>{i18n.categories[name.toLowerCase()]}</span>
       </div>
 
-      {emojis && emojis.map((emoji) =>
-        Emoji({
+      {emojis && this.onScreen && emojis.map((emoji) => {
+        return Emoji({
           emoji: emoji,
           ...emojiProps
         })
-      )}
+      })}
+      {emojis && emojis.length && !this.onScreen && (<div style={emptyStyle} />)}
+
 
       {emojis && !emojis.length &&
         <div>
