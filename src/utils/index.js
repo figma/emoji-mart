@@ -19,9 +19,13 @@ function sanitize(emoji) {
       id = emoji.id || short_names[0],
       colons = `:${id}:`
 
+  // The emoji datasource has a handful of misplaced FE0F characters
   var bits = unified.split('-')
   if (bits.length == 2 && unified.endsWith("-FE0F")) {
     unified = unified.slice(0, -5)
+  }
+  if (bits.length == 3 && bits[1] == "FE0F") {
+    unified = bits[0] + "-" + bits[2]
   }
 
   if (custom) {
