@@ -1,44 +1,25 @@
 const extend = require('util')._extend
 
-import data from '../../data'
+import data from '../emoji'
 import { getData, getSanitizedData, intersect } from '.'
 
 var index = {}
 var emojisList = {}
-var emoticonsList = {}
 var previousInclude = []
 var previousExclude = []
 
 for (let emoji in data.emojis) {
   let emojiData = data.emojis[emoji],
-      { short_names, emoticons } = emojiData,
+      { short_names } = emojiData,
       id = short_names[0]
-
-  for (let emoticon of (emoticons || [])) {
-    if (!emoticonsList[emoticon]) {
-      emoticonsList[emoticon] = id
-    }
-  }
 
   emojisList[id] = getSanitizedData(id)
 }
 
-function search(value, { emojisToShowFilter, maxResults, include, exclude, custom = [] } = {}) {
+function search(value, { emojisToShowFilter, maxResults, include, exclude } = {}) {
   maxResults || (maxResults = 75)
   include || (include = [])
   exclude || (exclude = [])
-
-  if (custom.length) {
-    for (const emoji of custom) {
-      data.emojis[emoji.id] = getData(emoji)
-      emojisList[emoji.id] = getSanitizedData(emoji)
-    }
-
-    data.categories.push({
-      name: 'Custom',
-      emojis: custom.map(emoji => emoji.id)
-    })
-  }
 
   var results = null,
       pool = data.emojis
@@ -76,6 +57,7 @@ function search(value, { emojisToShowFilter, maxResults, include, exclude, custo
     } else if (previousInclude.length || previousExclude.length) {
       index = {}
     }
+
 
     allResults = values.map((value) => {
       var aPool = pool,
@@ -147,4 +129,4 @@ function search(value, { emojisToShowFilter, maxResults, include, exclude, custo
   return results
 }
 
-export default { search, emojis: emojisList, emoticons: emoticonsList, getData: getData }
+export default { search, emojis: emojisList, getData: getData }

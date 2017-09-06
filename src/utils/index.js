@@ -1,5 +1,5 @@
 import buildSearch from './build-search'
-import data from '../../data'
+import data from '../emoji'
 
 const COLONS_REGEX = /^(?:\:([^\:]+)\:)(?:\:skin-tone-(\d)\:)?$/
 const SKINS = [
@@ -15,29 +15,9 @@ function unifiedToNative(unified) {
 }
 
 function sanitize(emoji) {
-  var { name, short_names, skin_tone, skin_variations, emoticons, unified, custom, imageUrl } = emoji,
+  var { name, short_names, skin_tone, skin_variations, unified, imageUrl } = emoji,
       id = emoji.id || short_names[0],
       colons = `:${id}:`
-
-  // The emoji datasource has a handful of misplaced FE0F characters
-  var bits = unified.split('-')
-  if (bits.length == 2 && unified.endsWith("-FE0F")) {
-    unified = unified.slice(0, -5)
-  }
-  if (bits.length == 3 && bits[1] == "FE0F") {
-    unified = bits[0] + "-" + bits[2]
-  }
-
-  if (custom) {
-    return {
-      id,
-      name,
-      colons,
-      emoticons,
-      custom,
-      imageUrl
-    }
-  }
 
   if (skin_tone) {
     colons += `:skin-tone-${skin_tone}:`
@@ -47,10 +27,8 @@ function sanitize(emoji) {
     id,
     name,
     colons,
-    emoticons,
     unified: unified.toLowerCase(),
     skin: skin_tone || (skin_variations ? 1 : null),
-    native: unifiedToNative(unified),
   }
 }
 
@@ -58,7 +36,7 @@ function getSanitizedData() {
   return sanitize(getData(...arguments))
 }
 
-function getData(emoji, skin, set) {
+function getData(emoji, skin) {
   var emojiData = {}
 
   if (typeof emoji == 'string') {
@@ -72,63 +50,31 @@ function getData(emoji, skin, set) {
       }
     }
 
-    if (data.short_names.hasOwnProperty(emoji)) {
-      emoji = data.short_names[emoji]
-    }
-
     if (data.emojis.hasOwnProperty(emoji)) {
       emojiData = data.emojis[emoji]
     }
-  } else if (emoji.custom) {
-    emojiData = emoji
-
-    emojiData.search = buildSearch({
-      short_names: emoji.short_names,
-      name: emoji.name,
-      keywords: emoji.keywords,
-      emoticons: emoji.emoticons
-    })
-
-    emojiData.search = emojiData.search.join(',')
-  } else if (emoji.id) {
-    if (data.short_names.hasOwnProperty(emoji.id)) {
-      emoji.id = data.short_names[emoji.id]
-    }
-
-    if (data.emojis.hasOwnProperty(emoji.id)) {
-      emojiData = data.emojis[emoji.id]
+  } else if (emoji.name) {
+    if (data.emojis.hasOwnProperty(emoji.name)) {
+      emojiData = data.emojis[emoji.name]
       skin || (skin = emoji.skin)
     }
   }
 
-  emojiData.emoticons || (emojiData.emoticons = [])
-  emojiData.variations || (emojiData.variations = [])
-
-  if (emojiData.skin_variations && skin > 1 && set) {
+  if (emojiData.skin_variations && skin > 1) {
     emojiData = JSON.parse(JSON.stringify(emojiData))
-
     var skinKey = SKINS[skin - 1],
         variationData = emojiData.skin_variations[skinKey]
-
     if (!variationData.variations && emojiData.variations) {
       delete emojiData.variations
     }
-
-    if (variationData[`has_img_${set}`]) {
-      emojiData.skin_tone = skin
-
-      for (let k in variationData) {
-        let v = variationData[k]
-        emojiData[k] = v
-      }
+    emojiData.skin_tone = skin
+    for (let k in variationData) {
+      let v = variationData[k]
+      emojiData[k] = v
     }
   }
 
-  if (emojiData.variations && emojiData.variations.length) {
-    emojiData = JSON.parse(JSON.stringify(emojiData))
-    emojiData.unified = emojiData.variations.shift()
-  }
-
+  emojiData.id = emojiData.name
   return emojiData
 }
 

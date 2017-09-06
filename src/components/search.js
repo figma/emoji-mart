@@ -12,7 +12,6 @@ export default class Search extends React.Component {
       maxResults: this.props.maxResults,
       include: this.props.include,
       exclude: this.props.exclude,
-      custom: this.props.custom,
     }))
   }
 

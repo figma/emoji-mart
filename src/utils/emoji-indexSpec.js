@@ -7,10 +7,8 @@ describe('#emojiIndex', () => {
         id: 'pineapple',
         name: 'Pineapple',
         colons: ':pineapple:',
-        emoticons: [  ],
         unified: '1f34d',
         skin: null,
-        native: '🍍'
       }]);
     });
 

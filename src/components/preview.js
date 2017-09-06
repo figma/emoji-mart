@@ -15,17 +15,7 @@ export default class Preview extends React.Component {
         { emojiProps, skinsProps, title, emoji: idleEmoji } = this.props
 
     if (emoji) {
-      var emojiData = getData(emoji),
-          { emoticons } = emojiData,
-          knownEmoticons = [],
-          listedEmoticons = []
-
-      for (let emoticon of emoticons) {
-        if (knownEmoticons.indexOf(emoticon.toLowerCase()) == -1) {
-          knownEmoticons.push(emoticon.toLowerCase())
-          listedEmoticons.push(emoticon)
-        }
-      }
+      var emojiData = getData(emoji)
 
       return <div className='emoji-mart-preview'>
         <div className='emoji-mart-preview-emoji'>
@@ -41,11 +31,6 @@ export default class Preview extends React.Component {
           <div className='emoji-mart-preview-shortnames'>
             {emojiData.short_names.map((short_name) =>
               <span key={short_name} className='emoji-mart-preview-shortname'>:{short_name}:</span>
-            )}
-          </div>
-          <div className='emoji-mart-preview-emoticons'>
-            {listedEmoticons.map((emoticon) =>
-              <span key={emoticon} className='emoji-mart-preview-emoticon'>{emoticon}</span>
             )}
           </div>
         </div>
