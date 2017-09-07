@@ -5421,11 +5421,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	// Transform our minimized emoji dataset into the form the library expects, more or less
+	var categories = []; // Transform our minimized emoji dataset into the form the library expects, more or less
 
-	console.time();
-
-	var categories = [];
 	var emojis = {};
 	var short_names = {};
 	var skins = {};
@@ -5468,9 +5465,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	exports.default = { categories: categories, emojis: emojis, short_names: short_names, skins: skins };
-
-
-	console.timeEnd();
 
 /***/ },
 /* 158 */
