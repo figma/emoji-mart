@@ -17,10 +17,10 @@ export default class Category extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    var { name, perLine, native, hasStickyPosition, emojis, emojiProps } = this.props,
-        { skin, size, set } = emojiProps,
-        { perLine: nextPerLine, native: nextNative, hasStickyPosition: nextHasStickyPosition, emojis: nextEmojis, emojiProps: nextEmojiProps } = nextProps,
-        { skin: nextSkin, size: nextSize, set: nextSet } = nextEmojiProps,
+    var { name, perLine, hasStickyPosition, emojis, emojiProps } = this.props,
+        { skin, size } = emojiProps,
+        { perLine: nextPerLine, hasStickyPosition: nextHasStickyPosition, emojis: nextEmojis, emojiProps: nextEmojiProps } = nextProps,
+        { skin: nextSkin, size: nextSize } = nextEmojiProps,
         shouldUpdate = false
 
     if (name == 'Recent' && perLine != nextPerLine) {
@@ -31,7 +31,7 @@ export default class Category extends React.Component {
       shouldUpdate = !(emojis == nextEmojis)
     }
 
-    if (skin != nextSkin || size != nextSize || native != nextNative || set != nextSet || hasStickyPosition != nextHasStickyPosition) {
+    if (skin != nextSkin || size != nextSize || hasStickyPosition != nextHasStickyPosition) {
       shouldUpdate = true
     }
 
@@ -72,19 +72,10 @@ export default class Category extends React.Component {
     var { name, emojis, perLine } = this.props
 
     if (name == 'Recent') {
-      let { custom } = this.props
       let frequentlyUsed = frequently.get(perLine)
 
       if (frequentlyUsed.length) {
-        emojis = frequentlyUsed.map((id) => {
-          for (let emoji of custom) {
-            if (emoji.id === id) {
-              return emoji
-            }
-          }
-
-          return id
-        })
+        emojis = frequentlyUsed
       }
     }
 
@@ -166,7 +157,6 @@ Category.propTypes = {
   emojis: PropTypes.array,
   hasStickyPosition: PropTypes.bool,
   name: PropTypes.string.isRequired,
-  native: PropTypes.bool.isRequired,
   perLine: PropTypes.number.isRequired,
   emojiProps: PropTypes.object.isRequired,
 }

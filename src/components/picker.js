@@ -3,7 +3,8 @@ import '../vendor/raf-polyfill'
 import React from 'react'
 import PropTypes from 'prop-types'
 import measureScrollbar from 'measure-scrollbar'
-import data from '../../data'
+
+import data from '../emoji'
 
 import store from '../utils/store'
 import frequently from '../utils/frequently'
@@ -13,7 +14,6 @@ import { Anchors, Category, Emoji, Preview, Search } from '.'
 
 const RECENT_CATEGORY = { name: 'Recent', emojis: null }
 const SEARCH_CATEGORY = { name: 'Search', emojis: null, anchor: false }
-const CUSTOM_CATEGORY = { name: 'Custom', emojis: [] }
 
 const I18N = {
   search: 'Search',
@@ -29,7 +29,6 @@ const I18N = {
     objects: 'Objects',
     symbols: 'Symbols',
     flags: 'Flags',
-    custom: 'Custom',
   },
 }
 
@@ -46,33 +45,7 @@ export default class Picker extends React.Component {
     this.categories = []
     let allCategories = [].concat(data.categories)
 
-    if (props.custom.length > 0) {
-      CUSTOM_CATEGORY.emojis = props.custom.map(emoji => {
-        return {
-          ...emoji,
-          // `<Category />` expects emoji to have an `id`.
-          id: emoji.short_names[0],
-          custom: true,
-        }
-      })
-
-      allCategories.push(CUSTOM_CATEGORY)
-    }
-
     this.hideRecent = true
-
-    if (props.include != undefined) {
-      data.categories.sort((a, b) => {
-        let aName = a.name.toLowerCase()
-        let bName = b.name.toLowerCase()
-
-        if (props.include.indexOf(aName) > props.include.indexOf(bName)) {
-          return 1
-        }
-
-        return 0
-      })
-    }
 
     for (let category of allCategories) {
       let isIncluded = props.include && props.include.length ? props.include.indexOf(category.name.toLowerCase()) > -1 : true
@@ -154,8 +127,7 @@ export default class Picker extends React.Component {
   handleEmojiOver(emoji) {
     var { preview } = this.refs
     // Use Array.prototype.find() when it is more widely supported.
-    const emojiData = CUSTOM_CATEGORY.emojis.filter(customEmoji => customEmoji.id === emoji.id)[0]
-    preview.setState({ emoji: Object.assign(emoji, emojiData) })
+    preview.setState({ emoji: emoji })
     clearTimeout(this.leaveTimeout)
   }
 
@@ -328,7 +300,7 @@ export default class Picker extends React.Component {
   }
 
   render() {
-    var { perLine, emojiSize, set, sheetSize, style, title, emoji, color, native, backgroundImageFn, emojisToShowFilter, include, exclude, autoFocus } = this.props,
+    var { perLine, emojiSize, style, title, emoji, color, emojisToShowFilter, include, exclude, autoFocus } = this.props,
         { skin } = this.state,
         width = (perLine * (emojiSize + 12)) + 12 + 2 + measureScrollbar()
 
@@ -350,7 +322,6 @@ export default class Picker extends React.Component {
         emojisToShowFilter={emojisToShowFilter}
         include={include}
         exclude={exclude}
-        custom={CUSTOM_CATEGORY.emojis}
         autoFocus={autoFocus}
       />
 
@@ -362,18 +333,11 @@ export default class Picker extends React.Component {
             name={category.name}
             emojis={category.emojis}
             perLine={perLine}
-            native={native}
             hasStickyPosition={this.hasStickyPosition}
             i18n={this.i18n}
-            custom={category.name == 'Recent' ? CUSTOM_CATEGORY.emojis : undefined}
             emojiProps={{
-              native: native,
               skin: skin,
               size: emojiSize,
-              set: set,
-              sheetSize: sheetSize,
-              forceSize: native,
-              backgroundImageFn: backgroundImageFn,
               onOver: this.handleEmojiOver.bind(this),
               onLeave: this.handleEmojiLeave.bind(this),
               onClick: this.handleEmojiClick.bind(this),
@@ -388,12 +352,8 @@ export default class Picker extends React.Component {
           title={title}
           emoji={emoji}
           emojiProps={{
-            native: native,
             size: 38,
             skin: skin,
-            set: set,
-            sheetSize: sheetSize,
-            backgroundImageFn: backgroundImageFn,
           }}
           skinsProps={{
             skin: skin,
@@ -414,22 +374,11 @@ Picker.propTypes = {
   title: PropTypes.string,
   emoji: PropTypes.string,
   color: PropTypes.string,
-  set: Emoji.propTypes.set,
   skin: Emoji.propTypes.skin,
-  native: PropTypes.bool,
-  backgroundImageFn: Emoji.propTypes.backgroundImageFn,
-  sheetSize: Emoji.propTypes.sheetSize,
   emojisToShowFilter: PropTypes.func,
   include: PropTypes.arrayOf(PropTypes.string),
   exclude: PropTypes.arrayOf(PropTypes.string),
   autoFocus: PropTypes.bool,
-  custom: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    short_names: PropTypes.arrayOf(PropTypes.string).isRequired,
-    emoticons: PropTypes.arrayOf(PropTypes.string),
-    keywords: PropTypes.arrayOf(PropTypes.string),
-    imageUrl: PropTypes.string.isRequired,
-  })),
 }
 
 Picker.defaultProps = {
@@ -441,12 +390,7 @@ Picker.defaultProps = {
   title: 'Emoji Mart™',
   emoji: 'department_store',
   color: '#ae65c5',
-  set: Emoji.defaultProps.set,
   skin: Emoji.defaultProps.skin,
-  native: Emoji.defaultProps.native,
-  sheetSize: Emoji.defaultProps.sheetSize,
-  backgroundImageFn: Emoji.defaultProps.backgroundImageFn,
   emojisToShowFilter: null,
   autoFocus: false,
-  custom: [],
 }

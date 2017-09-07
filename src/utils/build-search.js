@@ -18,9 +18,6 @@ module.exports = data => {
   }
 
   addToSearch(data.short_names, true)
-  addToSearch(data.name, true)
-  addToSearch(data.keywords, false)
-  addToSearch(data.emoticons, false)
 
   return search
 }
