@@ -2,6 +2,7 @@ const extend = require('util')._extend
 
 import data from '../emoji'
 import { getData, getSanitizedData, intersect } from '.'
+import store from './store'
 
 var index = {}
 var emojisList = {}
@@ -14,6 +15,11 @@ for (let emoji in data.emojis) {
       id = short_names[0]
 
   emojisList[id] = getSanitizedData(id)
+}
+
+function getDefaultSkin() {
+  const stored = store.get('skin')
+  return stored === 1 ? null : stored
 }
 
 function search(value, { emojisToShowFilter, maxResults, include, exclude } = {}) {
@@ -129,4 +135,4 @@ function search(value, { emojisToShowFilter, maxResults, include, exclude } = {}
   return results
 }
 
-export default { search, emojis: emojisList, getData: getData }
+export default { search, getDefaultSkin, emojis: emojisList, getData: getData }

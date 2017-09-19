@@ -6410,6 +6410,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _ = __webpack_require__(137);
 
+	var _store = __webpack_require__(133);
+
+	var _store2 = _interopRequireDefault(_store);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var extend = __webpack_require__(165)._extend;
@@ -6425,6 +6429,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var id = short_names[0];
 
 	  emojisList[id] = (0, _.getSanitizedData)(id);
+	}
+
+	function getDefaultSkin() {
+	  var stored = _store2.default.get('skin');
+	  return stored === 1 ? null : stored;
 	}
 
 	function search(value) {
@@ -6617,7 +6626,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return results;
 	}
 
-	exports.default = { search: search, emojis: emojisList, getData: _.getData };
+	exports.default = { search: search, getDefaultSkin: getDefaultSkin, emojis: emojisList, getData: _.getData };
 
 /***/ },
 /* 165 */
