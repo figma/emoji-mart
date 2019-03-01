@@ -22,7 +22,7 @@
     "measure-scrollbar": "^0.1.0"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0-0 || ^16.0.0-0"
+    "react": "^16.0.0-0"
   },
   "devDependencies": {
     "babel-core": "6.7.2",
@@ -44,8 +44,8 @@
     "karma-webpack": "^2.0.2",
     "mkdirp": "0.5.1",
     "prop-types": "^15.5.8",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
+    "react": "16.8.3",
+    "react-dom": "16.8.3",
     "rimraf": "2.5.2",
     "size-limit": "^0.10.0",
     "svg-jsx-loader": "^0.0.16",
