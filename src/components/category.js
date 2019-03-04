@@ -5,9 +5,14 @@ import frequently from '../utils/frequently'
 import { Emoji } from '.'
 
 export default class Category extends React.Component {
+
+  constructor(props) {
+    super(props)
+
+    this.memoizeSize = this.memoizeSize.bind(this);
+  }
+
   componentDidMount() {
-    this.container = this.container
-    this.label = this.label
     this.parent = this.container.parentNode
 
     this.margin = 0

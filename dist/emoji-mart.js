@@ -4078,16 +4078,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Category = function (_React$Component) {
 	  (0, _inherits3.default)(Category, _React$Component);
 
-	  function Category() {
+	  function Category(props) {
 	    (0, _classCallCheck3.default)(this, Category);
-	    return (0, _possibleConstructorReturn3.default)(this, (Category.__proto__ || (0, _getPrototypeOf2.default)(Category)).apply(this, arguments));
+
+	    var _this = (0, _possibleConstructorReturn3.default)(this, (Category.__proto__ || (0, _getPrototypeOf2.default)(Category)).call(this, props));
+
+	    _this.memoizeSize = _this.memoizeSize.bind(_this);
+	    return _this;
 	  }
 
 	  (0, _createClass3.default)(Category, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      this.container = this.container;
-	      this.label = this.label;
 	      this.parent = this.container.parentNode;
 
 	      this.margin = 0;
