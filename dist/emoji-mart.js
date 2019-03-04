@@ -4078,13 +4078,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var Category = function (_React$Component) {
 	  (0, _inherits3.default)(Category, _React$Component);
 
-	  function Category(props) {
+	  function Category() {
 	    (0, _classCallCheck3.default)(this, Category);
-
-	    var _this = (0, _possibleConstructorReturn3.default)(this, (Category.__proto__ || (0, _getPrototypeOf2.default)(Category)).call(this, props));
-
-	    _this.memoizeSize = _this.memoizeSize.bind(_this);
-	    return _this;
+	    return (0, _possibleConstructorReturn3.default)(this, (Category.__proto__ || (0, _getPrototypeOf2.default)(Category)).apply(this, arguments));
 	  }
 
 	  (0, _createClass3.default)(Category, [{
@@ -4133,6 +4129,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'memoizeSize',
 	    value: function memoizeSize() {
+	      if (!this.container || !this.label) {
+	        return;
+	      }
+
 	      var _container$getBoundin = this.container.getBoundingClientRect();
 
 	      var top = _container$getBoundin.top;

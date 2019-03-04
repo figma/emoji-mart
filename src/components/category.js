@@ -6,12 +6,6 @@ import { Emoji } from '.'
 
 export default class Category extends React.Component {
 
-  constructor(props) {
-    super(props)
-
-    this.memoizeSize = this.memoizeSize.bind(this);
-  }
-
   componentDidMount() {
     this.parent = this.container.parentNode
 
@@ -44,6 +38,10 @@ export default class Category extends React.Component {
   }
 
   memoizeSize() {
+    if (!this.container || !this.label) {
+      return
+    }
+
     var { top, height } = this.container.getBoundingClientRect()
     var { top: parentTop } = this.parent.getBoundingClientRect()
     var { height: labelHeight } = this.label.getBoundingClientRect()
