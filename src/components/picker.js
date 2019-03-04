@@ -125,16 +125,14 @@ export default class Picker extends React.Component {
   }
 
   handleEmojiOver(emoji) {
-    var { preview } = this.refs
     // Use Array.prototype.find() when it is more widely supported.
-    preview.setState({ emoji: emoji })
+    this.preview.setState({ emoji: emoji })
     clearTimeout(this.leaveTimeout)
   }
 
   handleEmojiLeave(emoji) {
     this.leaveTimeout = setTimeout(() => {
-      var { preview } = this.refs
-      preview.setState({ emoji: null })
+      this.preview.setState({ emoji: null })
     }, 16)
   }
 
@@ -142,7 +140,7 @@ export default class Picker extends React.Component {
     this.props.onClick(emoji, e)
     if (!this.hideRecent) frequently.add(emoji)
 
-    var component = this.refs['category-1']
+    var component = this.categories[1]
     if (component) {
       let maxMargin = component.maxMargin
       component.forceUpdate()
@@ -171,7 +169,7 @@ export default class Picker extends React.Component {
   handleScrollPaint() {
     this.waitingForPaint = false
 
-    if (!this.refs.scroll) {
+    if (!this.scroll) {
       return
     }
 
@@ -180,7 +178,7 @@ export default class Picker extends React.Component {
     if (SEARCH_CATEGORY.emojis) {
       activeCategory = SEARCH_CATEGORY
     } else {
-      var target = this.refs.scroll,
+      var target = this.scroll,
           scrollTop = target.scrollTop,
           scrollingDown = scrollTop > (this.scrollTop || 0),
           minTop = 0
@@ -188,7 +186,7 @@ export default class Picker extends React.Component {
       for (let i = 0, l = this.categories.length; i < l; i++) {
         let ii = scrollingDown ? (this.categories.length - 1 - i) : i,
             category = this.categories[ii],
-            component = this.refs[`category-${ii}`]
+            component = this.categories[ii]
 
         if (component) {
           let active = component.handleScroll(scrollTop)
@@ -218,11 +216,10 @@ export default class Picker extends React.Component {
     }
 
     if (activeCategory) {
-      let { anchors } = this.refs,
-          { name: categoryName } = activeCategory
+      let { name: categoryName } = activeCategory
 
-      if (anchors.state.selected != categoryName) {
-        anchors.setState({ selected: categoryName })
+      if (this.anchors.state.selected != categoryName) {
+        this.anchors.setState({ selected: categoryName })
       }
     }
 
@@ -233,7 +230,7 @@ export default class Picker extends React.Component {
     SEARCH_CATEGORY.emojis = emojis
 
     for (let i = 0, l = this.categories.length; i < l; i++) {
-      let component = this.refs[`category-${i}`]
+      let component = this.categories[i]
 
       if (component && component.props.name != 'Search') {
         let display = emojis ? 'none' : 'inherit'
@@ -242,13 +239,12 @@ export default class Picker extends React.Component {
     }
 
     this.forceUpdate()
-    this.refs.scroll.scrollTop = 0
+    this.scroll.scrollTop = 0
     this.handleScroll()
   }
 
   handleAnchorClick(category, i) {
-    var component = this.refs[`category-${i}`],
-        { scroll, anchors } = this.refs,
+    var component = this.categories[i],
         scrollToComponent = null
 
     scrollToComponent = () => {
@@ -261,13 +257,13 @@ export default class Picker extends React.Component {
           top += 1
         }
 
-        scroll.scrollTop = top
+        this.scroll.scrollTop = top
       }
     }
 
     if (SEARCH_CATEGORY.emojis) {
       this.handleSearch(null)
-      this.refs.search.clear()
+      this.search.clear()
 
       window.requestAnimationFrame(scrollToComponent)
     } else {
@@ -284,12 +280,12 @@ export default class Picker extends React.Component {
 
   updateCategoriesSize() {
     for (let i = 0, l = this.categories.length; i < l; i++) {
-      let component = this.refs[`category-${i}`]
+      let component = this.categories[i]
       if (component) component.memoizeSize()
     }
 
-    if (this.refs.scroll) {
-      let target = this.refs.scroll
+    if (this.scroll) {
+      let target = this.scroll
       this.scrollHeight = target.scrollHeight
       this.clientHeight = target.clientHeight
     }
@@ -307,7 +303,7 @@ export default class Picker extends React.Component {
     return <div style={{width: width, ...style}} className='emoji-mart'>
       <div className='emoji-mart-bar'>
         <Anchors
-          ref='anchors'
+          ref={anchors => this.anchors = anchors}
           i18n={this.i18n}
           color={color}
           categories={this.categories}
@@ -316,7 +312,7 @@ export default class Picker extends React.Component {
       </div>
 
       <Search
-        ref='search'
+        ref={search => this.search = search}
         onSearch={this.handleSearch.bind(this)}
         i18n={this.i18n}
         emojisToShowFilter={emojisToShowFilter}
@@ -325,10 +321,16 @@ export default class Picker extends React.Component {
         autoFocus={autoFocus}
       />
 
-      <div ref="scroll" className='emoji-mart-scroll' onScroll={this.handleScroll.bind(this)}>
+      <div ref={scroll => this.scroll = scroll} className='emoji-mart-scroll' onScroll={this.handleScroll.bind(this)}>
         {this.getCategories().map((category, i) => {
           return <Category
-            ref={`category-${i}`}
+            ref={category => {
+              if (this.categories) {
+                this.categories.push(category)
+              } else {
+                this.categories = [category]
+              }
+            }}
             key={category.name}
             name={category.name}
             emojis={category.emojis}
@@ -348,7 +350,7 @@ export default class Picker extends React.Component {
 
       <div className='emoji-mart-bar'>
         <Preview
-          ref='preview'
+          ref={preview => this.preview = preview}
           title={title}
           emoji={emoji}
           emojiProps={{

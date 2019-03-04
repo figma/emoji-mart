@@ -6,8 +6,8 @@ import { Emoji } from '.'
 
 export default class Category extends React.Component {
   componentDidMount() {
-    this.container = this.refs.container
-    this.label = this.refs.label
+    this.container = this.container
+    this.label = this.label
     this.parent = this.container.parentNode
 
     this.margin = 0
@@ -119,9 +119,9 @@ export default class Category extends React.Component {
       }
     }
 
-    return <div ref='container' className={`emoji-mart-category ${emojis && !emojis.length ? 'emoji-mart-no-results' : ''}`} style={containerStyles}>
+    return <div ref={container => this.container = container} className={`emoji-mart-category ${emojis && !emojis.length ? 'emoji-mart-no-results' : ''}`} style={containerStyles}>
       <div style={labelStyles} data-name={name} className='emoji-mart-category-label'>
-        <span style={labelSpanStyles} ref='label'>{i18n.categories[name.toLowerCase()]}</span>
+        <span style={labelSpanStyles} ref={label => this.label = label}>{i18n.categories[name.toLowerCase()]}</span>
       </div>
 
       {emojis && emojis.map((emoji) =>

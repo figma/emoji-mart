@@ -4086,8 +4086,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (0, _createClass3.default)(Category, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      this.container = this.refs.container;
-	      this.label = this.refs.label;
+	      this.container = this.container;
+	      this.label = this.label;
 	      this.parent = this.container.parentNode;
 
 	      this.margin = 0;
@@ -4208,6 +4208,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      var _props3 = this.props;
 	      var name = _props3.name;
 	      var hasStickyPosition = _props3.hasStickyPosition;
@@ -4236,13 +4238,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return _react2.default.createElement(
 	        'div',
-	        { ref: 'container', className: 'emoji-mart-category ' + (emojis && !emojis.length ? 'emoji-mart-no-results' : ''), style: containerStyles },
+	        { ref: function ref(container) {
+	            return _this2.container = container;
+	          }, className: 'emoji-mart-category ' + (emojis && !emojis.length ? 'emoji-mart-no-results' : ''), style: containerStyles },
 	        _react2.default.createElement(
 	          'div',
 	          { style: labelStyles, 'data-name': name, className: 'emoji-mart-category-label' },
 	          _react2.default.createElement(
 	            'span',
-	            { style: labelSpanStyles, ref: 'label' },
+	            { style: labelSpanStyles, ref: function ref(label) {
+	                return _this2.label = label;
+	              } },
 	            i18n.categories[name.toLowerCase()]
 	          )
 	        ),
@@ -5721,10 +5727,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'handleEmojiOver',
 	    value: function handleEmojiOver(emoji) {
-	      var preview = this.refs.preview;
 	      // Use Array.prototype.find() when it is more widely supported.
-
-	      preview.setState({ emoji: emoji });
+	      this.preview.setState({ emoji: emoji });
 	      clearTimeout(this.leaveTimeout);
 	    }
 	  }, {
@@ -5733,9 +5737,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var _this3 = this;
 
 	      this.leaveTimeout = setTimeout(function () {
-	        var preview = _this3.refs.preview;
-
-	        preview.setState({ emoji: null });
+	        _this3.preview.setState({ emoji: null });
 	      }, 16);
 	    }
 	  }, {
@@ -5746,7 +5748,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.props.onClick(emoji, e);
 	      if (!this.hideRecent) _frequently2.default.add(emoji);
 
-	      var component = this.refs['category-1'];
+	      var component = this.categories[1];
 	      if (component) {
 	        var maxMargin = component.maxMargin;
 	        component.forceUpdate();
@@ -5777,7 +5779,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function handleScrollPaint() {
 	      this.waitingForPaint = false;
 
-	      if (!this.refs.scroll) {
+	      if (!this.scroll) {
 	        return;
 	      }
 
@@ -5786,7 +5788,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (SEARCH_CATEGORY.emojis) {
 	        activeCategory = SEARCH_CATEGORY;
 	      } else {
-	        var target = this.refs.scroll,
+	        var target = this.scroll,
 	            scrollTop = target.scrollTop,
 	            scrollingDown = scrollTop > (this.scrollTop || 0),
 	            minTop = 0;
@@ -5794,7 +5796,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var i = 0, l = this.categories.length; i < l; i++) {
 	          var ii = scrollingDown ? this.categories.length - 1 - i : i,
 	              category = this.categories[ii],
-	              component = this.refs['category-' + ii];
+	              component = this.categories[ii];
 
 	          if (component) {
 	            var active = component.handleScroll(scrollTop);
@@ -5847,13 +5849,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 
 	      if (activeCategory) {
-	        var anchors = this.refs.anchors;
 	        var _activeCategory = activeCategory;
 	        var categoryName = _activeCategory.name;
 
 
-	        if (anchors.state.selected != categoryName) {
-	          anchors.setState({ selected: categoryName });
+	        if (this.anchors.state.selected != categoryName) {
+	          this.anchors.setState({ selected: categoryName });
 	        }
 	      }
 
@@ -5865,7 +5866,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      SEARCH_CATEGORY.emojis = emojis;
 
 	      for (var i = 0, l = this.categories.length; i < l; i++) {
-	        var component = this.refs['category-' + i];
+	        var component = this.categories[i];
 
 	        if (component && component.props.name != 'Search') {
 	          var display = emojis ? 'none' : 'inherit';
@@ -5874,17 +5875,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 
 	      this.forceUpdate();
-	      this.refs.scroll.scrollTop = 0;
+	      this.scroll.scrollTop = 0;
 	      this.handleScroll();
 	    }
 	  }, {
 	    key: 'handleAnchorClick',
 	    value: function handleAnchorClick(category, i) {
-	      var component = this.refs['category-' + i];
-	      var _refs = this.refs;
-	      var scroll = _refs.scroll;
-	      var anchors = _refs.anchors;
-	      var scrollToComponent = null;
+	      var _this5 = this;
+
+	      var component = this.categories[i],
+	          scrollToComponent = null;
 
 	      scrollToComponent = function scrollToComponent() {
 	        if (component) {
@@ -5897,13 +5897,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	            top += 1;
 	          }
 
-	          scroll.scrollTop = top;
+	          _this5.scroll.scrollTop = top;
 	        }
 	      };
 
 	      if (SEARCH_CATEGORY.emojis) {
 	        this.handleSearch(null);
-	        this.refs.search.clear();
+	        this.search.clear();
 
 	        window.requestAnimationFrame(scrollToComponent);
 	      } else {
@@ -5922,12 +5922,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'updateCategoriesSize',
 	    value: function updateCategoriesSize() {
 	      for (var i = 0, l = this.categories.length; i < l; i++) {
-	        var component = this.refs['category-' + i];
+	        var component = this.categories[i];
 	        if (component) component.memoizeSize();
 	      }
 
-	      if (this.refs.scroll) {
-	        var target = this.refs.scroll;
+	      if (this.scroll) {
+	        var target = this.scroll;
 	        this.scrollHeight = target.scrollHeight;
 	        this.clientHeight = target.clientHeight;
 	      }
@@ -5940,7 +5940,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this5 = this;
+	      var _this6 = this;
 
 	      var _props = this.props;
 	      var perLine = _props.perLine;
@@ -5963,7 +5963,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          'div',
 	          { className: 'emoji-mart-bar' },
 	          _react2.default.createElement(_.Anchors, {
-	            ref: 'anchors',
+	            ref: function ref(anchors) {
+	              return _this6.anchors = anchors;
+	            },
 	            i18n: this.i18n,
 	            color: color,
 	            categories: this.categories,
@@ -5971,7 +5973,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          })
 	        ),
 	        _react2.default.createElement(_.Search, {
-	          ref: 'search',
+	          ref: function ref(search) {
+	            return _this6.search = search;
+	          },
 	          onSearch: this.handleSearch.bind(this),
 	          i18n: this.i18n,
 	          emojisToShowFilter: emojisToShowFilter,
@@ -5981,22 +5985,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }),
 	        _react2.default.createElement(
 	          'div',
-	          { ref: 'scroll', className: 'emoji-mart-scroll', onScroll: this.handleScroll.bind(this) },
+	          { ref: function ref(scroll) {
+	              return _this6.scroll = scroll;
+	            }, className: 'emoji-mart-scroll', onScroll: this.handleScroll.bind(this) },
 	          this.getCategories().map(function (category, i) {
 	            return _react2.default.createElement(_.Category, {
-	              ref: 'category-' + i,
+	              ref: function ref(category) {
+	                if (_this6.categories) {
+	                  _this6.categories.push(category);
+	                } else {
+	                  _this6.categories = [category];
+	                }
+	              },
 	              key: category.name,
 	              name: category.name,
 	              emojis: category.emojis,
 	              perLine: perLine,
-	              hasStickyPosition: _this5.hasStickyPosition,
-	              i18n: _this5.i18n,
+	              hasStickyPosition: _this6.hasStickyPosition,
+	              i18n: _this6.i18n,
 	              emojiProps: {
 	                skin: skin,
 	                size: emojiSize,
-	                onOver: _this5.handleEmojiOver.bind(_this5),
-	                onLeave: _this5.handleEmojiLeave.bind(_this5),
-	                onClick: _this5.handleEmojiClick.bind(_this5)
+	                onOver: _this6.handleEmojiOver.bind(_this6),
+	                onLeave: _this6.handleEmojiLeave.bind(_this6),
+	                onClick: _this6.handleEmojiClick.bind(_this6)
 	              }
 	            });
 	          })
@@ -6005,7 +6017,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          'div',
 	          { className: 'emoji-mart-bar' },
 	          _react2.default.createElement(_.Preview, {
-	            ref: 'preview',
+	            ref: function ref(preview) {
+	              return _this6.preview = preview;
+	            },
 	            title: title,
 	            emoji: emoji,
 	            emojiProps: {
@@ -6330,10 +6344,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  (0, _createClass3.default)(Search, [{
 	    key: 'handleChange',
 	    value: function handleChange() {
-	      var input = this.refs.input;
-	      var value = input.value;
-
-	      this.props.onSearch(_emojiIndex2.default.search(value, {
+	      this.props.onSearch(_emojiIndex2.default.search(this.input.value, {
 	        emojisToShowFilter: this.props.emojisToShowFilter,
 	        maxResults: this.props.maxResults,
 	        include: this.props.include,
@@ -6343,11 +6354,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'clear',
 	    value: function clear() {
-	      this.refs.input.value = '';
+	      this.input.value = '';
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      var _props = this.props;
 	      var i18n = _props.i18n;
 	      var autoFocus = _props.autoFocus;
@@ -6357,7 +6370,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        'div',
 	        { className: 'emoji-mart-search' },
 	        _react2.default.createElement('input', {
-	          ref: 'input',
+	          ref: function ref(input) {
+	            return _this2.input = input;
+	          },
 	          type: 'text',
 	          onChange: this.handleChange.bind(this),
 	          placeholder: i18n.search,
