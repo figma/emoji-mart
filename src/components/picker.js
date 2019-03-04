@@ -140,7 +140,7 @@ export default class Picker extends React.Component {
     this.props.onClick(emoji, e)
     if (!this.hideRecent) frequently.add(emoji)
 
-    var component = this.categories[1]
+    var component = this.categoriesRef[1]
     if (component) {
       let maxMargin = component.maxMargin
       component.forceUpdate()
@@ -186,7 +186,7 @@ export default class Picker extends React.Component {
       for (let i = 0, l = this.categories.length; i < l; i++) {
         let ii = scrollingDown ? (this.categories.length - 1 - i) : i,
             category = this.categories[ii],
-            component = this.categories[ii]
+            component = this.categoriesRef[ii]
 
         if (component) {
           let active = component.handleScroll(scrollTop)
@@ -230,7 +230,7 @@ export default class Picker extends React.Component {
     SEARCH_CATEGORY.emojis = emojis
 
     for (let i = 0, l = this.categories.length; i < l; i++) {
-      let component = this.categories[i]
+      let component = this.categoriesRef[i]
 
       if (component && component.props.name != 'Search') {
         let display = emojis ? 'none' : 'inherit'
@@ -244,7 +244,7 @@ export default class Picker extends React.Component {
   }
 
   handleAnchorClick(category, i) {
-    var component = this.categories[i],
+    var component = this.categoriesRef[i],
         scrollToComponent = null
 
     scrollToComponent = () => {
@@ -280,7 +280,7 @@ export default class Picker extends React.Component {
 
   updateCategoriesSize() {
     for (let i = 0, l = this.categories.length; i < l; i++) {
-      let component = this.categories[i]
+      let component = this.categoriesRef[i]
       if (component) component.memoizeSize()
     }
 
@@ -325,10 +325,10 @@ export default class Picker extends React.Component {
         {this.getCategories().map((category, i) => {
           return <Category
             ref={category => {
-              if (this.categories) {
-                this.categories.push(category)
+              if (this.categoriesRef) {
+                this.categoriesRef[i] = category
               } else {
-                this.categories = [category]
+                this.categoriesRef = { [i]: [category] }
               }
             }}
             key={category.name}

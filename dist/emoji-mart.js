@@ -82,7 +82,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 
-	var _emojiIndex = __webpack_require__(164);
+	var _emojiIndex = __webpack_require__(165);
 
 	var _emojiIndex2 = _interopRequireDefault(_emojiIndex);
 
@@ -146,7 +146,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 
-	var _preview = __webpack_require__(162);
+	var _preview = __webpack_require__(163);
 
 	Object.defineProperty(exports, 'Preview', {
 	  enumerable: true,
@@ -155,7 +155,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 
-	var _search = __webpack_require__(163);
+	var _search = __webpack_require__(164);
 
 	Object.defineProperty(exports, 'Search', {
 	  enumerable: true,
@@ -164,7 +164,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 
-	var _skins = __webpack_require__(168);
+	var _skins = __webpack_require__(169);
 
 	Object.defineProperty(exports, 'Skins', {
 	  enumerable: true,
@@ -5494,6 +5494,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
+	var _defineProperty2 = __webpack_require__(160);
+
+	var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
 	var _extends2 = __webpack_require__(106);
 
 	var _extends3 = _interopRequireDefault(_extends2);
@@ -5522,7 +5526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _inherits3 = _interopRequireDefault(_inherits2);
 
-	__webpack_require__(160);
+	__webpack_require__(161);
 
 	var _react = __webpack_require__(94);
 
@@ -5532,7 +5536,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _measureScrollbar = __webpack_require__(161);
+	var _measureScrollbar = __webpack_require__(162);
 
 	var _measureScrollbar2 = _interopRequireDefault(_measureScrollbar);
 
@@ -5748,7 +5752,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.props.onClick(emoji, e);
 	      if (!this.hideRecent) _frequently2.default.add(emoji);
 
-	      var component = this.categories[1];
+	      var component = this.categoriesRef[1];
 	      if (component) {
 	        var maxMargin = component.maxMargin;
 	        component.forceUpdate();
@@ -5796,7 +5800,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        for (var i = 0, l = this.categories.length; i < l; i++) {
 	          var ii = scrollingDown ? this.categories.length - 1 - i : i,
 	              category = this.categories[ii],
-	              component = this.categories[ii];
+	              component = this.categoriesRef[ii];
 
 	          if (component) {
 	            var active = component.handleScroll(scrollTop);
@@ -5866,7 +5870,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      SEARCH_CATEGORY.emojis = emojis;
 
 	      for (var i = 0, l = this.categories.length; i < l; i++) {
-	        var component = this.categories[i];
+	        var component = this.categoriesRef[i];
 
 	        if (component && component.props.name != 'Search') {
 	          var display = emojis ? 'none' : 'inherit';
@@ -5883,7 +5887,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function handleAnchorClick(category, i) {
 	      var _this5 = this;
 
-	      var component = this.categories[i],
+	      var component = this.categoriesRef[i],
 	          scrollToComponent = null;
 
 	      scrollToComponent = function scrollToComponent() {
@@ -5922,7 +5926,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'updateCategoriesSize',
 	    value: function updateCategoriesSize() {
 	      for (var i = 0, l = this.categories.length; i < l; i++) {
-	        var component = this.categories[i];
+	        var component = this.categoriesRef[i];
 	        if (component) component.memoizeSize();
 	      }
 
@@ -5991,10 +5995,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          this.getCategories().map(function (category, i) {
 	            return _react2.default.createElement(_.Category, {
 	              ref: function ref(category) {
-	                if (_this6.categories) {
-	                  _this6.categories.push(category);
+	                if (_this6.categoriesRef) {
+	                  _this6.categoriesRef[i] = category;
 	                } else {
-	                  _this6.categories = [category];
+	                  _this6.categoriesRef = (0, _defineProperty3.default)({}, i, [category]);
 	                }
 	              },
 	              key: category.name,
@@ -6073,6 +6077,35 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	var _defineProperty = __webpack_require__(62);
+
+	var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function (obj, key, value) {
+	  if (key in obj) {
+	    (0, _defineProperty2.default)(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
+	  }
+
+	  return obj;
+	};
+
+/***/ },
+/* 161 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -6112,7 +6145,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}();
 
 /***/ },
-/* 161 */
+/* 162 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -6140,7 +6173,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 162 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6290,7 +6323,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 163 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6327,7 +6360,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 
-	var _emojiIndex = __webpack_require__(164);
+	var _emojiIndex = __webpack_require__(165);
 
 	var _emojiIndex2 = _interopRequireDefault(_emojiIndex);
 
@@ -6402,7 +6435,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 164 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6431,7 +6464,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var extend = __webpack_require__(165)._extend;
+	var extend = __webpack_require__(166)._extend;
 
 	var index = {};
 	var emojisList = {};
@@ -6644,7 +6677,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = { search: search, getDefaultSkin: getDefaultSkin, emojis: emojisList, getData: _.getData };
 
 /***/ },
-/* 165 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -7172,7 +7205,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 	exports.isPrimitive = isPrimitive;
 
-	exports.isBuffer = __webpack_require__(166);
+	exports.isBuffer = __webpack_require__(167);
 
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -7216,7 +7249,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(167);
+	exports.inherits = __webpack_require__(168);
 
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -7237,7 +7270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(96)))
 
 /***/ },
-/* 166 */
+/* 167 */
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -7248,7 +7281,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 167 */
+/* 168 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -7277,7 +7310,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 168 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
