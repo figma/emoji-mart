@@ -3,10 +3,10 @@
   "version": "5.0.0",
   "description": "Emoji picker for the web",
   "license": "BSD-3-Clause",
-  "homepage": "https://missiveapp.com/open/emoji-mart",
+  "homepage": "https://github.com/figma/emoji-mart",
   "repository": {
     "type": "git",
-    "url": "https://github.com/missive/emoji-mart",
+    "url": "git@github.com:figma/emoji-mart.git",
     "directory": "packages/emoji-mart"
   },
   "workspaces": [
