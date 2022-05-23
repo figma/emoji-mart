@@ -47,7 +47,7 @@ function unifiedToNative(unified) {
   return String.fromCodePoint(...codePoints)
 }
 
-async function buildData({ set, version } = {}) {
+function buildData({ set, version } = {}) {
   const categoriesIndex = {}
   const nativeSet = set == 'native'
   const data = {
@@ -82,8 +82,6 @@ async function buildData({ set, version } = {}) {
     }
 
     let unified = datum.unified.toLowerCase()
-    let non_qualified = datum.non_qualified?.toLowerCase()
-
     let native = unifiedToNative(unified)
 
     let name = inflection.titleize(
@@ -163,8 +161,6 @@ async function buildData({ set, version } = {}) {
         }
 
         let unified = skinDatum.unified.toLowerCase()
-        let non_qualified = skinDatum.non_qualified?.toLowerCase()    
-    
         let native = unifiedToNative(skinDatum.unified)
         let s = { unified, native }
         if (!nativeSet) {
@@ -198,15 +194,8 @@ async function buildData({ set, version } = {}) {
 
     if (datum.category != 'Component') {
       let categoryIndex = categoriesIndex[datum.category]
-      try {
-        data.categories[categoryIndex].emojis.push(emoji.id)
-        data.emojis[emoji.id] = emoji
-      } catch (e) {
-        console.log(categoryIndex)
-        console.log(data.categories)
-        console.log(data.categories[categoryIndex].emojis)
-        throw e
-      }
+      data.categories[categoryIndex].emojis.push(emoji.id)
+      data.emojis[emoji.id] = emoji
     }
   })
 
@@ -252,7 +241,7 @@ if (!DRY_RUN) {
 async function main() {
   for (let version of VERSIONS) {
     for (let set of SETS) {
-      await buildData({ set, version })
+      buildData({ set, version })
     }
   }  
 }
