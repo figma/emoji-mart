@@ -14,4 +14,8 @@ function get(key) {
   } catch (error) {}
 }
 
-export default { set, get }
+function getDefaultSkin() {
+  return get('skin')
+}
+
+export default { set, get, getDefaultSkin }

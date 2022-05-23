@@ -22,18 +22,32 @@ const CATEGORIES = [
   ['Flags', 'flags'],
 ]
 
+// TODO: Apple does not support female_sign and male_sign emojis, but we still have them as
+// searchable in the previous version of figma emoji-mart. When we remove usage of emoji-mart v1,
+// we will remove female_sign and male_sign from this list so that they are no longer selectable 
+const MISSING_EMOJIS = ['medical_symbol', 'female_sign', 'male_sign']
+
+const MISSING_ALIAS = {
+  // Figma's beetle emoji renders as a ladybug, which is complicated because
+  // beetle was introduced as a new emoji in v13 with a different image
+  // For now, we continue to honor our old, incorrect shortcode. We will
+  // want to revisit this when we upgrade what emoji version we support 
+  'beetle': 'ladybug',
+  'man_in_tuxedo': 'person_in_tuxedo',
+}
+
 const KEYWORD_SUBSTITUTES = {
   highfive: 'highfive high-five',
 }
 
-function unifiedToNative(unified) {
+function unifiedToNative(unified) { 
   let unicodes = unified.split('-')
   let codePoints = unicodes.map((u) => `0x${u}`)
 
   return String.fromCodePoint(...codePoints)
 }
 
-function buildData({ set, version } = {}) {
+async function buildData({ set, version } = {}) {
   const categoriesIndex = {}
   const nativeSet = set == 'native'
   const data = {
@@ -58,7 +72,7 @@ function buildData({ set, version } = {}) {
 
   emojiData.forEach((datum) => {
     if (set && !nativeSet) {
-      if (!datum[`has_img_${set}`]) {
+      if (!datum[`has_img_${set}`] && !MISSING_EMOJIS.includes(datum.short_name)) {
         return
       }
     }
@@ -68,6 +82,8 @@ function buildData({ set, version } = {}) {
     }
 
     let unified = datum.unified.toLowerCase()
+    let non_qualified = datum.non_qualified?.toLowerCase()
+
     let native = unifiedToNative(unified)
 
     let name = inflection.titleize(
@@ -147,6 +163,8 @@ function buildData({ set, version } = {}) {
         }
 
         let unified = skinDatum.unified.toLowerCase()
+        let non_qualified = skinDatum.non_qualified?.toLowerCase()    
+    
         let native = unifiedToNative(skinDatum.unified)
         let s = { unified, native }
         if (!nativeSet) {
@@ -180,8 +198,15 @@ function buildData({ set, version } = {}) {
 
     if (datum.category != 'Component') {
       let categoryIndex = categoriesIndex[datum.category]
-      data.categories[categoryIndex].emojis.push(emoji.id)
-      data.emojis[emoji.id] = emoji
+      try {
+        data.categories[categoryIndex].emojis.push(emoji.id)
+        data.emojis[emoji.id] = emoji
+      } catch (e) {
+        console.log(categoryIndex)
+        console.log(data.categories)
+        console.log(data.categories[categoryIndex].emojis)
+        throw e
+      }
     }
   })
 
@@ -206,13 +231,17 @@ function buildData({ set, version } = {}) {
 
     mkdir(folder, { recursive: true }, () => {
       writeFile(
-        `${folder}/${set || 'all'}.json`,
-        JSON.stringify(data),
+        `${folder}/${set || 'all'}.js`,
+        'export default ' + JSON.stringify(data),
         (err) => {
           if (err) throw err
         },
       )
     })
+  }
+
+  for (const oldName of Object.keys(MISSING_ALIAS)) {
+    data.aliases[oldName] = MISSING_ALIAS[oldName]
   }
 }
 
@@ -220,8 +249,12 @@ if (!DRY_RUN) {
   rmSync('sets', { recursive: true })
 }
 
-for (let version of VERSIONS) {
-  for (let set of SETS) {
-    buildData({ set, version })
-  }
+async function main() {
+  for (let version of VERSIONS) {
+    for (let set of SETS) {
+      await buildData({ set, version })
+    }
+  }  
 }
+
+main()
