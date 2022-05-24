@@ -9,7 +9,7 @@
     "url": "git@github.com:figma/emoji-mart.git",
     "directory": "packages/emoji-mart-data"
   },
-  "main": "sets/4/apple.json",
+  "main": "./sets/4/apple.json",
   "scripts": {
     "build": "node ./build.js"
   },

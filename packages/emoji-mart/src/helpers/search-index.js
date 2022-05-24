@@ -26,7 +26,7 @@ async function search(value, { maxResults } = {}) {
 function searchSynchronized(value, { maxResults } = {}) {
   if (!value || !value.trim().length) return null
   maxResults || (maxResults = 90)
-  return _search(value, { maxResults})
+  return _search(value, { maxResults })
 }
 
 function _search(value, { maxResults } = {}) {
@@ -82,7 +82,6 @@ function _search(value, { maxResults } = {}) {
   }
 
   return results
-
 }
 
 export default { search, searchSynchronized, get, SHORTCODES_REGEX }
