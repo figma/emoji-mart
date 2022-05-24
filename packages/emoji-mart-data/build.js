@@ -241,12 +241,8 @@ if (!DRY_RUN) {
   rmSync('sets', { recursive: true })
 }
 
-async function main() {
-  for (let version of VERSIONS) {
-    for (let set of SETS) {
-      buildData({ set, version })
-    }
+for (let version of VERSIONS) {
+  for (let set of SETS) {
+    buildData({ set, version })
   }
 }
-
-main()
