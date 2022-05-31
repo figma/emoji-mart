@@ -9,13 +9,18 @@
   "workspaces": [
     "packages/*"
   ],
+  "files": [
+    "packages/emoji-mart/dist/*",
+    "packages/emoji-mart-data/dist/*"
+  ],
   "scripts": {
     "dev": "yarn workspace @emoji-mart/website dev",
     "build": "yarn workspace emoji-mart build",
     "build:data": "yarn workspace @emoji-mart/data build",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "test": "yarn node --experimental-vm-modules $(yarn bin jest)"
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
+    "prepare": "npm run build && npm run build:data" 
   },
   "devDependencies": {
     "jest": "28.0.0",

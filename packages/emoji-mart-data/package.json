@@ -1,6 +1,7 @@
 {
   "name": "@emoji-mart/data",
   "version": "1.0.1",
+  "private": true,
   "description": "Data for Emoji Mart; the emoji picker for the web.",
   "license": "BSD-3-Clause",
   "homepage": "https://missiveapp.com/open/emoji-mart",
@@ -9,7 +10,7 @@
     "url": "https://github.com/missive/emoji-mart",
     "directory": "packages/emoji-mart-data"
   },
-  "main": "sets/14/native.json",
+  "main": "sets/4/apple.json",
   "scripts": {
     "build": "node ./build.js"
   },

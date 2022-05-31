@@ -191,6 +191,11 @@ async function _init(props, element) {
 
     while (i--) {
       const emoji = Data.emojis[category.emojis[i]]
+
+      if (!emoji) {
+        continue
+      }
+
       let ignore = false
 
       if (latestVersionSupport && emoji.version > latestVersionSupport) {
