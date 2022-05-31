@@ -1829,14 +1829,14 @@ domexception@^4.0.0:
   dependencies:
     webidl-conversions "^7.0.0"
 
-domhandler@^4.0.0, domhandler@^4.2.0, domhandler@^4.2.2, domhandler@^4.3.1:
+domhandler@^4.2.0, domhandler@^4.2.2, domhandler@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/domhandler/-/domhandler-4.3.1.tgz#8d792033416f59d68bc03a5aa7b018c1ca89279c"
   integrity sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==
   dependencies:
     domelementtype "^2.2.0"
 
-domutils@^2.5.2, domutils@^2.8.0:
+domutils@^2.8.0:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/domutils/-/domutils-2.8.0.tgz#4437def5db6e2d1f5d6ee859bd95ca7d02048135"
   integrity sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==
@@ -1991,11 +1991,6 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "2.1.1"
 
-fclone@^1.0.11:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/fclone/-/fclone-1.0.11.tgz#10e85da38bfea7fc599341c296ee1d77266ee640"
-  integrity sha1-EOhdo4v+p/xZk0HClu4ddyZu5kA=
-
 fill-range@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/fill-range/-/fill-range-7.0.1.tgz#1919a6a7c75fe38b2c7c77e5198535da9acdda40"
@@ -2138,16 +2133,6 @@ htmlnano@^2.0.0:
     cosmiconfig "^7.0.1"
     posthtml "^0.16.5"
     timsort "^0.3.0"
-
-htmlparser2@^6.0.0:
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-6.1.0.tgz#c4d762b6c3371a05dbe65e94ae43a9f845fb8fb7"
-  integrity sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==
-  dependencies:
-    domelementtype "^2.0.1"
-    domhandler "^4.0.0"
-    domutils "^2.5.2"
-    entities "^2.0.0"
 
 htmlparser2@^7.1.1:
   version "7.2.0"
@@ -3431,40 +3416,7 @@ postcss@^8.4.5:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-posthtml-expressions@^1.7.1:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/posthtml-expressions/-/posthtml-expressions-1.9.0.tgz#0b00e0e557392f66eb6b88d89cd090789eadd78c"
-  integrity sha512-jf4BsY2Pw6AoBFQTklOkf+dDhq+kO+R80Dj/plPY/IpZ6sXondzp1O55wJiQK2vIUL4XSAqKdG97wE/j8EH2og==
-  dependencies:
-    fclone "^1.0.11"
-    posthtml-match-helper "^1.0.1"
-    posthtml-parser "^0.10.0"
-    posthtml-render "^3.0.0"
-
-posthtml-extend@0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/posthtml-extend/-/posthtml-extend-0.6.2.tgz#28ad4af5ba0528c27fb49bd9896385c4df2fec27"
-  integrity sha512-IK7JQQ+LD0ds2VycxWTcATS+Bi4mmiXB/wp/ahxTyb6R00qYVP5OohsiuSg4Zk3uP02kfU3wDMgdTM7bJkHFLA==
-  dependencies:
-    deepmerge "^4.2.2"
-    posthtml "^0.16.5"
-    posthtml-parser "^0.10.1"
-
-posthtml-include@1.7.2:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/posthtml-include/-/posthtml-include-1.7.2.tgz#5cf837246c35aea9de339709a767d01f768474de"
-  integrity sha512-RRfkbnhxEqxkZehWbPi3KF7U/NEOqi8gODYVpRwa74Iu3cynbQeouZNydY0TXBrZm2IlG+oZjMY5E5DvtQ6XVA==
-  dependencies:
-    posthtml "^0.15.1"
-    posthtml-expressions "^1.7.1"
-    posthtml-parser "^0.7.1"
-
-posthtml-match-helper@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/posthtml-match-helper/-/posthtml-match-helper-1.0.1.tgz#451253de8e5844a348e963ad5edd7769eb129513"
-  integrity sha1-RRJT3o5YRKNI6WOtXt13aesSlRM=
-
-posthtml-parser@^0.10.0, posthtml-parser@^0.10.1:
+posthtml-parser@^0.10.1:
   version "0.10.2"
   resolved "https://registry.yarnpkg.com/posthtml-parser/-/posthtml-parser-0.10.2.tgz#df364d7b179f2a6bf0466b56be7b98fd4e97c573"
   integrity sha512-PId6zZ/2lyJi9LiKfe+i2xv57oEjJgWbsHGGANwos5AvdQp98i6AtamAl8gzSVFGfQ43Glb5D614cvZf012VKg==
@@ -3478,32 +3430,12 @@ posthtml-parser@^0.11.0:
   dependencies:
     htmlparser2 "^7.1.1"
 
-posthtml-parser@^0.7.1, posthtml-parser@^0.7.2:
-  version "0.7.2"
-  resolved "https://registry.yarnpkg.com/posthtml-parser/-/posthtml-parser-0.7.2.tgz#3fba3375544d824bb1c8504f0d69f6e0b95774db"
-  integrity sha512-LjEEG/3fNcWZtBfsOE3Gbyg1Li4CmsZRkH1UmbMR7nKdMXVMYI3B4/ZMiCpaq8aI1Aym4FRMMW9SAOLSwOnNsQ==
-  dependencies:
-    htmlparser2 "^6.0.0"
-
-posthtml-render@^1.3.1:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/posthtml-render/-/posthtml-render-1.4.0.tgz#40114070c45881cacb93347dae3eff53afbcff13"
-  integrity sha512-W1779iVHGfq0Fvh2PROhCe2QhB8mEErgqzo1wpIt36tCgChafP+hbXIhLDOM8ePJrZcFs0vkNEtdibEWVqChqw==
-
 posthtml-render@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/posthtml-render/-/posthtml-render-3.0.0.tgz#97be44931496f495b4f07b99e903cc70ad6a3205"
   integrity sha512-z+16RoxK3fUPgwaIgH9NGnK1HKY9XIDpydky5eQGgAFVXTCSezalv9U2jQuNV+Z9qV1fDWNzldcw4eK0SSbqKA==
   dependencies:
     is-json "^2.0.1"
-
-posthtml@^0.15.1:
-  version "0.15.2"
-  resolved "https://registry.yarnpkg.com/posthtml/-/posthtml-0.15.2.tgz#739cf0d3ffec70868b87121dc7393478e1898c9c"
-  integrity sha512-YugEJ5ze/0DLRIVBjCpDwANWL4pPj1kHJ/2llY8xuInr0nbkon3qTiMPe5LQa+cCwNjxS7nAZZTp+1M+6mT4Zg==
-  dependencies:
-    posthtml-parser "^0.7.2"
-    posthtml-render "^1.3.1"
 
 posthtml@^0.16.4, posthtml@^0.16.5:
   version "0.16.6"

@@ -3,13 +3,13 @@
   "version": "1.0.1",
   "description": "Data for Emoji Mart; the emoji picker for the web.",
   "license": "BSD-3-Clause",
-  "homepage": "https://github.com/figma/emoji-mart",
+  "homepage": "https://missiveapp.com/open/emoji-mart",
   "repository": {
     "type": "git",
-    "url": "git@github.com:figma/emoji-mart.git",
+    "url": "https://github.com/missive/emoji-mart",
     "directory": "packages/emoji-mart-data"
   },
-  "main": "sets/4/apple.json",
+  "main": "sets/14/native.json",
   "scripts": {
     "build": "node ./build.js"
   },

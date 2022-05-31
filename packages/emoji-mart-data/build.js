@@ -22,6 +22,20 @@ const CATEGORIES = [
   ['Flags', 'flags'],
 ]
 
+// TODO: Apple does not support female_sign and male_sign emojis, but we still have them as
+// searchable in the previous version of figma emoji-mart. When we remove usage of emoji-mart v1,
+// we will remove female_sign and male_sign from this list so that they are no longer selectable
+const MISSING_EMOJIS = ['medical_symbol', 'female_sign', 'male_sign']
+
+const MISSING_ALIAS = {
+  // Figma's beetle emoji renders as a ladybug, which is complicated because
+  // beetle was introduced as a new emoji in v13 with a different image
+  // For now, we continue to honor our old, incorrect shortcode. We will
+  // want to revisit this when we upgrade what emoji version we support
+  beetle: 'ladybug',
+  man_in_tuxedo: 'person_in_tuxedo',
+}
+
 const KEYWORD_SUBSTITUTES = {
   highfive: 'highfive high-five',
 }
@@ -58,7 +72,10 @@ function buildData({ set, version } = {}) {
 
   emojiData.forEach((datum) => {
     if (set && !nativeSet) {
-      if (!datum[`has_img_${set}`]) {
+      if (
+        !datum[`has_img_${set}`] &&
+        !MISSING_EMOJIS.includes(datum.short_name)
+      ) {
         return
       }
     }
@@ -213,6 +230,10 @@ function buildData({ set, version } = {}) {
         },
       )
     })
+  }
+
+  for (const oldName of Object.keys(MISSING_ALIAS)) {
+    data.aliases[oldName] = MISSING_ALIAS[oldName]
   }
 }
 

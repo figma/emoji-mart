@@ -20,7 +20,16 @@ async function search(value, { maxResults } = {}) {
   maxResults || (maxResults = 90)
 
   await init()
+  return _search(value, { maxResults })
+}
 
+function searchSynchronized(value, { maxResults } = {}) {
+  if (!value || !value.trim().length) return null
+  maxResults || (maxResults = 90)
+  return _search(value, { maxResults })
+}
+
+function _search(value, { maxResults } = {}) {
   const values = value
     .toLowerCase()
     .replace(/(\w)-/, '$1 ')
@@ -75,4 +84,4 @@ async function search(value, { maxResults } = {}) {
   return results
 }
 
-export default { search, get, SHORTCODES_REGEX }
+export default { search, searchSynchronized, get, SHORTCODES_REGEX }
