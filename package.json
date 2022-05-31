@@ -12,7 +12,7 @@
   "files": [
     "packages/emoji-mart/dist/*",
     "packages/emoji-mart-data/i18n/*",
-    "packages/emoji-mart-data/sets/*",
+    "packages/emoji-mart-data/sets/*"
   ],
   "scripts": {
     "dev": "yarn workspace @emoji-mart/website dev",
