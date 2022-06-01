@@ -1,13 +1,13 @@
 {
   "name": "emoji-mart",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "private": true,
   "repository": {
     "type": "git",
     "url": "git@github.com:figma/emoji-mart.git"
   },
   "files": [
-    "/packages/emoji-mart/dist",
+    "/dist",
     "/packages/emoji-mart-data/i18n",
     "/packages/emoji-mart-data/sets"
   ],
