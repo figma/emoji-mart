@@ -1872,7 +1872,7 @@ emittery@^0.10.2:
 
 emoji-datasource@14.0.0:
   version "14.0.0"
-  resolved "https://registry.npmjs.org/emoji-datasource/-/emoji-datasource-14.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/emoji-datasource/-/emoji-datasource-14.0.0.tgz#99529a62f3a86546fc670c09b672ddc9f24f3d44"
   integrity sha512-SoOv0lSa+9/2X9ulSRDhu2u1zAOaOv5vtMY3OYUDcQCoReEh0/3eQAMuBM9LyD7Hy3G4K7mDPDqVeHUWvy7cow==
 
 emoji-regex@^8.0.0:
@@ -1882,7 +1882,7 @@ emoji-regex@^8.0.0:
 
 emojilib@3.0.6:
   version "3.0.6"
-  resolved "https://registry.npmjs.org/emojilib/-/emojilib-3.0.6.tgz"
+  resolved "https://registry.yarnpkg.com/emojilib/-/emojilib-3.0.6.tgz#09cb2d3bbf5df832a3842bbd0fc8a713db70fd54"
   integrity sha512-/fjPG5+oTHzHDQhXwovBrggTNhOB6r2Ms1+e9ZX84kYov/5YK1b9Jk4f6uho8C9CmWkQzjTJXrphNkP27+7TqQ==
 
 entities@^2.0.0:
@@ -2201,7 +2201,7 @@ imurmurhash@^0.1.4:
 
 inflection@1.13.2:
   version "1.13.2"
-  resolved "https://registry.npmjs.org/inflection/-/inflection-1.13.2.tgz"
+  resolved "https://registry.yarnpkg.com/inflection/-/inflection-1.13.2.tgz#15e8c797c6c3dadf31aa658f8df8a4ea024798b0"
   integrity sha512-cmZlljCRTBFouT8UzMzrGcVEvkv6D/wBdcdKG7J1QH5cXjtU75Dm+P27v9EKu/Y43UYyCJd1WC4zLebRrC8NBw==
 
 inflight@^1.0.4:
@@ -3874,7 +3874,7 @@ type-fest@^0.21.3:
 
 unicode-emoji-json@0.3.1:
   version "0.3.1"
-  resolved "https://registry.npmjs.org/unicode-emoji-json/-/unicode-emoji-json-0.3.1.tgz"
+  resolved "https://registry.yarnpkg.com/unicode-emoji-json/-/unicode-emoji-json-0.3.1.tgz#495ddf9a3483da91d25a1a4817249f4b3a5ab03f"
   integrity sha512-qA76zUIfOMSj+rdd8XAz/SpuubjTqoy2uW+dHrUVZivIvzMYzs7lNlbLMG4R32KB8SFwtVUJYQzbAafjBYDSuw==
 
 universalify@^0.1.2:

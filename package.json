@@ -1,32 +1,50 @@
 {
-  "name": "@emoji-mart/monorepo",
+  "name": "emoji-mart",
   "version": "1.0.0",
   "private": true,
   "repository": {
     "type": "git",
     "url": "git@github.com:figma/emoji-mart.git"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "files": [
     "/packages/emoji-mart/dist",
     "/packages/emoji-mart-data/i18n",
     "/packages/emoji-mart-data/sets"
   ],
+  "source": "packages/emoji-mart/src/index.js",
+  "main": "dist/index.js",
+  "targets": {
+    "main": {
+      "includeNodeModules": true
+    }
+  },
   "scripts": {
     "dev": "yarn workspace @emoji-mart/website dev",
-    "build": "yarn workspace emoji-mart build",
-    "build:data": "yarn workspace @emoji-mart/data build",
+    "build": "parcel build --no-autoinstall",
+    "build:data": "cd packages/emoji-mart-data && node ./build.js",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
-    "prepare": "npm run build && npm run build:data"
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest)"
   },
   "devDependencies": {
+    "@parcel/transformer-inline-string": "2.3.2",
+    "@parcel/transformer-sass": "2.3.2",
+    "autoprefixer": "10.4.4",
+    "emoji-datasource": "14.0.0",
+    "emojilib": "3.0.6",
+    "inflection": "1.13.2",
     "jest": "28.0.0",
     "jest-environment-jsdom": "28.0.0",
-    "prettier": "2.5.1"
+    "parcel": "2.3.2",
+    "preact": "10.6.4",
+    "prettier": "2.5.1",
+    "unicode-emoji-json": "0.3.1"
+  },
+  "alias": {
+    "react": "preact/compat",
+    "react-dom/test-utils": "preact/test-utils",
+    "react-dom": "preact/compat",
+    "react/jsx-runtime": "preact/jsx-runtime"
   },
   "prettier": {
     "semi": false,
