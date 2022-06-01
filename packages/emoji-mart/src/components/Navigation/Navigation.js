@@ -1,4 +1,4 @@
-import { PureComponent } from 'preact/compat'
+import { PureComponent } from 'react-dom'
 import { Data, I18n } from '../../config'
 import Icons from '../../icons'
 

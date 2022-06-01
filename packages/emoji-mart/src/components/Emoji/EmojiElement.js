@@ -1,4 +1,4 @@
-import { render } from 'preact'
+import { render } from 'react'
 
 import { init } from '../../config'
 import { SearchIndex } from '../../helpers'
