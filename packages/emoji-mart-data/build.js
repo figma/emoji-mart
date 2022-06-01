@@ -1,9 +1,9 @@
-const { mkdir, writeFile, rmSync } = require('fs')
+import { mkdir, writeFile, rmSync } from 'fs'
 
-const inflection = require('inflection')
-const emojiLib = require('emojilib')
-const emojiData = require('emoji-datasource')
-const unicodeEmoji = require('unicode-emoji-json')
+import inflection from 'inflection'
+import emojiLib from 'emojilib'
+import emojiData from 'emoji-datasource'
+import unicodeEmoji from 'unicode-emoji-json'
 
 const DRY_RUN = process.argv.indexOf('--dry') != -1
 
@@ -238,7 +238,7 @@ function buildData({ set, version } = {}) {
 }
 
 if (!DRY_RUN) {
-  rmSync('sets', { recursive: true })
+  rmSync('sets', { recursive: true, force: true })
 }
 
 for (let version of VERSIONS) {
