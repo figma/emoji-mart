@@ -18,7 +18,10 @@ export default function Emoji(props) {
   if (!emoji) return props.fallback
 
   const emojiSkin = emoji.skins[skin - 1] || emoji.skins[0]
-  const src = 'https://static.figma.com/emoji/3/64/' + emojiSkin.unified?.toLowerCase() + '.png'
+  const src =
+    'https://static.figma.com/emoji/3/64/' +
+    emojiSkin.unified?.toLowerCase() +
+    '.png'
 
   return (
     <span class="emoji-mart-emoji" data-emoji-set={props.set}>
