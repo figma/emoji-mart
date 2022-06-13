@@ -20,12 +20,12 @@
     }
   },
   "scripts": {
-    "build": "parcel build --no-autoinstall",
+    "build": "parcel build --no-autoinstall --no-source-maps",
     "build:data": "cd packages/emoji-mart-data && node --experimental-json-modules ./build.js",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
-    "prepare": "yarn build:data"
+    "prepare": "yarn build"
   },
   "devDependencies": {
     "@parcel/transformer-inline-string": "2.3.2",
