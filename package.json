@@ -12,6 +12,7 @@
     "packages/emoji-mart-data/i18n/*",
     "packages/emoji-mart-data/sets/*"
   ],
+  "main": "dist/index.js",
   "type": "module",
   "source": "./packages/emoji-mart/src/index.js",
   "scripts": {
