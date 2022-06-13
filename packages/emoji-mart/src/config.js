@@ -79,7 +79,7 @@ async function fetchJSON(src) {
 }
 
 let promise = null
-let initiated = false
+let initiated = true
 let initCallback = null
 export function init(options) {
   promise ||
