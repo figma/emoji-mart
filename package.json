@@ -1,5 +1,5 @@
 {
-  "name": "emoji-mart",
+  "name": "@emoji-mart/monorepo",
   "version": "1.0.2",
   "private": true,
   "license": "BSD-3-Clause",
@@ -8,8 +8,8 @@
     "url": "git@github.com:figma/emoji-mart.git"
   },
   "files": [
-    "./packages/emoji-mart-data/i18n/",
-    "./packages/emoji-mart-data/sets/"
+    "packages/emoji-mart-data/i18n/*",
+    "packages/emoji-mart-data/sets/*"
   ],
   "type": "module",
   "source": "./packages/emoji-mart/src/index.js",
@@ -24,7 +24,7 @@
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
-    "prepare": "yarn build"
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "@parcel/transformer-inline-string": "2.3.2",
