@@ -116,17 +116,6 @@ function buildData({ set, version } = {}) {
 
     let id = ids[0]
 
-    let emoticons = datum.texts || []
-    if (datum.text && emoticons.indexOf(datum.text) == -1) {
-      emoticons.unshift(datum.text)
-    }
-
-    if (id == 'expressionless') {
-      if (emoticons.indexOf('-_-') == -1) {
-        emoticons.push('-_-')
-      }
-    }
-
     let keywords = ids
       .concat(emojiLib[native] || [])
       .map((word) => {
@@ -185,14 +174,9 @@ function buildData({ set, version } = {}) {
     const emoji = {
       id,
       name,
-      emoticons,
-      keywords,
+      keywords: [],
       skins,
       version: addedIn,
-    }
-
-    if (!emoji.emoticons.length) {
-      delete emoji.emoticons
     }
 
     if (datum.category != 'Component') {

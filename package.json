@@ -8,9 +8,7 @@
     "url": "git@github.com:figma/emoji-mart.git"
   },
   "files": [
-    "dist/*",
-    "packages/emoji-mart-data/i18n/*",
-    "packages/emoji-mart-data/sets/*"
+    "dist/*"
   ],
   "main": "dist/index.js",
   "type": "module",
@@ -25,7 +23,8 @@
     "build:data": "cd packages/emoji-mart-data && node --experimental-json-modules ./build.js",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "test": "yarn node --experimental-vm-modules $(yarn bin jest)"
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
+    "prepare": "yarn build"
   },
   "devDependencies": {
     "@parcel/transformer-inline-string": "2.3.2",
