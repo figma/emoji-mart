@@ -8,6 +8,7 @@
     "url": "git@github.com:figma/emoji-mart.git"
   },
   "files": [
+    "dist/*",
     "packages/emoji-mart-data/i18n/*",
     "packages/emoji-mart-data/sets/*"
   ],
