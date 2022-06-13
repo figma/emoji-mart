@@ -12,14 +12,12 @@
     "packages/emoji-mart-data/sets/*"
   ],
   "type": "module",
-  "source": "./packages/emoji-mart/src/index.js",
   "scripts": {
     "build": "parcel build --no-autoinstall",
     "build:data": "cd packages/emoji-mart-data && node --experimental-json-modules ./build.js",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
-    "prepare": "npm run build"
   },
   "devDependencies": {
     "@parcel/transformer-inline-string": "2.3.2",
