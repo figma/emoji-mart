@@ -25,7 +25,8 @@
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
-    "prepare": "yarn build"
+    "prepare": "yarn build",
+    "install": "yarn build"
   },
   "devDependencies": {
     "@parcel/transformer-inline-string": "2.3.2",
