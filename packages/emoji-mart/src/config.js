@@ -1,6 +1,6 @@
 import i18n_en from '../../emoji-mart-data/i18n/en.json'
 import data_default from '../../emoji-mart-data/sets/4/apple.json'
-import { FrequentlyUsed, NativeSupport, SafeFlags } from './helpers'
+import { FrequentlyUsed, SafeFlags } from './helpers'
 
 export let I18n = i18n_en
 export let Data = null
@@ -79,7 +79,7 @@ async function fetchJSON(src) {
 }
 
 let promise = null
-let initiated = true
+let initiated = false
 let initCallback = null
 export function init(options) {
   promise ||
@@ -101,7 +101,7 @@ async function _init(props, element) {
   const pickerProps = getProps(props, element)
   const { locale } = pickerProps
 
-  Data = data_default
+  Data = JSON.parse(data_default)
   I18n =
     (typeof i18n === 'function' ? await i18n() : i18n) ||
     (locale == 'en'
