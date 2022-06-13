@@ -17,7 +17,7 @@
     "build:data": "cd packages/emoji-mart-data && node --experimental-json-modules ./build.js",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest)"
   },
   "devDependencies": {
     "@parcel/transformer-inline-string": "2.3.2",
