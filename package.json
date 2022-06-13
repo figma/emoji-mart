@@ -8,11 +8,11 @@
     "url": "git@github.com:figma/emoji-mart.git"
   },
   "files": [
-    "./dist"
+    "./packages/emoji-mart-data/i18n/",
+    "./packages/emoji-mart-data/sets/"
   ],
   "type": "module",
   "source": "./packages/emoji-mart/src/index.js",
-  "main": "./dist/index.js",
   "targets": {
     "main": {
       "includeNodeModules": true
