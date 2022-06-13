@@ -3,7 +3,7 @@ import data from '../../emoji-mart-data/sets/4/apple.json'
 import { FrequentlyUsed, NativeSupport, SafeFlags } from './helpers'
 
 export let I18n = i18n_en
-export let Data = JSON.parse(data)
+export let Data = data
 
 const DEFAULT_PROPS = {
   autoFocus: {

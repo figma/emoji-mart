@@ -15,6 +15,7 @@
   "source": "./packages/emoji-mart/src/index.js",
   "targets": {
     "main": {
+      "optimize": true,
       "includeNodeModules": true
     }
   },
