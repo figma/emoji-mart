@@ -1,9 +1,9 @@
 import i18n_en from '../../emoji-mart-data/i18n/en.json'
-import data from '../../emoji-mart-data/sets/4/apple.json'
+import data_default from '../../emoji-mart-data/sets/4/apple.json'
 import { FrequentlyUsed, NativeSupport, SafeFlags } from './helpers'
 
 export let I18n = i18n_en
-export let Data = data
+export let Data = null
 
 const DEFAULT_PROPS = {
   autoFocus: {
@@ -96,17 +96,12 @@ export function init(options) {
 }
 
 async function _init(props, element) {
-  const { data, i18n } = props
+  const { i18n } = props
 
   const pickerProps = getProps(props, element)
-  const { emojiVersion, set, locale } = pickerProps
+  const { locale } = pickerProps
 
-  Data =
-    (typeof data === 'function' ? await data() : data) ||
-    (await fetchJSON(
-      `https://cdn.jsdelivr.net/npm/@emoji-mart/data@latest/sets/${emojiVersion}/${set}.json`,
-    ))
-
+  Data = data_default
   I18n =
     (typeof i18n === 'function' ? await i18n() : i18n) ||
     (locale == 'en'
@@ -171,13 +166,7 @@ async function _init(props, element) {
 
   let latestVersionSupport = null
   let noCountryFlags = null
-  if (set == 'native') {
-    latestVersionSupport = NativeSupport.latestVersion()
-    noCountryFlags =
-      pickerProps.noCountryFlags || NativeSupport.noCountryFlags()
-  }
 
-  Data.emoticons = {}
   Data.natives = {}
   for (const category of Data.categories) {
     let i = category.emojis.length
@@ -220,7 +209,6 @@ async function _init(props, element) {
           [emoji.id, false],
           [emoji.name, true],
           [emoji.keywords, false],
-          [emoji.emoticons, false],
         ]
           .map(([strings, split]) => {
             if (!strings) return
@@ -235,13 +223,6 @@ async function _init(props, element) {
           .flat()
           .filter((a) => a && a.trim())
           .join(',')
-
-      if (emoji.emoticons) {
-        for (const emoticon of emoji.emoticons) {
-          if (Data.emoticons[emoticon]) continue
-          Data.emoticons[emoticon] = emoji.id
-        }
-      }
 
       let skinIndex = 0
       for (const skin of emoji.skins) {

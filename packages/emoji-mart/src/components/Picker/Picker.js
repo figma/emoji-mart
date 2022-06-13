@@ -495,10 +495,6 @@ export default class Picker extends Component {
         emojiData.aliases = emoji.aliases
       }
 
-      if (emoji.emoticons && emoji.emoticons.length) {
-        emojiData.emoticons = emoji.emoticons
-      }
-
       if (this.props.maxFrequentRows) {
         FrequentlyUsed.add(emojiData, this.props)
       }
