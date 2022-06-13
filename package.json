@@ -15,6 +15,11 @@
   "main": "dist/index.js",
   "type": "module",
   "source": "./packages/emoji-mart/src/index.js",
+  "targets": {
+    "main": {
+      "includeNodeModules": true
+    }
+  },
   "scripts": {
     "build": "parcel build --no-autoinstall",
     "build:data": "cd packages/emoji-mart-data && node --experimental-json-modules ./build.js",
