@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react'
+import { Component, createRef } from 'preact'
 
 import { deepEqual, sleep } from '../../utils'
 import { Data, I18n } from '../../config'

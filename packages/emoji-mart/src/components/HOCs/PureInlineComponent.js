@@ -1,4 +1,4 @@
-import { PureComponent } from 'react-dom'
+import { PureComponent } from 'preact/compat'
 
 export default class PureInlineComponent extends PureComponent {
   shouldComponentUpdate(nextProps) {
