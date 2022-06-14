@@ -3,7 +3,7 @@ import data_default from '../../emoji-mart-data/sets/4/apple.json'
 import { FrequentlyUsed, SafeFlags } from './helpers'
 
 export let I18n = i18n_en
-export let Data = null
+export let Data = JSON.parse(data_default)
 
 const DEFAULT_PROPS = {
   autoFocus: {
@@ -101,7 +101,6 @@ async function _init(props, element) {
   const pickerProps = getProps(props, element)
   const { locale } = pickerProps
 
-  Data = JSON.parse(data_default)
   I18n =
     (typeof i18n === 'function' ? await i18n() : i18n) ||
     (locale == 'en'
