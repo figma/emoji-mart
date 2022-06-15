@@ -549,7 +549,6 @@ export default class Picker extends Component {
     return (
       <Navigation
         ref={this.refs.navigation}
-        icons={this.props.icons}
         theme={this.state.theme}
         unfocused={!!this.state.searchResults}
         position={this.props.navPosition}

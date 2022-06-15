@@ -25,10 +25,6 @@ const DEFAULT_PROPS = {
     value: 14,
     choices: [1, 2, 3, 4, 5, 11, 12, 12.1, 13, 13.1, 14],
   },
-  icons: {
-    value: 'auto',
-    choices: ['auto', 'outline', 'solid'],
-  },
   locale: {
     value: 'en',
     choices: ['en', 'fr'],
@@ -120,8 +116,8 @@ async function _init(props, element) {
   }
 
   if (props.categories) {
-    console.log("props.catgeories", props.categories)
-    console.log("data catgeories", Data.categories)
+    console.log('props.catgeories', props.categories)
+    console.log('data catgeories', Data.categories)
     Data.categories = Data.categories
       .filter((c) => {
         return props.categories.indexOf(c.id) != -1
@@ -139,7 +135,7 @@ async function _init(props, element) {
 
   Data.natives = {}
   for (const category of Data.categories) {
-    console.log("category", category)
+    console.log('category', category)
     let i = category.emojis.length
 
     const { categoryIcons } = props
