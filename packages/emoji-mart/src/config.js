@@ -3,7 +3,7 @@ import data_default from '../../emoji-mart-data/sets/4/apple.json'
 import { FrequentlyUsed, SafeFlags } from './helpers'
 
 export let I18n = i18n_en
-export let Data = JSON.parse(data_default)
+export let Data = data_default
 
 const DEFAULT_PROPS = {
   autoFocus: {
@@ -16,10 +16,10 @@ const DEFAULT_PROPS = {
     value: '100%',
   },
   emojiButtonSize: {
-    value: 36,
+    value: 34,
   },
   emojiSize: {
-    value: 24,
+    value: 22,
   },
   emojiVersion: {
     value: 14,
@@ -119,38 +119,9 @@ async function _init(props, element) {
     }
   }
 
-  if (props.custom) {
-    for (let i in props.custom) {
-      i = parseInt(i)
-      const category = props.custom[i]
-      const prevCategory = props.custom[i - 1]
-
-      if (!category.emojis || !category.emojis.length) continue
-
-      category.id = `custom_${i + 1}`
-      category.name || (category.name = I18n.categories.custom)
-
-      if (prevCategory && !category.icon) {
-        category.target = prevCategory.target || prevCategory
-      }
-
-      Data.categories.push(category)
-
-      const ids = []
-      for (const emoji of category.emojis) {
-        if (Data.emojis[emoji.id]) {
-          continue
-        }
-
-        Data.emojis[emoji.id] = emoji
-        ids.push(emoji.id)
-      }
-
-      category.emojis = ids
-    }
-  }
-
   if (props.categories) {
+    console.log("props.catgeories", props.categories)
+    console.log("data catgeories", Data.categories)
     Data.categories = Data.categories
       .filter((c) => {
         return props.categories.indexOf(c.id) != -1
@@ -168,6 +139,7 @@ async function _init(props, element) {
 
   Data.natives = {}
   for (const category of Data.categories) {
+    console.log("category", category)
     let i = category.emojis.length
 
     const { categoryIcons } = props

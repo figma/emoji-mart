@@ -24,18 +24,15 @@ export default function Emoji(props) {
     '.png'
 
   return (
-    <span class="emoji-mart-emoji" data-emoji-set={props.set}>
-      <img
-        style={{
-          height: props.size || '1em',
-          width: 'auto',
-          display: 'inline-block',
-          position: 'relative',
-          top: '.1em',
-        }}
-        alt={emojiSkin.native || emojiSkin.shortcodes}
-        src={src}
-      />
-    </span>
+    <img
+      style={{
+        height: props.size || '1em',
+        width: 'auto',
+        display: 'inline-block',
+        position: 'relative',
+      }}
+      alt={emojiSkin.native || emojiSkin.shortcodes}
+      src={src}
+    />
   )
 }

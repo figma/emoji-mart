@@ -200,6 +200,11 @@ function buildData({ set, version } = {}) {
 
   data.categories.unshift(smileysAndPeople)
   data.categories.splice(1, 2)
+  data.natives = {}
+
+  for (const oldName of Object.keys(MISSING_ALIAS)) {
+    data.aliases[oldName] = MISSING_ALIAS[oldName]
+  }
 
   if (!DRY_RUN) {
     let folder = 'sets'
@@ -214,10 +219,6 @@ function buildData({ set, version } = {}) {
         },
       )
     })
-  }
-
-  for (const oldName of Object.keys(MISSING_ALIAS)) {
-    data.aliases[oldName] = MISSING_ALIAS[oldName]
   }
 }
 

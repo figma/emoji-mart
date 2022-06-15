@@ -80,6 +80,9 @@ export default class Picker extends Component {
 
     this.shadowRoot = this.base.parentNode
     document.addEventListener('click', this.handleClickOutside)
+    if (this.props.autoFocus && this.refs.searchInput.current) {
+      this.refs.searchInput.current.focus()
+    }
   }
 
   initTheme(theme) {
