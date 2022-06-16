@@ -87,22 +87,22 @@ function buildData({ set, version } = {}) {
     let unified = datum.unified.toLowerCase()
     let native = unifiedToNative(unified)
 
-    let name = inflection.titleize(
-      datum.name || datum.short_name.replace(/\-/g, ' ') || '',
-    )
+    // let name = inflection.titleize(
+    //   datum.name || datum.short_name.replace(/\-/g, ' ') || '',
+    // )
 
-    let unicodeEmojiName = inflection.titleize(unicodeEmoji[native]?.name || '')
-    if (
-      name.indexOf(':') == -1 &&
-      unicodeEmojiName.length &&
-      unicodeEmojiName.length < name.length
-    ) {
-      name = unicodeEmojiName
-    }
+    // let unicodeEmojiName = inflection.titleize(unicodeEmoji[native]?.name || '')
+    // if (
+    //   name.indexOf(':') == -1 &&
+    //   unicodeEmojiName.length &&
+    //   unicodeEmojiName.length < name.length
+    // ) {
+    //   name = unicodeEmojiName
+    // }
 
-    if (!name) {
-      throw new Error(`“${datum.short_name}” doesn’t have a name`)
-    }
+    // if (!name) {
+    //   throw new Error(`“${datum.short_name}” doesn’t have a name`)
+    // }
 
     let ids = datum.short_names || []
     if (ids.indexOf(datum.short_name) == -1) {
@@ -116,29 +116,24 @@ function buildData({ set, version } = {}) {
 
     let id = ids[0]
 
-    let keywords = ids
-      .concat(emojiLib[native] || [])
-      .map((word) => {
-        word = KEYWORD_SUBSTITUTES[word] || word
-        return word
-          .normalize('NFD')
-          .replace(/\p{Diacritic}/gu, '')
-          .replace(/(\w)-/, '$1_')
-          .split(/[_|\s]+/)
-      })
-      .flat()
-      .filter((word, i, words) => {
-        return (
-          words.indexOf(word) === i && name.toLowerCase().indexOf(word) == -1
-        )
-      })
+    // let keywords = ids
+    //   .concat(emojiLib[native] || [])
+    //   .map((word) => {
+    //     word = KEYWORD_SUBSTITUTES[word] || word
+    //     return word
+    //       .normalize('NFD')
+    //       .replace(/\p{Diacritic}/gu, '')
+    //       .replace(/(\w)-/, '$1_')
+    //       .split(/[_|\s]+/)
+    //   })
+    //   .flat()
+    //   .filter((word, i, words) => {
+    //     return (
+    //       words.indexOf(word) === i && name.toLowerCase().indexOf(word) == -1
+    //     )
+    //   })
 
     let s = { unified, native }
-    if (!nativeSet) {
-      s.x = datum.sheet_x
-      s.y = datum.sheet_y
-    }
-
     let skins = [s]
 
     if (datum.skin_variations) {
@@ -153,13 +148,8 @@ function buildData({ set, version } = {}) {
         }
 
         let unified = skinDatum.unified.toLowerCase()
-        let native = unifiedToNative(skinDatum.unified)
-        let s = { unified, native }
-        if (!nativeSet) {
-          s.x = skinDatum.sheet_x
-          s.y = skinDatum.sheet_y
-        }
-
+        // let native = unifiedToNative(skinDatum.unified)
+        let s = { unified /*, native */ }
         skins.push(s)
       }
     }
@@ -173,10 +163,9 @@ function buildData({ set, version } = {}) {
 
     const emoji = {
       id,
-      name,
-      keywords: [],
+      // name,
+      // keywords: [],
       skins,
-      version: addedIn,
     }
 
     if (datum.category != 'Component') {

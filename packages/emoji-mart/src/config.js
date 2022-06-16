@@ -83,27 +83,26 @@ export function init(options) {
       initCallback = resolve
     }))
 
-  if (options && !initiated) {
+  if (!initiated) {
     initiated = true
-    _init(options)
+    _init(options || {})
   }
 
   return promise
 }
 
-async function _init(props, element) {
-  const { i18n } = props
-
+function _init(props, element) {
+  // const { i18n } = props
+  console.log("INITING")
   const pickerProps = getProps(props, element)
-  const { locale } = pickerProps
+  // const { locale } = pickerProps
 
-  I18n =
-    (typeof i18n === 'function' ? await i18n() : i18n) ||
-    (locale == 'en'
-      ? i18n_en
-      : await fetchJSON(
-          `https://cdn.jsdelivr.net/npm/@emoji-mart/data@latest/i18n/${locale}.json`,
-        ))
+  // I18n = i18n) ||
+  //   (locale == 'en'
+  //     ? i18n_en
+  //     : await fetchJSON(
+  //         `https://cdn.jsdelivr.net/npm/@emoji-mart/data@latest/i18n/${locale}.json`,
+  //       ))
 
   if (pickerProps.maxFrequentRows) {
     const emojis = FrequentlyUsed.get(pickerProps)
@@ -130,7 +129,6 @@ async function _init(props, element) {
       })
   }
 
-  let latestVersionSupport = null
   let noCountryFlags = null
 
   Data.natives = {}
@@ -149,24 +147,8 @@ async function _init(props, element) {
     while (i--) {
       const emoji = Data.emojis[category.emojis[i]]
 
+      console.log()
       if (!emoji) {
-        continue
-      }
-
-      let ignore = false
-
-      if (latestVersionSupport && emoji.version > latestVersionSupport) {
-        ignore = true
-      }
-
-      if (noCountryFlags && category.id == 'flags') {
-        if (!SafeFlags.includes(emoji.id)) {
-          ignore = true
-        }
-      }
-
-      if (ignore) {
-        category.emojis.splice(i, 1)
         continue
       }
 
@@ -175,7 +157,9 @@ async function _init(props, element) {
         [
           [emoji.id, false],
           [emoji.name, true],
-          [emoji.keywords, false],
+          // TODO: once we load in the emoji data asynchronously, we can add back keyword support. 
+          // we do this because we want to reduce the bundle size for initial page load.
+          // [emoji.keywords, false], 
         ]
           .map(([strings, split]) => {
             if (!strings) return
@@ -196,15 +180,16 @@ async function _init(props, element) {
         if (!skin) continue
         skinIndex++
 
-        const { native } = skin
-        if (native) {
-          Data.natives[native] = emoji.id
-          emoji.search += `,${native}`
-        }
+        // const { native } = skin
+        // if (native) {
+        //   Data.natives[native] = emoji.id
+        //   emoji.search += `,${native}`
+        // }
 
         const skinShortcodes = skinIndex == 1 ? '' : `:skin-tone-${skinIndex}:`
         skin.shortcodes = `:${emoji.id}:${skinShortcodes}`
       }
+      console.log("emoji search", emoji.search)
     }
   }
 

@@ -31,7 +31,7 @@ export default function Emoji(props) {
         display: 'inline-block',
         position: 'relative',
       }}
-      alt={emojiSkin.native || emojiSkin.shortcodes}
+      alt={/* emojiSkin.native || */emojiSkin.shortcodes}
       src={src}
     />
   )

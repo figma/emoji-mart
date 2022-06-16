@@ -33,10 +33,7 @@ export default class Mavigation extends PureComponent {
       }
     }
 
-    const categoryIcons =
-      Icons.categories[category.id] || Icons.categories.custom
-
-    return categoryIcons
+    return Icons.categories[category.id]
   }
 
   render() {
