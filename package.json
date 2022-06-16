@@ -25,18 +25,17 @@
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
-    "prepare": "npm run build"
+    "prepare": "yarn build"
   },
   "devDependencies": {
-    "@parcel/transformer-inline-string": "2.3.2",
-    "@parcel/transformer-sass": "2.3.2",
-    "autoprefixer": "10.4.4",
+    "@parcel/transformer-inline-string": "^2.6.0",
+    "@parcel/transformer-sass": "^2.6.0",
     "emoji-datasource": "14.0.0",
     "emojilib": "3.0.6",
     "inflection": "1.13.2",
     "jest": "28.0.0",
     "jest-environment-jsdom": "28.0.0",
-    "parcel": "2.3.2",
+    "parcel": "^2.6.0",
     "preact": "10.6.4",
     "prettier": "2.5.1",
     "unicode-emoji-json": "0.3.1"
