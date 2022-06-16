@@ -1,6 +1,6 @@
 import i18n_en from '../../emoji-mart-data/i18n/en.json'
 import data_default from '../../emoji-mart-data/sets/4/apple.json'
-import { FrequentlyUsed, SafeFlags } from './helpers'
+import { FrequentlyUsed } from './helpers'
 
 export let I18n = i18n_en
 export let Data = data_default
@@ -93,7 +93,7 @@ export function init(options) {
 
 function _init(props, element) {
   // const { i18n } = props
-  console.log("INITING")
+  console.log('INITING')
   const pickerProps = getProps(props, element)
   // const { locale } = pickerProps
 
@@ -157,9 +157,9 @@ function _init(props, element) {
         [
           [emoji.id, false],
           [emoji.name, true],
-          // TODO: once we load in the emoji data asynchronously, we can add back keyword support. 
+          // TODO: once we load in the emoji data asynchronously, we can add back keyword support.
           // we do this because we want to reduce the bundle size for initial page load.
-          // [emoji.keywords, false], 
+          // [emoji.keywords, false],
         ]
           .map(([strings, split]) => {
             if (!strings) return
@@ -189,7 +189,7 @@ function _init(props, element) {
         const skinShortcodes = skinIndex == 1 ? '' : `:skin-tone-${skinIndex}:`
         skin.shortcodes = `:${emoji.id}:${skinShortcodes}`
       }
-      console.log("emoji search", emoji.search)
+      console.log('emoji search', emoji.search)
     }
   }
 

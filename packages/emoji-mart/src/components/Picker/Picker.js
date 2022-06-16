@@ -724,19 +724,18 @@ export default class Picker extends Component {
         <div class="sticky padding-small">{I18n.categories.search}</div>
         <div>
           {searchResults.map((row, i) => {
-              return (
-                <div class="flex">
-                  {row.map((emoji, ii) => {
-                    return this.renderEmojiButton(emoji, {
-                      pos: [i, ii],
-                      posinset: i * this.props.perLine + ii + 1,
-                      grid: searchResults,
-                    })
-                  })}
-                </div>
-              )
-            })
-          }
+            return (
+              <div class="flex">
+                {row.map((emoji, ii) => {
+                  return this.renderEmojiButton(emoji, {
+                    pos: [i, ii],
+                    posinset: i * this.props.perLine + ii + 1,
+                    grid: searchResults,
+                  })
+                })}
+              </div>
+            )
+          })}
         </div>
       </div>
     )
