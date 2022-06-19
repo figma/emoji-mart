@@ -1,5 +1,5 @@
 {
-  "name": "@emoji-mart/monorepo",
+  "name": "emoji-mart",
   "version": "1.0.2",
   "private": true,
   "license": "BSD-3-Clause",
@@ -28,14 +28,14 @@
     "prepare": "yarn build"
   },
   "devDependencies": {
-    "@parcel/transformer-inline-string": "^2.6.0",
-    "@parcel/transformer-sass": "^2.6.0",
+    "@parcel/transformer-inline-string": "^2.6.1",
+    "@parcel/transformer-sass": "^2.6.1",
     "emoji-datasource": "14.0.0",
     "emojilib": "3.0.6",
     "inflection": "1.13.2",
     "jest": "28.0.0",
     "jest-environment-jsdom": "28.0.0",
-    "parcel": "^2.6.0",
+    "parcel": "^2.6.1",
     "preact": "10.6.4",
     "prettier": "2.5.1",
     "unicode-emoji-json": "0.3.1"
