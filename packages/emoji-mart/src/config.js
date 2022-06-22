@@ -17,8 +17,8 @@ function getProcessedData(data) {
     const emoji = {}
     emoji.id = id
     emoji.name = id
-    emoji.search = `,${emoji.id}` 
-      /* TODO: once we load in the emoji data asynchronously, we can add back keyword support.
+    emoji.search = `,${emoji.id}`
+    /* TODO: once we load in the emoji data asynchronously, we can add back keyword support.
        * we do this because we want to reduce the bundle size for initial page load.
        *
       +

@@ -6,12 +6,8 @@ const FOLDER = './'
 const FILE = 'data.json'
 
 if (!DRY_RUN) {
-    rmSync('sets', { recursive: true, force: true })
-    writeFile(
-    `${FOLDER}/${FILE}`,
-    JSON.stringify(Data),
-    (err) => {
-        if (err) throw err
-    },
-    )
+  rmSync('sets', { recursive: true, force: true })
+  writeFile(`${FOLDER}/${FILE}`, JSON.stringify(Data), (err) => {
+    if (err) throw err
+  })
 }

@@ -5,14 +5,13 @@ describe('init', () => {
 })
 
 describe('Data', () => {
-
   test('catgeories', () => {
     expect(Data).toHaveProperty('categories')
     expect(Data.categories.length).toBe(8)
     for (const category of Data.categories) {
       expect(category).toHaveProperty('id')
       expect(category).toHaveProperty('emojis')
-    }  
+    }
   })
 
   test('emojis', () => {
@@ -32,7 +31,7 @@ describe('Data', () => {
       expect(emojiId).toBe(emoji.id)
       expect(emojiId).toBe(emoji.name)
       expect(emoji.search.includes(emojiId))
-    }  
+    }
   })
 
   test('alias', () => {
