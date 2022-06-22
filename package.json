@@ -25,11 +25,13 @@
     "build:processed_data": "cd packages/emoji-mart/src && node --experimental-modules --es-module-specifier-resolution=node ./build.js",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
-    "test": "yarn node --experimental-vm-modules $(yarn bin jest)"
+    "test": "yarn node --experimental-vm-modules $(yarn bin jest)",
+    "test:images": "TEST_IMAGES=1 yarn node --experimental-vm-modules $(yarn bin jest)"
   },
   "devDependencies": {
     "@parcel/transformer-inline-string": "^2.6.1",
     "@parcel/transformer-sass": "^2.6.1",
+    "axios": "^0.27.2",
     "emoji-datasource": "14.0.0",
     "emojilib": "3.0.6",
     "inflection": "1.13.2",

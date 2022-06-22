@@ -17,30 +17,33 @@ function getProcessedData(data) {
     const emoji = {}
     emoji.id = id
     emoji.name = id
-    emoji.search = `,${emoji.id}`
-    /* TODO: once we load in the emoji data asynchronously, we can add back keyword support.
+    emoji.search =
+      `,` +
+      /* TODO: once we load in the emoji data asynchronously, we can add back keyword support.
        * we do this because we want to reduce the bundle size for initial page load.
-       *
-      +
+       **/
       [
-        [emoji.id, false],
-        [emoji.name, true],
-        [emoji.keywords, false],
-      ]
-        .map(([strings, split]) => {
-          if (!strings) return
-          return (Array.isArray(strings) ? strings : [strings])
-            .map((string) => {
-              return (split ? string.split(/[-|_|\s]+/) : [string]).map((s) =>
-                s.toLowerCase(),
-              )
+        ...new Set(
+          [
+            [emoji.id, false],
+            [emoji.name, true],
+            // [emoji.keywords, false],
+          ]
+            .map(([strings, split]) => {
+              if (!strings) return
+              return (Array.isArray(strings) ? strings : [strings])
+                .map((string) => {
+                  return (split ? string.split(/[-|_|\s]+/) : [string]).map(
+                    (s) => s.toLowerCase(),
+                  )
+                })
+                .flat()
             })
             .flat()
-        })
-        .flat()
-        .filter((a) => a && a.trim())
-        .join(',')
-      */
+            .filter((a) => a && a.trim()),
+        ),
+      ].join(',')
+
     emoji.skins = data.emojis[id]
     emoji.skins.forEach((skin, index) => {
       if (skin) {

@@ -5,7 +5,7 @@ describe('init', () => {
 })
 
 describe('Data', () => {
-  test('catgeories', () => {
+  test('categories', () => {
     expect(Data).toHaveProperty('categories')
     expect(Data.categories.length).toBe(8)
     for (const category of Data.categories) {
