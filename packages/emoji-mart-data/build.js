@@ -1,9 +1,9 @@
 import { mkdir, writeFile, rmSync } from 'fs'
 
-import inflection from 'inflection'
-import emojiLib from 'emojilib'
+// import inflection from 'inflection'
+// import emojiLib from 'emojilib'
 import emojiData from 'emoji-datasource'
-import unicodeEmoji from 'unicode-emoji-json'
+// import unicodeEmoji from 'unicode-emoji-json'
 
 const DRY_RUN = process.argv.indexOf('--dry') != -1
 
@@ -23,29 +23,22 @@ const CATEGORIES = [
 ]
 
 // TODO: Apple does not support female_sign and male_sign emojis, but we still have them as
-// searchable in the previous version of figma emoji-mart. When we remove usage of emoji-mart v1,
+// searchable in the previous version of figma emoji-mart. When we remove usage of emoji-mart v2,
 // we will remove female_sign and male_sign from this list so that they are no longer selectable
 const MISSING_EMOJIS = ['medical_symbol', 'female_sign', 'male_sign']
 
 const MISSING_ALIAS = {
   // Figma's beetle emoji renders as a ladybug, which is complicated because
   // beetle was introduced as a new emoji in v13 with a different image
-  // For now, we continue to honor our old, incorrect shortcode. We will
+  // For now, we continue to honor our old, now incorrect shortcode. We will
   // want to revisit this when we upgrade what emoji version we support
   beetle: 'ladybug',
   man_in_tuxedo: 'person_in_tuxedo',
 }
 
-const KEYWORD_SUBSTITUTES = {
-  highfive: 'highfive high-five',
-}
-
-function unifiedToNative(unified) {
-  let unicodes = unified.split('-')
-  let codePoints = unicodes.map((u) => `0x${u}`)
-
-  return String.fromCodePoint(...codePoints)
-}
+// const KEYWORD_SUBSTITUTES = {
+//   highfive: 'highfive high-five',
+// }
 
 function buildData({ set, version } = {}) {
   const categoriesIndex = {}
@@ -54,7 +47,6 @@ function buildData({ set, version } = {}) {
     categories: [],
     emojis: {},
     aliases: {},
-    sheet: { cols: 61, rows: 61 },
   }
 
   CATEGORIES.forEach((category, i) => {
@@ -85,7 +77,6 @@ function buildData({ set, version } = {}) {
     }
 
     let unified = datum.unified.toLowerCase()
-    let native = unifiedToNative(unified)
 
     // let name = inflection.titleize(
     //   datum.name || datum.short_name.replace(/\-/g, ' ') || '',
@@ -133,7 +124,7 @@ function buildData({ set, version } = {}) {
     //     )
     //   })
 
-    let s = { unified, native }
+    let s = { unified }
     let skins = [s]
 
     if (datum.skin_variations) {
@@ -143,13 +134,17 @@ function buildData({ set, version } = {}) {
           datum.skin_variations[`${skin}-${skin}`]
 
         if (!skinDatum || (set && !nativeSet && !skinDatum[`has_img_${set}`])) {
-          skins.push(null)
-          continue
+          if (set === 'apple' || nativeSet) {
+            console.log(`Exiting - ${id}, is missing image`)
+            process.exit(1)
+          } else {
+            skins.push(null)
+            continue
+          }
         }
 
         let unified = skinDatum.unified.toLowerCase()
-        // let native = unifiedToNative(skinDatum.unified)
-        let s = { unified /*, native */ }
+        let s = { unified }
         skins.push(s)
       }
     }
@@ -161,17 +156,12 @@ function buildData({ set, version } = {}) {
       return
     }
 
-    const emoji = {
-      id,
-      // name,
-      // keywords: [],
-      skins,
-    }
+    const emoji = skins
 
     if (datum.category != 'Component') {
       let categoryIndex = categoriesIndex[datum.category]
-      data.categories[categoryIndex].emojis.push(emoji.id)
-      data.emojis[emoji.id] = emoji
+      data.categories[categoryIndex].emojis.push(id)
+      data.emojis[id] = emoji
     }
   })
 
@@ -189,7 +179,6 @@ function buildData({ set, version } = {}) {
 
   data.categories.unshift(smileysAndPeople)
   data.categories.splice(1, 2)
-  data.natives = {}
 
   for (const oldName of Object.keys(MISSING_ALIAS)) {
     data.aliases[oldName] = MISSING_ALIAS[oldName]

@@ -2,8 +2,61 @@ import i18n_en from '../../emoji-mart-data/i18n/en.json'
 import data_default from '../../emoji-mart-data/sets/4/apple.json'
 import { FrequentlyUsed } from './helpers'
 
+function unifiedToNative(unified) {
+  let unicodes = unified.split('-')
+  let codePoints = unicodes.map((u) => `0x${u}`)
+
+  return String.fromCodePoint(...codePoints)
+}
+
+// Transformed minimized emoji-data into the form that the library expects
+// When we decide to load this data asynchronous, we'll want to move this logic into packages/emoji-mart-data/build.js
+function getProcessedData(data) {
+  Object.keys(data.emojis).forEach((id) => {
+    const skins = data.emojis[id]
+    const emoji = {}
+    emoji.id = id
+    emoji.name = id
+    emoji.search = `,${emoji.id}` 
+      /* TODO: once we load in the emoji data asynchronously, we can add back keyword support.
+       * we do this because we want to reduce the bundle size for initial page load.
+       *
+      +
+      [
+        [emoji.id, false],
+        [emoji.name, true],
+        [emoji.keywords, false],
+      ]
+        .map(([strings, split]) => {
+          if (!strings) return
+          return (Array.isArray(strings) ? strings : [strings])
+            .map((string) => {
+              return (split ? string.split(/[-|_|\s]+/) : [string]).map((s) =>
+                s.toLowerCase(),
+              )
+            })
+            .flat()
+        })
+        .flat()
+        .filter((a) => a && a.trim())
+        .join(',')
+      */
+    emoji.skins = data.emojis[id]
+    emoji.skins.forEach((skin, index) => {
+      if (skin) {
+        const skinShortcodes = index + 1 == 1 ? '' : `:skin-tone-${index + 1}:`
+        skin.shortcodes = `:${emoji.id}:${skinShortcodes}`
+        skin.native = unifiedToNative(skin.unified)
+      }
+    })
+    data.emojis[id] = emoji
+  })
+  data.natives = {}
+  return data
+}
+
 export let I18n = i18n_en
-export let Data = data_default
+export let Data = getProcessedData(data_default)
 
 const DEFAULT_PROPS = {
   autoFocus: {
@@ -93,7 +146,6 @@ export function init(options) {
 
 function _init(props, element) {
   // const { i18n } = props
-  console.log('INITING')
   const pickerProps = getProps(props, element)
   // const { locale } = pickerProps
 
@@ -112,94 +164,6 @@ function _init(props, element) {
         emojis: emojis,
       })
     }
-  }
-
-  if (props.categories) {
-    console.log('props.catgeories', props.categories)
-    console.log('data catgeories', Data.categories)
-    Data.categories = Data.categories
-      .filter((c) => {
-        return props.categories.indexOf(c.id) != -1
-      })
-      .sort((c1, c2) => {
-        const i1 = props.categories.indexOf(c1.id)
-        const i2 = props.categories.indexOf(c2.id)
-
-        return i1 - i2
-      })
-  }
-
-  let noCountryFlags = null
-
-  Data.natives = {}
-  for (const category of Data.categories) {
-    console.log('category', category)
-    let i = category.emojis.length
-
-    const { categoryIcons } = props
-    if (categoryIcons) {
-      const icon = categoryIcons[category.id]
-      if (icon && !category.icon) {
-        category.icon = icon
-      }
-    }
-
-    while (i--) {
-      const emoji = Data.emojis[category.emojis[i]]
-
-      console.log()
-      if (!emoji) {
-        continue
-      }
-
-      emoji.search =
-        ',' +
-        [
-          [emoji.id, false],
-          [emoji.name, true],
-          // TODO: once we load in the emoji data asynchronously, we can add back keyword support.
-          // we do this because we want to reduce the bundle size for initial page load.
-          // [emoji.keywords, false],
-        ]
-          .map(([strings, split]) => {
-            if (!strings) return
-            return (Array.isArray(strings) ? strings : [strings])
-              .map((string) => {
-                return (split ? string.split(/[-|_|\s]+/) : [string]).map((s) =>
-                  s.toLowerCase(),
-                )
-              })
-              .flat()
-          })
-          .flat()
-          .filter((a) => a && a.trim())
-          .join(',')
-
-      let skinIndex = 0
-      for (const skin of emoji.skins) {
-        if (!skin) continue
-        skinIndex++
-
-        // const { native } = skin
-        // if (native) {
-        //   Data.natives[native] = emoji.id
-        //   emoji.search += `,${native}`
-        // }
-
-        const skinShortcodes = skinIndex == 1 ? '' : `:skin-tone-${skinIndex}:`
-        skin.shortcodes = `:${emoji.id}:${skinShortcodes}`
-      }
-      console.log('emoji search', emoji.search)
-    }
-  }
-
-  for (const alias in Data.aliases) {
-    const emojiId = Data.aliases[alias]
-    const emoji = Data.emojis[emojiId]
-    if (!emoji) continue
-
-    emoji.aliases || (emoji.aliases = [])
-    emoji.aliases.push(alias)
   }
 
   initCallback(pickerProps)

@@ -22,6 +22,7 @@
   "scripts": {
     "build": "parcel build --no-autoinstall",
     "build:data": "cd packages/emoji-mart-data && node --experimental-json-modules ./build.js",
+    "build:processed_data": "cd packages/emoji-mart/src && node --experimental-modules --es-module-specifier-resolution=node ./build.js",
     "prettier": "prettier --check .",
     "prettier:fix": "prettier --write .",
     "test": "yarn node --experimental-vm-modules $(yarn bin jest)"
