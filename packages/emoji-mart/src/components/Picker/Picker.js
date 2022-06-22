@@ -80,6 +80,9 @@ export default class Picker extends Component {
 
     this.shadowRoot = this.base.parentNode
     document.addEventListener('click', this.handleClickOutside)
+    if (this.props.autoFocus && this.refs.searchInput.current) {
+      this.refs.searchInput.current.focus()
+    }
   }
 
   initTheme(theme) {
@@ -481,9 +484,9 @@ export default class Picker extends Component {
       const emojiData = {
         id: emoji.id,
         name: emoji.name,
-        native: skin.native,
+        // native: skin.native,
         unified: skin.unified,
-        keywords: emoji.keywords,
+        keywords: emoji?.keywords || [],
         shortcodes: skin.shortcodes || emoji.shortcodes,
       }
 
@@ -493,10 +496,6 @@ export default class Picker extends Component {
 
       if (emoji.aliases && emoji.aliases.length) {
         emojiData.aliases = emoji.aliases
-      }
-
-      if (emoji.emoticons && emoji.emoticons.length) {
-        emojiData.emoticons = emoji.emoticons
       }
 
       if (this.props.maxFrequentRows) {
@@ -550,7 +549,6 @@ export default class Picker extends Component {
     return (
       <Navigation
         ref={this.refs.navigation}
-        icons={this.props.icons}
         theme={this.state.theme}
         unfocused={!!this.state.searchResults}
         position={this.props.navPosition}
@@ -631,14 +629,14 @@ export default class Picker extends Component {
     const size = this.props.emojiButtonSize
     const skin = this.state.tempSkin || this.state.skin
     const emojiSkin = emoji.skins[skin - 1] || emoji.skins[0]
-    const native = emojiSkin.native
+    // const native = emojiSkin.native
     const selected = deepEqual(this.state.pos, pos)
     const key = pos.concat(emoji.id).join('')
 
     return (
       <PureInlineComponent key={key} {...{ selected, skin, size }}>
         <button
-          aria-label={native}
+          aria-label={emoji.id}
           aria-selected={selected || undefined}
           aria-posinset={posinset}
           aria-setsize={grid.setsize}
@@ -725,27 +723,19 @@ export default class Picker extends Component {
       <div class="category" ref={this.refs.search}>
         <div class="sticky padding-small">{I18n.categories.search}</div>
         <div>
-          {!searchResults.length ? (
-            <div class="padding-small">
-              {this.props.onAddCustomEmoji && (
-                <a onClick={this.props.onAddCustomEmoji}>{I18n.add_custom}</a>
-              )}
-            </div>
-          ) : (
-            searchResults.map((row, i) => {
-              return (
-                <div class="flex">
-                  {row.map((emoji, ii) => {
-                    return this.renderEmojiButton(emoji, {
-                      pos: [i, ii],
-                      posinset: i * this.props.perLine + ii + 1,
-                      grid: searchResults,
-                    })
-                  })}
-                </div>
-              )
-            })
-          )}
+          {searchResults.map((row, i) => {
+            return (
+              <div class="flex">
+                {row.map((emoji, ii) => {
+                  return this.renderEmojiButton(emoji, {
+                    pos: [i, ii],
+                    posinset: i * this.props.perLine + ii + 1,
+                    grid: searchResults,
+                  })
+                })}
+              </div>
+            )
+          })}
         </div>
       </div>
     )

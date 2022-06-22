@@ -2,11 +2,6 @@ import { PureComponent } from 'preact/compat'
 import { Data, I18n } from '../../config'
 import Icons from '../../icons'
 
-const THEME_ICONS = {
-  light: 'outline',
-  dark: 'solid',
-}
-
 export default class Mavigation extends PureComponent {
   constructor() {
     super()
@@ -38,15 +33,7 @@ export default class Mavigation extends PureComponent {
       }
     }
 
-    const categoryIcons =
-      Icons.categories[category.id] || Icons.categories.custom
-
-    const style =
-      this.props.icons == 'auto'
-        ? THEME_ICONS[this.props.theme]
-        : this.props.icons
-
-    return categoryIcons[style] || categoryIcons
+    return Icons.categories[category.id]
   }
 
   render() {

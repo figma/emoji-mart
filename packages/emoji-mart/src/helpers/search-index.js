@@ -26,6 +26,8 @@ async function search(value, { maxResults } = {}) {
 function searchSynchronized(value, { maxResults } = {}) {
   if (!value || !value.trim().length) return null
   maxResults || (maxResults = 90)
+
+  init()
   return _search(value, { maxResults })
 }
 
