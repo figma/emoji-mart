@@ -569,7 +569,7 @@ export default class Picker extends Component {
         class="flex flex-middle"
         data-position={this.props.previewPosition}
       >
-        <div class="flex flex-middle flex-grow" style={{ padding: "4px 0px" }}>
+        <div class="flex flex-middle flex-grow" style={{ padding: '4px 0px' }}>
           <div
             class="flex flex-auto flex-middle flex-center"
             style={{
