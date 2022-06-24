@@ -1,7 +1,7 @@
 :host {
   display: flex;
   width: min-content;
-  height: 435px;
+  height: 405px;
   min-height: 230px;
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
@@ -284,7 +284,7 @@ button {
 #preview {
   z-index: 2;
   position: relative;
-  padding: calc(var(--padding) + 4px) var(--padding);
+  padding: 0px var(--padding);
   padding-right: var(--sidebar-width);
 }
 
