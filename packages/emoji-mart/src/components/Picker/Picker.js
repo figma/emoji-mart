@@ -561,19 +561,21 @@ export default class Picker extends Component {
     const emoji = this.getEmojiByPos(this.state.pos)
     const noSearchResults =
       this.state.searchResults && !this.state.searchResults.length
-
+    const emojiSize = 22
+    const emojiButtonSize = emojiSize + 8
     return (
       <div
         id="preview"
         class="flex flex-middle"
         data-position={this.props.previewPosition}
       >
-        <div class="flex flex-middle flex-grow">
+        <div class="flex flex-middle flex-grow" style={{ padding: "4px 0px" }}>
           <div
             class="flex flex-auto flex-middle flex-center"
             style={{
-              height: this.props.emojiButtonSize,
-              fontSize: this.props.emojiButtonSize,
+              height: emojiButtonSize,
+              width: emojiButtonSize,
+              fontSize: emojiButtonSize,
             }}
           >
             <Emoji
@@ -587,37 +589,24 @@ export default class Picker extends Component {
                       : 'point_up')
               }
               set={this.props.set}
-              size={this.props.emojiButtonSize}
+              size={emojiSize}
               skin={this.state.tempSkin || this.state.skin}
               spritesheet={true}
             />
           </div>
-
-          <div class="margin-l">
-            {emoji ? (
-              <div class="padding-r">
-                <div class="ellipsis" style={{ fontSize: '1.1em' }}>
-                  {emoji.name}
-                </div>
-                <div class="ellipsis color-c" style={{ fontSize: '.9em' }}>
-                  {emoji.skins[0].shortcodes}
-                </div>
-              </div>
-            ) : noSearchResults ? (
-              <div class="padding-r">
-                <div class="ellipsis" style={{ fontSize: '1.1em' }}>
-                  {I18n.search_no_results_1}
-                </div>
-                <div class="ellipsis color-c" style={{ fontSize: '.9em' }}>
-                  {I18n.search_no_results_2}
-                </div>
-              </div>
-            ) : (
-              <div class="color-c" style={{ fontSize: 21 }}>
-                {I18n.pick}
-              </div>
-            )}
-          </div>
+          {emoji ? (
+            <div class="ellipsis color-c" style={{ fontSize: '1.1em' }}>
+              {emoji.skins[0].shortcodes}
+            </div>
+          ) : noSearchResults ? (
+            <div class="ellipsis color-c" style={{ fontSize: '1.1em' }}>
+              {I18n.search_no_results_2}
+            </div>
+          ) : (
+            <div class="color-c" style={{ fontSize: '1.1em' }}>
+              {I18n.pick}
+            </div>
+          )}
         </div>
 
         {!emoji && this.renderSkinToneButton()}
@@ -852,7 +841,7 @@ export default class Picker extends Component {
     }
 
     if (this.props.previewPosition == 'bottom') {
-      position.bottom = baseRect.bottom - skinToneButtonRect.top + 6
+      position.bottom = baseRect.bottom - skinToneButtonRect.top + 4
     } else {
       position.top = skinToneButtonRect.bottom - baseRect.top + 3
       position.bottom = 'auto'

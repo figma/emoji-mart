@@ -15,7 +15,7 @@ export default function Emoji(props) {
   }
 
   emoji || (emoji = SearchIndex.get(id))
-  if (!emoji) return props.fallback
+  if (!emoji || emoji.id === 'female_sign' || emoji.id === 'male_sign') return props.fallback
 
   const emojiSkin = emoji.skins[skin - 1] || emoji.skins[0]
   const src = Images.getUrl(emojiSkin)
@@ -30,9 +30,6 @@ export default function Emoji(props) {
       }}
       alt={emojiSkin.native}
       src={src}
-      onError={({ target }) => {
-        target.style.display = 'none'
-      }}
     />
   )
 }
