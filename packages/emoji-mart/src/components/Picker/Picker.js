@@ -890,7 +890,6 @@ export default class Picker extends Component {
     )
   }
 
-
   render() {
     return (
       <section
