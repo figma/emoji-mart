@@ -1,4 +1,3 @@
-import i18n_en from '../../emoji-mart-data/i18n/en.json'
 import data_default from '../../emoji-mart-data/sets/4/apple.json'
 import { FrequentlyUsed } from './helpers'
 
@@ -58,7 +57,6 @@ function getProcessedData(data) {
   return data
 }
 
-export let I18n = i18n_en
 export let Data = getProcessedData(data_default)
 
 const DEFAULT_PROPS = {
@@ -119,6 +117,9 @@ const DEFAULT_PROPS = {
   stickySearch: {
     value: true,
   },
+  strings: {
+    value: null,
+  },
   theme: {
     value: 'auto',
     choices: ['auto', 'light', 'dark'],
@@ -148,16 +149,7 @@ export function init(options) {
 }
 
 function _init(props, element) {
-  // const { i18n } = props
   const pickerProps = getProps(props, element)
-  // const { locale } = pickerProps
-
-  // I18n = i18n) ||
-  //   (locale == 'en'
-  //     ? i18n_en
-  //     : await fetchJSON(
-  //         `https://cdn.jsdelivr.net/npm/@emoji-mart/data@latest/i18n/${locale}.json`,
-  //       ))
 
   if (pickerProps.maxFrequentRows) {
     const emojis = FrequentlyUsed.get(pickerProps)

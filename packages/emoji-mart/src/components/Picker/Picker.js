@@ -1,7 +1,7 @@
 import { Component, createRef } from 'preact'
 
 import { deepEqual, sleep } from '../../utils'
-import { Data, I18n } from '../../config'
+import { Data } from '../../config'
 import { SearchIndex, Store, FrequentlyUsed } from '../../helpers'
 import Icons from '../../icons'
 
@@ -20,7 +20,7 @@ export default class Picker extends Component {
     this.state = {
       pos: [-1, -1],
       skin: Store.get('skin') || props.skin,
-      theme: this.initTheme(props.theme),
+      theme: props.theme,
       visibleRows: { 0: true },
     }
   }
@@ -83,19 +83,6 @@ export default class Picker extends Component {
     if (this.props.autoFocus && this.refs.searchInput.current) {
       this.refs.searchInput.current.focus()
     }
-  }
-
-  initTheme(theme) {
-    if (theme != 'auto') return theme
-
-    const darkMedia = matchMedia('(prefers-color-scheme: dark)')
-    if (darkMedia.media.match(/^not/)) return 'light'
-
-    darkMedia.addListener(() => {
-      this.setState({ theme: darkMedia.matches ? 'dark' : 'light' })
-    })
-
-    return darkMedia.matches ? 'dark' : 'light'
   }
 
   handleClickOutside = (e) => {
@@ -553,6 +540,7 @@ export default class Picker extends Component {
         unfocused={!!this.state.searchResults}
         position={this.props.navPosition}
         onClick={this.handleCategoryClick}
+        strings={this.props.strings}
       />
     )
   }
@@ -600,11 +588,11 @@ export default class Picker extends Component {
             </div>
           ) : noSearchResults ? (
             <div class="ellipsis color-c" style={{ fontSize: '1.1em' }}>
-              {I18n.search_no_results_2}
+              {this.props.strings.search_no_results}
             </div>
           ) : (
             <div class="color-c" style={{ fontSize: '1.1em' }}>
-              {I18n.pick}
+              {this.props.strings.pick}
             </div>
           )}
         </div>
@@ -617,8 +605,6 @@ export default class Picker extends Component {
   renderEmojiButton(emoji, { pos, posinset, grid }) {
     const size = this.props.emojiButtonSize
     const skin = this.state.tempSkin || this.state.skin
-    const emojiSkin = emoji.skins[skin - 1] || emoji.skins[0]
-    // const native = emojiSkin.native
     const selected = deepEqual(this.state.pos, pos)
     const key = pos.concat(emoji.id).join('')
 
@@ -678,7 +664,7 @@ export default class Picker extends Component {
               type="search"
               autoFocus={this.props.autoFocus}
               ref={this.refs.searchInput}
-              placeholder={I18n.search}
+              placeholder={this.props.strings.search}
               onClick={this.handleSearchClick}
               onInput={this.handleSearchInput}
               onKeyDown={this.handleSearchKeyDown}
@@ -710,7 +696,9 @@ export default class Picker extends Component {
 
     return (
       <div class="category" ref={this.refs.search}>
-        <div class="sticky padding-small">{I18n.categories.search}</div>
+        <div class="sticky padding-small">
+          {this.props.strings.categories.search}
+        </div>
         <div>
           {searchResults.map((row, i) => {
             return (
@@ -751,7 +739,7 @@ export default class Picker extends Component {
               ref={root}
             >
               <div class="sticky padding-small">
-                {category.name || I18n.categories[category.id]}
+                {category.name || this.props.strings.categories[category.id]}
               </div>
               <div
                 class="relative"
@@ -817,8 +805,8 @@ export default class Picker extends Component {
           ref={this.refs.skinToneButton}
           class="skin-tone-button flex flex-auto flex-center flex-middle"
           aria-selected={this.state.showSkins ? '' : undefined}
-          aria-label={I18n.skins.choose}
-          title={I18n.skins.choose}
+          aria-label={this.props.strings.skins.choose}
+          title={this.props.strings.skins.choose}
           onClick={this.openSkins}
           style={{
             width: this.props.emojiSize,
@@ -851,7 +839,7 @@ export default class Picker extends Component {
       <div
         ref={this.refs.menu}
         role="radiogroup"
-        aria-label={I18n.skins.choose}
+        aria-label={this.props.strings.skins.choose}
         class="menu hidden"
         data-position={position.top ? 'top' : 'bottom'}
         style={position}
@@ -866,7 +854,7 @@ export default class Picker extends Component {
                 type="radio"
                 name="skin-tone"
                 value={skin}
-                aria-label={I18n.skins[skin]}
+                aria-label={this.props.strings.skins[skin]}
                 ref={checked ? this.refs.skinToneRadio : null}
                 defaultChecked={checked}
                 onChange={() => this.handleSkinMouseOver(skin)}
@@ -891,7 +879,9 @@ export default class Picker extends Component {
                 class="option flex flex-grow flex-middle"
               >
                 <span class={`skin-tone skin-tone-${skin}`}></span>
-                <span class="margin-small-lr">{I18n.skins[skin]}</span>
+                <span class="margin-small-lr">
+                  {this.props.strings.skins[skin]}
+                </span>
               </button>
             </div>
           )
@@ -899,6 +889,7 @@ export default class Picker extends Component {
       </div>
     )
   }
+
 
   render() {
     return (

@@ -1,5 +1,5 @@
 import { PureComponent } from 'preact/compat'
-import { Data, I18n } from '../../config'
+import { Data } from '../../config'
 import Icons from '../../icons'
 
 export default class Mavigation extends PureComponent {
@@ -43,7 +43,8 @@ export default class Mavigation extends PureComponent {
       <nav id="nav" class="padding" data-position={this.props.position}>
         <div class="flex relative">
           {this.categories.map((category, i) => {
-            const title = category.name || I18n.categories[category.id]
+            const title =
+              category.name || this.props.strings.categories[category.id]
             const selected =
               !this.props.unfocused && category.id == this.state.categoryId
 
