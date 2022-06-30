@@ -25,21 +25,14 @@ function getProcessedData(data) {
       [
         ...new Set(
           [
-            [emoji.id, false],
-            [emoji.name, true],
+            emoji.id,
+            ...(emoji.name.split(/[-|_|\s]+/)),
             // [emoji.keywords, false],
           ]
-            .map(([strings, split]) => {
-              if (!strings) return
-              return (Array.isArray(strings) ? strings : [strings])
-                .map((string) => {
-                  return (split ? string.split(/[-|_|\s]+/) : [string]).map(
-                    (s) => s.toLowerCase(),
-                  )
-                })
-                .flat()
+            .map((string) => {
+              if (!string) return ''
+              return string.toLowerCase()
             })
-            .flat()
             .filter((a) => a && a.trim()),
         ),
       ].join(',')
