@@ -26,7 +26,7 @@ function getProcessedData(data) {
         ...new Set(
           [
             emoji.id,
-            ...(emoji.name.split(/[-|_|\s]+/)),
+            ...emoji.name.split(/[-|_|\s]+/),
             // [emoji.keywords, false],
           ]
             .map((string) => {
