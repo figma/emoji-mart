@@ -85,19 +85,6 @@ export default class Picker extends Component {
     }
   }
 
-  initTheme(theme) {
-    if (theme != 'auto') return theme
-
-    const darkMedia = matchMedia('(prefers-color-scheme: dark)')
-    if (darkMedia.media.match(/^not/)) return 'light'
-
-    darkMedia.addListener(() => {
-      this.setState({ theme: darkMedia.matches ? 'dark' : 'light' })
-    })
-
-    return darkMedia.matches ? 'dark' : 'light'
-  }
-
   handleClickOutside = (e) => {
     const { element } = this.props
 
