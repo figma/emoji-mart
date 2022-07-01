@@ -20,7 +20,7 @@ export default class Picker extends Component {
     this.state = {
       pos: [-1, -1],
       skin: Store.get('skin') || props.skin,
-      theme: this.initTheme(props.theme),
+      theme: props.theme,
       visibleRows: { 0: true },
     }
   }

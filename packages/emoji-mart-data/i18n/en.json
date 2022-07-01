@@ -1,10 +1,9 @@
 {
   "search": "Search",
-  "search_no_results_2": "That emoji couldn’t be found",
+  "search_no_results": "That emoji couldn’t be found",
   "pick": "Pick an emoji…",
   "categories": {
     "activity": "Activity",
-    "custom": "Custom",
     "flags": "Flags",
     "foods": "Food & Drink",
     "frequent": "Frequently used",

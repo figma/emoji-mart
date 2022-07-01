@@ -13,7 +13,6 @@ function unifiedToNative(unified) {
 // When we decide to load this data asynchronous, we'll want to move this logic into packages/emoji-mart-data/build.js
 function getProcessedData(data) {
   Object.keys(data.emojis).forEach((id) => {
-    const skins = data.emojis[id]
     const emoji = {}
     emoji.id = id
     emoji.name = id
@@ -141,16 +140,12 @@ export function init(options) {
 }
 
 function _init(props, element) {
-  // const { i18n } = props
+  const { i18n } = props
   const pickerProps = getProps(props, element)
-  // const { locale } = pickerProps
 
-  // I18n = i18n) ||
-  //   (locale == 'en'
-  //     ? i18n_en
-  //     : await fetchJSON(
-  //         `https://cdn.jsdelivr.net/npm/@emoji-mart/data@latest/i18n/${locale}.json`,
-  //       ))
+  if (props.i18n) {
+    I18n = i18n
+  }
 
   if (pickerProps.maxFrequentRows) {
     const emojis = FrequentlyUsed.get(pickerProps)
