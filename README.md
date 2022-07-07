@@ -87,7 +87,7 @@ EmojiMart UI supports [multiple languages](https://github.com/missive/emoji-mart
 
 ```js
 import i18n from '@emoji-mart/data/i18n/fr.json'
-i18n.search_no_results_2 = 'Aucun emoji'
+i18n.search_no_results = 'Aucun emoji'
 
 new Picker({ i18n })
 ```
