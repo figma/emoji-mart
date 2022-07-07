@@ -15,7 +15,6 @@ const Performance = {
 
 export default class Picker extends Component {
   constructor(props) {
-    console.log('picker got props', props)
     super()
 
     this.state = {
@@ -81,11 +80,7 @@ export default class Picker extends Component {
 
     this.shadowRoot = this.base.parentNode
     document.addEventListener('click', this.handleClickOutside)
-    console.log('this.props', this.props)
-    console.log('this.props.autoFocus', this.props.autoFocus)
-    console.log('this.refs.searchInput.current', this.refs.searchInput.current)
     if (this.props.autoFocus && this.refs.searchInput.current) {
-      console.log('foooocusing')
       this.refs.searchInput.current.focus()
     }
   }

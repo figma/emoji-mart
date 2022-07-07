@@ -160,7 +160,7 @@ function _init(props, element) {
   initCallback(pickerProps)
 }
 
-export function getProps(props, element) {
+function getProps(props, element) {
   props || (props = {})
 
   function get(propName) {
@@ -186,7 +186,6 @@ export function getProps(props, element) {
       value = defaults.value
     }
 
-    console.log(`getProps for ${propName} returning ${value}`)
     return value
   }
 
