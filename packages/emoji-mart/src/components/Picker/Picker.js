@@ -600,7 +600,7 @@ export default class Picker extends Component {
             </div>
           ) : noSearchResults ? (
             <div class="ellipsis color-c" style={{ fontSize: '1.1em' }}>
-              {I18n.search_no_results_2}
+              {I18n.search_no_results}
             </div>
           ) : (
             <div class="color-c" style={{ fontSize: '1.1em' }}>
