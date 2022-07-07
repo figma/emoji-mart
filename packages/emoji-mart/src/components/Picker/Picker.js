@@ -595,17 +595,11 @@ export default class Picker extends Component {
             />
           </div>
           {emoji ? (
-            <div class="ellipsis color-c" style={{ fontSize: '1.1em' }}>
-              {emoji.skins[0].shortcodes}
-            </div>
+            <div class="ellipsis color-c">{emoji.skins[0].shortcodes}</div>
           ) : noSearchResults ? (
-            <div class="ellipsis color-c" style={{ fontSize: '1.1em' }}>
-              {I18n.search_no_results}
-            </div>
+            <div class="ellipsis color-c">{I18n.search_no_results}</div>
           ) : (
-            <div class="color-c" style={{ fontSize: '1.1em' }}>
-              {I18n.pick}
-            </div>
+            <div class="color-c">{I18n.pick}</div>
           )}
         </div>
 
