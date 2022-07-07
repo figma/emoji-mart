@@ -15,12 +15,13 @@ const Performance = {
 
 export default class Picker extends Component {
   constructor(props) {
+    console.log('picker got props', props)
     super()
 
     this.state = {
       pos: [-1, -1],
       skin: Store.get('skin') || props.skin,
-      theme: props.theme,
+      theme: this.initTheme(props.theme),
       visibleRows: { 0: true },
     }
   }
@@ -80,9 +81,26 @@ export default class Picker extends Component {
 
     this.shadowRoot = this.base.parentNode
     document.addEventListener('click', this.handleClickOutside)
+    console.log('this.props', this.props)
+    console.log('this.props.autoFocus', this.props.autoFocus)
+    console.log('this.refs.searchInput.current', this.refs.searchInput.current)
     if (this.props.autoFocus && this.refs.searchInput.current) {
+      console.log('foooocusing')
       this.refs.searchInput.current.focus()
     }
+  }
+
+  initTheme(theme) {
+    if (theme != 'auto') return theme
+
+    const darkMedia = matchMedia('(prefers-color-scheme: dark)')
+    if (darkMedia.media.match(/^not/)) return 'light'
+
+    darkMedia.addListener(() => {
+      this.setState({ theme: darkMedia.matches ? 'dark' : 'light' })
+    })
+
+    return darkMedia.matches ? 'dark' : 'light'
   }
 
   handleClickOutside = (e) => {
