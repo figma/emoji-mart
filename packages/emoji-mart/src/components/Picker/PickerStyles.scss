@@ -6,7 +6,8 @@
   box-shadow: var(--shadow);
 
   --category-icon-size: 18px;
-  --font-family: Inter;
+  --font-family-fallback: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  --font-family: var(--font-family-ui, --font-family-fallback);
   --font-size: 13px;
 
   --shadow-color: 0deg 0% 0%;
