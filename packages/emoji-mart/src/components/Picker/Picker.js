@@ -79,7 +79,6 @@ export default class Picker extends Component {
     this.observeRows()
 
     this.shadowRoot = this.base.parentNode
-    document.addEventListener('click', this.handleClickOutside)
     if (this.props.autoFocus && this.refs.searchInput.current) {
       this.refs.searchInput.current.focus()
     }
@@ -96,20 +95,6 @@ export default class Picker extends Component {
     })
 
     return darkMedia.matches ? 'dark' : 'light'
-  }
-
-  handleClickOutside = (e) => {
-    const { element } = this.props
-
-    if (e.target != element) {
-      if (this.state.showSkins) {
-        this.closeSkins()
-      }
-
-      if (this.props.onClickOutside) {
-        this.props.onClickOutside()
-      }
-    }
   }
 
   handleBaseClick = (e) => {
