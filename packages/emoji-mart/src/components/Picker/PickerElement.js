@@ -24,6 +24,6 @@ export default class PickerElement extends ShadowElement {
   }
 }
 
-if (!customElements.get('em-emoji-picker')) {
+if ('customElements' in window && !customElements.get('em-emoji-picker')) {
   customElements.define('em-emoji-picker', PickerElement)
 }
