@@ -302,6 +302,8 @@ export default class Picker extends Component {
           this.clearSearch()
         } else if (this.props.onEscapeKeydown) {
           this.props.onEscapeKeydown()
+        } else {
+          this.unfocusSearch()
         }
         break
 
@@ -318,6 +320,13 @@ export default class Picker extends Component {
     input.focus()
 
     this.handleSearchInput()
+  }
+
+  unfocusSearch() {
+    const input = this.refs.searchInput.current
+    if (!input) return
+
+    input.blur()
   }
 
   navigate({ e, input, left, right, up, down }) {
