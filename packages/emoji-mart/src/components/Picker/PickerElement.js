@@ -11,13 +11,14 @@ export default class PickerElement extends ShadowElement {
 
   async connectedCallback() {
     const pickerProps = await init(this.props, this)
-    const { onEmojiSelect, onClickOutside } = this.props
+    const { onEmojiSelect, onClickOutside, onEscapeKeydown } = this.props
 
     const props = {
       ...pickerProps,
       element: this,
       onEmojiSelect,
       onClickOutside,
+      onEscapeKeydown,
     }
 
     render(<Picker {...props} />, this.shadowRoot)

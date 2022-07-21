@@ -114,6 +114,7 @@ export default class Picker extends Component {
       e.stopImmediatePropagation()
 
       this.closeSkins()
+      this.refs.skinToneButton.current.focus()
     }
   }
 
@@ -247,8 +248,21 @@ export default class Picker extends Component {
     this.setState({ searchResults: grid, pos }, afterRender)
   }
 
+  handleKeyDown = (e) => {
+    e.stopImmediatePropagation()
+
+    switch (e.key) {
+      case 'Escape':
+        if (this.props.onEscapeKeydown) {
+          this.props.onEscapeKeydown()
+        }
+        break
+      default:
+        break
+    }
+  }
+
   handleSearchKeyDown = (e) => {
-    // const specialKey = e.altKey || e.ctrlKey || e.metaKey
     const input = e.currentTarget
     e.stopImmediatePropagation()
 
@@ -286,8 +300,8 @@ export default class Picker extends Component {
         e.preventDefault()
         if (this.state.searchResults) {
           this.clearSearch()
-        } else {
-          this.unfocusSearch()
+        } else if (this.props.onEscapeKeydown) {
+          this.props.onEscapeKeydown()
         }
         break
 
@@ -304,13 +318,6 @@ export default class Picker extends Component {
     input.focus()
 
     this.handleSearchInput()
-  }
-
-  unfocusSearch() {
-    const input = this.refs.searchInput.current
-    if (!input) return
-
-    input.blur()
   }
 
   navigate({ e, input, left, right, up, down }) {
@@ -596,8 +603,6 @@ export default class Picker extends Component {
   renderEmojiButton(emoji, { pos, posinset, grid }) {
     const size = this.props.emojiButtonSize
     const skin = this.state.tempSkin || this.state.skin
-    const emojiSkin = emoji.skins[skin - 1] || emoji.skins[0]
-    // const native = emojiSkin.native
     const selected = deepEqual(this.state.pos, pos)
     const key = pos.concat(emoji.id).join('')
 
@@ -857,6 +862,7 @@ export default class Picker extends Component {
                   ) {
                     e.preventDefault()
                     this.handleSkinClick(skin)
+                    this.refs.skinToneButton.current.focus()
                   }
                 }}
               ></input>
@@ -890,6 +896,7 @@ export default class Picker extends Component {
         data-emoji-set={this.props.set}
         data-theme={this.state.theme}
         data-menu={this.state.showSkins ? '' : undefined}
+        onKeyDown={this.handleKeyDown}
       >
         {this.props.previewPosition == 'top' && this.renderPreview()}
         {this.props.navPosition == 'top' && this.renderNav()}
