@@ -484,8 +484,6 @@ export default class Picker extends Component {
       const skin = emoji.skins[this.state.skin - 1] || emoji.skins[0]
       const emojiData = {
         id: emoji.id,
-        name: emoji.name,
-        // native: skin.native,
         unified: skin.unified,
         keywords: emoji?.keywords || [],
         shortcodes: skin.shortcodes || emoji.shortcodes,
@@ -623,7 +621,7 @@ export default class Picker extends Component {
           aria-posinset={posinset}
           aria-setsize={grid.setsize}
           data-keyboard={this.state.keyboard}
-          title={this.props.previewPosition == 'none' ? emoji.name : undefined}
+          title={this.props.previewPosition == 'none' ? emoji.id : undefined}
           type="button"
           class="flex flex-center flex-middle"
           tabindex="-1"
