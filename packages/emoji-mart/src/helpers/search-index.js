@@ -14,6 +14,10 @@ function get(emojiId) {
   )
 }
 
+function getShortcodeFromNative(native) {
+  return Data.natives[native]
+}
+
 let Pool = null
 async function search(value, { maxResults } = {}) {
   if (!value || !value.trim().length) return null
@@ -86,4 +90,10 @@ function _search(value, { maxResults } = {}) {
   return results
 }
 
-export default { search, searchSynchronized, get, SHORTCODES_REGEX }
+export default {
+  search,
+  searchSynchronized,
+  get,
+  getShortcodeFromNative,
+  SHORTCODES_REGEX,
+}

@@ -12,6 +12,7 @@ function unifiedToNative(unified) {
 // Transformed minimized emoji-data into the form that the library expects
 // When we decide to load this data asynchronous, we'll want to move this logic into packages/emoji-mart-data/build.js
 function getProcessedData(data) {
+  data.natives = {}
   Object.keys(data.emojis).forEach((id) => {
     const emoji = {}
     emoji.id = id
@@ -41,12 +42,13 @@ function getProcessedData(data) {
       if (skin) {
         const skinShortcodes = index + 1 == 1 ? '' : `:skin-tone-${index + 1}:`
         skin.shortcodes = `:${emoji.id}:${skinShortcodes}`
-        skin.native = unifiedToNative(skin.unified)
+
+        const native = unifiedToNative(skin.unified)
+        data.natives[native] = skin.shortcodes
       }
     })
     data.emojis[id] = emoji
   })
-  data.natives = {}
   return data
 }
 
