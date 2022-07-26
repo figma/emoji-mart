@@ -16,7 +16,6 @@ function getProcessedData(data) {
   Object.keys(data.emojis).forEach((id) => {
     const emoji = {}
     emoji.id = id
-    emoji.name = id
     emoji.search =
       `,` +
       /* TODO: once we load in the emoji data asynchronously, we can add back keyword support.
@@ -26,7 +25,7 @@ function getProcessedData(data) {
         ...new Set(
           [
             emoji.id,
-            ...emoji.name.split(/[-|_|\s]+/),
+            ...emoji.id.split(/[-|_|\s]+/),
             // [emoji.keywords, false],
           ]
             .map((string) => {
