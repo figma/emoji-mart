@@ -9,10 +9,19 @@ function unifiedToNative(unified) {
   return String.fromCodePoint(...codePoints)
 }
 
+function getReverseAliasMap(data) {
+  const reverseAliasMap = {}
+  for (const alias of Object.keys(data.aliases)) {
+    reverseAliasMap[data.aliases[alias]] = alias
+  }
+  return reverseAliasMap
+}
+
 // Transformed minimized emoji-data into the form that the library expects
 // When we decide to load this data asynchronous, we'll want to move this logic into packages/emoji-mart-data/build.js
 function getProcessedData(data) {
   data.natives = {}
+  const reverseAliasMap = getReverseAliasMap(data)
   Object.keys(data.emojis).forEach((id) => {
     const emoji = {}
     emoji.id = id
@@ -26,6 +35,7 @@ function getProcessedData(data) {
           [
             emoji.id,
             ...emoji.id.split(/[-|_|\s]+/),
+            ...(reverseAliasMap[emoji.id] || '').split(/[-|_|\s]+/),
             // [emoji.keywords, false],
           ]
             .map((string) => {
