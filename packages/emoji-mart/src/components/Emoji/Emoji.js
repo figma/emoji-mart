@@ -1,7 +1,7 @@
 import { SearchIndex, Images } from '../../helpers'
 
 export default function Emoji(props) {
-  let { id, skin, shortcodes, emoji } = props
+  let { id, skin, shortcodes, emoji, set } = props
 
   if (!emoji && !id && shortcodes) {
     const matches = shortcodes.match(SearchIndex.SHORTCODES_REGEX)
@@ -19,8 +19,12 @@ export default function Emoji(props) {
     return props.fallback
 
   const emojiSkin = emoji.skins[skin - 1] || emoji.skins[0]
-  const src = Images.getUrl(emojiSkin)
 
+  if (set === 'native') {
+    return (<span style={{height: props.size || '1em', width: 'auto', display: 'inline-block', position: 'relative'}}>{emojiSkin.native}</span>)
+  }
+
+  const src = Images.getUrl(emojiSkin)
   return (
     <img
       style={{
