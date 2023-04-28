@@ -21,7 +21,10 @@ export default function Emoji(props) {
   const emojiSkin = emoji.skins[skin - 1] || emoji.skins[0]
 
   if (set === 'native') {
-    return (<span style={{height: props.size || '1em', width: 'auto', display: 'inline-block', position: 'relative'}}>{emojiSkin.native}</span>)
+    const unicodes = emojiSkin.unified.split('-')
+    const codePoints = unicodes.map((u) => `0x${u}`)
+    const native = String.fromCodePoint(...codePoints)
+    return (<span style={{height: props.size || '1em', width: 'auto', display: 'inline-block', position: 'relative'}}>{native}</span>)
   }
 
   const src = Images.getUrl(emojiSkin)
