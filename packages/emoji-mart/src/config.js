@@ -1,13 +1,6 @@
 import i18n_en from '../../emoji-mart-data/i18n/en.json'
 import data_default from '../../emoji-mart-data/sets/4/apple.json'
-import { FrequentlyUsed } from './helpers'
-
-function unifiedToNative(unified) {
-  let unicodes = unified.split('-')
-  let codePoints = unicodes.map((u) => `0x${u}`)
-
-  return String.fromCodePoint(...codePoints)
-}
+import { FrequentlyUsed, NativeSupport } from './helpers'
 
 function getReverseAliasMap(data) {
   const reverseAliasMap = {}
@@ -52,7 +45,7 @@ function getProcessedData(data) {
         const skinShortcodes = index + 1 == 1 ? '' : `:skin-tone-${index + 1}:`
         skin.shortcodes = `:${emoji.id}:${skinShortcodes}`
 
-        const native = unifiedToNative(skin.unified)
+        const native = NativeSupport.unifiedToNative(skin.unified)
         data.natives[native] = skin.shortcodes
       }
     })

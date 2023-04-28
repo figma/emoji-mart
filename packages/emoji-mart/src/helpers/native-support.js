@@ -46,4 +46,11 @@ function testEmoji(emoji) {
   }
 }
 
-export default { latestVersion, noCountryFlags }
+function unifiedToNative(unified) {
+  let unicodes = unified.split('-')
+  let codePoints = unicodes.map((u) => `0x${u}`)
+
+  return String.fromCodePoint(...codePoints)
+}
+
+export default { latestVersion, noCountryFlags, unifiedToNative }
