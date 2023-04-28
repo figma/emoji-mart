@@ -1,7 +1,7 @@
 import { SearchIndex, Images, NativeSupport } from '../../helpers'
 
 export default function Emoji(props) {
-  let { id, skin, shortcodes, emoji, set } = props
+  let { id, skin, shortcodes, emoji, set, size } = props
 
   if (!emoji && !id && shortcodes) {
     const matches = shortcodes.match(SearchIndex.SHORTCODES_REGEX)
@@ -22,7 +22,7 @@ export default function Emoji(props) {
 
   if (set === 'native') {
     const native = NativeSupport.unifiedToNative(emojiSkin.unified)
-    return <span style={{ fontSize: 22 }}>{native}</span>
+    return <span style={{ fontSize: size || 22 }}>{native}</span>
   }
 
   const src = Images.getUrl(emojiSkin)
