@@ -1,4 +1,4 @@
-import { SearchIndex, Images } from '../../helpers'
+import { SearchIndex, Images, NativeSupport } from '../../helpers'
 
 export default function Emoji(props) {
   let { id, skin, shortcodes, emoji, set } = props
@@ -21,9 +21,7 @@ export default function Emoji(props) {
   const emojiSkin = emoji.skins[skin - 1] || emoji.skins[0]
 
   if (set === 'native') {
-    const unicode = emojiSkin.unified.split('-')
-    const codePoints = unicode.map((u) => `0x${u}`)
-    const native = String.fromCodePoint(...codePoints)
+    const native = NativeSupport.unifiedToNative(emojiSkin.unified)
     return <span style={{ fontSize: 22 }}>{native}</span>
   }
 
