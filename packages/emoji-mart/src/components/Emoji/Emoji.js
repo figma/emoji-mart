@@ -22,7 +22,17 @@ export default function Emoji(props) {
 
   if (set === 'native') {
     const native = NativeSupport.unifiedToNative(emojiSkin.unified)
-    return <span style={{ fontSize: size || 22 }}>{native}</span>
+    return (
+      <span
+        style={{
+          fontSize: size || 22,
+          fontFamily:
+            '-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol',
+        }}
+      >
+        {native}
+      </span>
+    )
   }
 
   const src = Images.getUrl(emojiSkin)
