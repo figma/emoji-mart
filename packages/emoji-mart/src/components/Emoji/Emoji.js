@@ -27,7 +27,7 @@ export default function Emoji(props) {
         style={{
           fontSize: size || 22,
           fontFamily:
-            'font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;',
+            '-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol',
         }}
       >
         {native}
