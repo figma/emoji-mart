@@ -1,5 +1,5 @@
 import i18n_en from '../../emoji-mart-data/i18n/en.json'
-import data_default from '../../emoji-mart-data/sets/4/apple.json'
+import data_default from '../../emoji-mart-data/sets/14/native.json'
 import { FrequentlyUsed, NativeSupport } from './helpers'
 
 function getReverseAliasMap(data) {
