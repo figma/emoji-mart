@@ -16,7 +16,7 @@ describe('Data', () => {
 
   test('emojis', () => {
     expect(Data).toHaveProperty('emojis')
-    expect(Object.keys(Data.emojis).length).toBe(1484)
+    expect(Object.keys(Data.emojis).length).toBe(1849)
     for (const emojiId of Object.keys(Data.emojis)) {
       const emoji = Data.emojis[emojiId]
       expect(emoji).toHaveProperty('id')
