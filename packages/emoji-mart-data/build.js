@@ -25,7 +25,7 @@ const CATEGORIES = [
 // TODO: Apple does not support female_sign and male_sign emojis, but we still have them as
 // searchable in the previous version of figma emoji-mart. When we remove usage of emoji-mart v2,
 // we will remove female_sign and male_sign from this list so that they are no longer selectable
-const MISSING_EMOJIS = ['medical_symbol', 'female_sign', 'male_sign']
+const MISSING_EMOJIS = ['medical_symbol']
 
 const MISSING_ALIAS = {
   // Figma's beetle emoji renders as a ladybug, which is complicated because
