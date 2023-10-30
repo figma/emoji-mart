@@ -1,7 +1,7 @@
 import { Store } from '../helpers'
 
 const DEFAULTS = [
-  'heavy-plus-sign',
+  'heavy_plus_sign',
   '+1',
   '-1',
   'eyes',
