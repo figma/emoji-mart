@@ -1,14 +1,15 @@
 import { Store } from '../helpers'
 
 const DEFAULTS = [
+  'heavy_plus_sign',
   '+1',
-  'grinning',
-  'kissing_heart',
+  '-1',
+  'eyes',
   'heart_eyes',
-  'laughing',
-  'stuck_out_tongue_winking_eye',
-  'sweat_smile',
   'joy',
+  'fire',
+  'grinning',
+  'sweat_smile',
   'scream',
   'disappointed',
   'unamused',
