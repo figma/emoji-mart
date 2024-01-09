@@ -74,8 +74,8 @@ const DEFAULT_PROPS = {
     value: 22,
   },
   emojiVersion: {
-    value: 14,
-    choices: [1, 2, 3, 4, 5, 11, 12, 12.1, 13, 13.1, 14],
+    value: 15,
+    choices: [1, 2, 3, 4, 5, 11, 12, 12.1, 13, 13.1, 14, 15],
   },
   locale: {
     value: 'en',
