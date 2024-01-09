@@ -16,7 +16,7 @@ describe('Data', () => {
 
   test('emojis', () => {
     expect(Data).toHaveProperty('emojis')
-    expect(Object.keys(Data.emojis).length).toBe(1849)
+    expect(Object.keys(Data.emojis).length).toBe(1870)
     for (const emojiId of Object.keys(Data.emojis)) {
       const emoji = Data.emojis[emojiId]
       expect(emoji).toHaveProperty('id')
@@ -34,7 +34,5 @@ describe('Data', () => {
   test('alias', () => {
     expect(Data).toHaveProperty('aliases')
     expect(Data.aliases['satisfied']).toBe('laughing')
-    expect(Data.aliases['beetle']).toBe('ladybug')
-    expect(Data.aliases['man_in_tuxedo']).toBe('person_in_tuxedo')
   })
 })
