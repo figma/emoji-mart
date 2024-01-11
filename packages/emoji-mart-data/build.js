@@ -7,7 +7,7 @@ import emojiData from 'emoji-datasource'
 
 const DRY_RUN = process.argv.indexOf('--dry') != -1
 
-const VERSIONS = [1, 2, 3, 4, 5, 11, 12, 12.1, 13, 13.1, 14]
+const VERSIONS = [1, 2, 3, 4, 5, 11, 12, 12.1, 13, 13.1, 14, 15]
 const SKINS = ['1F3FB', '1F3FC', '1F3FD', '1F3FE', '1F3FF']
 const SETS = ['native', 'apple', 'facebook', 'google', 'twitter']
 const CATEGORIES = [
@@ -26,15 +26,6 @@ const CATEGORIES = [
 // searchable in the previous version of figma emoji-mart. When we remove usage of emoji-mart v2,
 // we will remove female_sign and male_sign from this list so that they are no longer selectable
 const MISSING_EMOJIS = ['medical_symbol', 'female_sign', 'male_sign']
-
-const MISSING_ALIAS = {
-  // Figma's beetle emoji renders as a ladybug, which is complicated because
-  // beetle was introduced as a new emoji in v13 with a different image
-  // For now, we continue to honor our old, now incorrect shortcode. We will
-  // want to revisit this when we upgrade what emoji version we support
-  beetle: 'ladybug',
-  man_in_tuxedo: 'person_in_tuxedo',
-}
 
 // const KEYWORD_SUBSTITUTES = {
 //   highfive: 'highfive high-five',
@@ -179,10 +170,6 @@ function buildData({ set, version } = {}) {
 
   data.categories.unshift(smileysAndPeople)
   data.categories.splice(1, 2)
-
-  for (const oldName of Object.keys(MISSING_ALIAS)) {
-    data.aliases[oldName] = MISSING_ALIAS[oldName]
-  }
 
   if (!DRY_RUN) {
     let folder = 'sets'

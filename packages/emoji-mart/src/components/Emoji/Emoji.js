@@ -35,6 +35,9 @@ export default function Emoji(props) {
     )
   }
 
+  // TODO: Before enabling `emoji_15_upgrade`, we will need to update this to respect the new
+  // URL format for emoji images in Figma Design and Figjam (which will likely be using Noto).
+
   const src = Images.getUrl(emojiSkin)
   return (
     <img
