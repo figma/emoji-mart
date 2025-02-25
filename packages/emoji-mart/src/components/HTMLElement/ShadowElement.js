@@ -5,17 +5,20 @@ export default class ShadowElement extends HTMLElement {
     super(props)
 
     this.setShadow()
-    this.injectStyles(styles)
+    this.injectStyles(styles, props.styleNonce)
   }
 
   setShadow() {
     this.attachShadow({ mode: 'open' })
   }
 
-  injectStyles(styles) {
+  injectStyles(styles, styleNonce) {
     if (!styles) return
 
     const style = document.createElement('style')
+    if (styleNonce !== undefined) {
+      style.nonce = styleNonce
+    }
     style.textContent = styles
 
     this.shadowRoot.insertBefore(style, this.shadowRoot.firstChild)
