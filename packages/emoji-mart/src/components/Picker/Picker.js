@@ -744,7 +744,7 @@ export default class Picker extends Component {
               ref={root}
             >
               <div class="sticky padding-small">
-                {category.name || I18n.categories[category.id]}
+                <h2> {category.name || I18n.categories[category.id]} </h2>
               </div>
               <div
                 class="relative"
