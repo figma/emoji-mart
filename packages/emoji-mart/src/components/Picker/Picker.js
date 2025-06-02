@@ -751,7 +751,8 @@ export default class Picker extends Component {
                 style={{
                   height: rows.length * this.props.emojiButtonSize,
                 }}
-                role="listbox"
+                role="list"
+                tabIndex={0}
               >
                 {rows.map((row, i) => {
                   const targetRow =
