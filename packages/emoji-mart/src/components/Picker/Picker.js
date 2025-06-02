@@ -752,6 +752,7 @@ export default class Picker extends Component {
                   height: rows.length * this.props.emojiButtonSize,
                 }}
                 role="list"
+                aria-label={category.name || I18n.categories[category.id]}
                 tabIndex={0}
               >
                 {rows.map((row, i) => {
