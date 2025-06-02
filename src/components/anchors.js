@@ -38,6 +38,8 @@ export default class Anchors extends React.Component {
           <span
             key={name}
             title={i18n.categories[name.toLowerCase()]}
+            role="tab"
+            aria-selected={isSelected}
             onClick={() => onAnchorClick(category, i)}
             className={`emoji-mart-anchor ${isSelected ? 'emoji-mart-anchor-selected' : ''}`}
             style={{ color: isSelected ? color : null }}
