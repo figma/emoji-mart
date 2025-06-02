@@ -61,7 +61,7 @@ export default class Mavigation extends PureComponent {
                 onClick={() => {
                   this.props.onClick({ category, i })
                 }}
-                role='tab'
+                role="tab"
               >
                 {this.renderIcon(category)}
               </button>
