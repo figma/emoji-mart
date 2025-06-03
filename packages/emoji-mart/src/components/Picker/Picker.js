@@ -742,6 +742,7 @@ export default class Picker extends Component {
               data-id={category.target ? category.target.id : category.id}
               class="category"
               ref={root}
+              role="tabpanel"
             >
               <div class="sticky padding-small">
                 <h2> {category.name || I18n.categories[category.id]} </h2>
@@ -751,6 +752,9 @@ export default class Picker extends Component {
                 style={{
                   height: rows.length * this.props.emojiButtonSize,
                 }}
+                role="list"
+                aria-label={category.name || I18n.categories[category.id]}
+                tabIndex={0}
               >
                 {rows.map((row, i) => {
                   const targetRow =
