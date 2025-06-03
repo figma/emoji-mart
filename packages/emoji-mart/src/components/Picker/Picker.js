@@ -616,6 +616,7 @@ export default class Picker extends Component {
     return (
       <PureInlineComponent key={key} {...{ selected, skin, size }}>
         <button
+          role="listitem"
           aria-label={emoji.id}
           aria-selected={selected || undefined}
           aria-posinset={posinset}
@@ -742,6 +743,7 @@ export default class Picker extends Component {
               data-id={category.target ? category.target.id : category.id}
               class="category"
               ref={root}
+              role="tabpanel"
             >
               <div class="sticky padding-small">
                 <h2> {category.name || I18n.categories[category.id]} </h2>

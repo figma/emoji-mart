@@ -41,7 +41,7 @@ export default class Mavigation extends PureComponent {
 
     return (
       <nav id="nav" class="padding" data-position={this.props.position}>
-        <div class="flex relative">
+        <div class="flex relative" role="tablist">
           {this.categories.map((category, i) => {
             const title = category.name || I18n.categories[category.id]
             const selected =
