@@ -74,6 +74,7 @@ export default class Picker extends Component {
         row.push(emoji)
         buttonRefs.push(createRef())
       }
+      this.refs.buttons.push(buttonRefs)
 
       this.refs.categories.set(category.id, { root: createRef(), rows })
     }
@@ -745,6 +746,7 @@ export default class Picker extends Component {
     const { categories } = Data
     const hidden = !!this.state.searchResults
 
+    let val = 0;
     return (
       <div
         style={{
@@ -800,7 +802,7 @@ export default class Picker extends Component {
                       {visible &&
                         emojiIds.map((emojiId, ii) => {
                           const emoji = SearchIndex.get(emojiId)
-
+                          val = val + 1
                           return this.renderEmojiButton(emoji, {
                             pos: [row.index, ii],
                             posinset: row.posinset + ii,
