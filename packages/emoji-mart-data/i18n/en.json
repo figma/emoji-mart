@@ -16,7 +16,6 @@
   },
   "skins": {
     "choose": "Choose default skin tone",
-    "currently_selected": "currently selected: ",
     "1": "Default",
     "2": "Light",
     "3": "Medium-Light",

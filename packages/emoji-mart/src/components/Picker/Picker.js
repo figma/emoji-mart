@@ -840,7 +840,7 @@ export default class Picker extends Component {
           ref={this.refs.skinToneButton}
           class="skin-tone-button flex flex-auto flex-center flex-middle"
           aria-selected={this.state.showSkins ? '' : undefined}
-          aria-label={`${I18n.skins.choose}, ${I18n.skins.currently_selected} ${currSkinLabelMap[this.state.skin]}`}
+          aria-label={`${I18n.skins.choose}, ${currSkinLabelMap[this.state.skin]}`}
           title={I18n.skins.choose}
           onClick={this.openSkins}
           style={{
