@@ -337,7 +337,6 @@ export default class Picker extends Component {
   navigate({ e, input, left, right, up, down }) {
     const grid = this.state.searchResults || this.grid
 
-    console.log(e)
     if (!grid.length) return
 
     let [p1, p2] = this.state.pos
@@ -745,7 +744,6 @@ export default class Picker extends Component {
   renderCategories() {
     const { categories } = Data
     const hidden = !!this.state.searchResults
-    console.log(I18n)
 
     return (
       <div
