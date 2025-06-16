@@ -746,7 +746,7 @@ export default class Picker extends Component {
     const { categories } = Data
     const hidden = !!this.state.searchResults
 
-    let val = 0;
+    let val = 0
     return (
       <div
         style={{
