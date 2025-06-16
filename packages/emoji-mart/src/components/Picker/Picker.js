@@ -741,6 +741,7 @@ export default class Picker extends Component {
   renderCategories() {
     const { categories } = Data
     const hidden = !!this.state.searchResults
+    console.log(I18n)
 
     return (
       <div
