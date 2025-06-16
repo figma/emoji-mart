@@ -676,7 +676,7 @@ export default class Picker extends Component {
               onInput={this.handleSearchInput}
               onKeyDown={this.handleSearchKeyDown}
             ></input>
-            <span class="icon loupe flex">{Icons.search.loupe}</span>
+            <span class="icon loupe flex" aria-hidden={true}>{Icons.search.loupe}</span>
             {this.state.searchResults && (
               <button
                 title="Clear"
