@@ -37,7 +37,7 @@ export default class Picker extends Component {
       searchInput: createRef(),
       skinToneButton: createRef(),
       skinToneRadio: createRef(),
-      buttons: []
+      buttons: [],
     }
 
     this.grid = []
@@ -375,14 +375,14 @@ export default class Picker extends Component {
             p1 = left ? 0 : grid.length - 1
             p2 = left ? 0 : grid[p1].length - 1
 
-          this.refs.buttons[p1][p2].current?.focus()
+            this.refs.buttons[p1][p2].current?.focus()
             return [p1, p2]
           }
 
           p2 = left ? row.length - 1 : 0
         }
 
-          this.refs.buttons[p1][p2].current?.focus()
+        this.refs.buttons[p1][p2].current?.focus()
         return [p1, p2]
       }
 
@@ -636,7 +636,7 @@ export default class Picker extends Component {
           title={this.props.previewPosition == 'none' ? emoji.id : undefined}
           type="button"
           class="flex flex-center flex-middle"
-          tabindex={categoryRow === 0 && pos[1] === 0 ? 0: -1}
+          tabindex={categoryRow === 0 && pos[1] === 0 ? 0 : -1}
           onClick={() => this.handleEmojiClick({ emoji })}
           onMouseEnter={() => this.handleEmojiOver(pos)}
           onMouseLeave={() => this.handleEmojiOver()}
@@ -649,7 +649,9 @@ export default class Picker extends Component {
             fontFamily:
               'EmojiMart, Segoe UI Emoji, Segoe UI Symbol, Segoe UI, Apple Color Emoji, Twemoji Mozilla, Noto Color Emoji, Android Emoji',
           }}
-          onFocus={() => {this.setState({ pos: pos })}}
+          onFocus={() => {
+            this.setState({ pos: pos })
+          }}
         >
           <div
             aria-hidden="true"
@@ -690,7 +692,9 @@ export default class Picker extends Component {
               onInput={this.handleSearchInput}
               onKeyDown={this.handleSearchKeyDown}
             ></input>
-            <span class="icon loupe flex" aria-hidden={true}>{Icons.search.loupe}</span>
+            <span class="icon loupe flex" aria-hidden={true}>
+              {Icons.search.loupe}
+            </span>
             {this.state.searchResults && (
               <button
                 title="Clear"
@@ -822,7 +826,7 @@ export default class Picker extends Component {
       1: I18n.skins[1],
       2: I18n.skins[2],
       3: I18n.skins[3],
-      4: I18n.skins[4], 
+      4: I18n.skins[4],
       5: I18n.skins[5],
       6: I18n.skins[6],
     }
@@ -840,18 +844,20 @@ export default class Picker extends Component {
           ref={this.refs.skinToneButton}
           class="skin-tone-button flex flex-auto flex-center flex-middle"
           aria-selected={this.state.showSkins ? '' : undefined}
-          aria-label={`${I18n.skins.choose}, ${currSkinLabelMap[this.state.skin]}`}
+          aria-label={`${I18n.skins.choose}, ${
+            currSkinLabelMap[this.state.skin]
+          }`}
           title={I18n.skins.choose}
           onClick={this.openSkins}
           style={{
             width: this.props.emojiSize,
             height: this.props.emojiSize,
           }}
-          aria-controls={"skin-tone-selector"}
+          aria-controls={'skin-tone-selector'}
           aria-haspopup={true}
           aria-expanded={this.state.showSkins}
         >
-          <span class={`skin-tone skin-tone-${this.state.skin}`} ></span>
+          <span class={`skin-tone skin-tone-${this.state.skin}`}></span>
         </button>
       </div>
     )
