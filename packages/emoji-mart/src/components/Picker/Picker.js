@@ -267,7 +267,7 @@ export default class Picker extends Component {
     }
   }
 
-  handleSearchKeyDown = (e) => {
+  handleNavKeyDown = (e) => {
     const input = e.currentTarget
     e.stopImmediatePropagation()
 
@@ -690,7 +690,7 @@ export default class Picker extends Component {
               placeholder={I18n.search}
               onClick={this.handleSearchClick}
               onInput={this.handleSearchInput}
-              onKeyDown={this.handleSearchKeyDown}
+              onKeyDown={this.handleNavKeyDown}
             ></input>
             <span class="icon loupe flex" aria-hidden={true}>
               {Icons.search.loupe}
@@ -722,7 +722,7 @@ export default class Picker extends Component {
     return (
       <div class="category" ref={this.refs.search}>
         <div class="sticky padding-small">{I18n.categories.search}</div>
-        <div>
+        <div onKeyDown={this.handleNavKeyDown}>
           {searchResults.map((row, i) => {
             return (
               <div class="flex">
@@ -753,7 +753,7 @@ export default class Picker extends Component {
           visibility: hidden ? 'hidden' : undefined,
           display: hidden ? 'none' : undefined,
         }}
-        onKeyDown={this.handleSearchKeyDown}
+        onKeyDown={this.handleNavKeyDown}
       >
         {categories.map((category) => {
           const { root, rows } = this.refs.categories.get(category.id)
