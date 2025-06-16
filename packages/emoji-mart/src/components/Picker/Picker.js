@@ -37,6 +37,7 @@ export default class Picker extends Component {
       searchInput: createRef(),
       skinToneButton: createRef(),
       skinToneRadio: createRef(),
+      buttons: []
     }
 
     this.grid = []
@@ -60,14 +61,18 @@ export default class Picker extends Component {
     for (let category of categories) {
       const rows = []
       let row = addRow(rows, category)
+      let buttonRefs = []
 
       for (let emoji of category.emojis) {
         if (row.length == this.props.perLine) {
           row = addRow(rows, category)
+          this.refs.buttons.push(buttonRefs)
+          buttonRefs = []
         }
 
         this.grid.setsize += 1
         row.push(emoji)
+        buttonRefs.push(createRef())
       }
 
       this.refs.categories.set(category.id, { root: createRef(), rows })
@@ -331,6 +336,8 @@ export default class Picker extends Component {
 
   navigate({ e, input, left, right, up, down }) {
     const grid = this.state.searchResults || this.grid
+
+    console.log(e)
     if (!grid.length) return
 
     let [p1, p2] = this.state.pos
@@ -346,8 +353,9 @@ export default class Picker extends Component {
         if (
           !e.repeat &&
           (right || down) &&
-          input.selectionStart == input.value.length
+          (!input.value || input.selectionStart == input.value.length)
         ) {
+          this.refs.buttons[0][0].current?.focus()
           return [0, 0]
         }
 
@@ -367,12 +375,14 @@ export default class Picker extends Component {
             p1 = left ? 0 : grid.length - 1
             p2 = left ? 0 : grid[p1].length - 1
 
+          this.refs.buttons[p1][p2].current?.focus()
             return [p1, p2]
           }
 
           p2 = left ? row.length - 1 : 0
         }
 
+          this.refs.buttons[p1][p2].current?.focus()
         return [p1, p2]
       }
 
@@ -384,6 +394,7 @@ export default class Picker extends Component {
           p1 = up ? 0 : grid.length - 1
           p2 = up ? 0 : grid[p1].length - 1
 
+          this.refs.buttons[p1][p2].current?.focus()
           return [p1, p2]
         }
 
@@ -391,6 +402,7 @@ export default class Picker extends Component {
           p2 = row.length - 1
         }
 
+        this.refs.buttons[p1][p2].current?.focus()
         return [p1, p2]
       }
     })()
@@ -607,7 +619,7 @@ export default class Picker extends Component {
     )
   }
 
-  renderEmojiButton(emoji, { pos, posinset, grid }) {
+  renderEmojiButton(emoji, { pos, posinset, grid, categoryRow }) {
     const size = this.props.emojiButtonSize
     const skin = this.state.tempSkin || this.state.skin
     const selected = deepEqual(this.state.pos, pos)
@@ -624,10 +636,11 @@ export default class Picker extends Component {
           title={this.props.previewPosition == 'none' ? emoji.id : undefined}
           type="button"
           class="flex flex-center flex-middle"
-          tabindex="-1"
+          tabindex={categoryRow === 0 && pos[1] === 0 ? 0: -1}
           onClick={() => this.handleEmojiClick({ emoji })}
           onMouseEnter={() => this.handleEmojiOver(pos)}
           onMouseLeave={() => this.handleEmojiOver()}
+          ref={this.refs.buttons[pos[0]][pos[1]]}
           style={{
             width: this.props.emojiButtonSize,
             height: this.props.emojiButtonSize,
@@ -636,6 +649,7 @@ export default class Picker extends Component {
             fontFamily:
               'EmojiMart, Segoe UI Emoji, Segoe UI Symbol, Segoe UI, Apple Color Emoji, Twemoji Mozilla, Noto Color Emoji, Android Emoji',
           }}
+          onFocus={() => {this.setState({ pos: pos })}}
         >
           <div
             aria-hidden="true"
@@ -713,6 +727,7 @@ export default class Picker extends Component {
                     pos: [i, ii],
                     posinset: i * this.props.perLine + ii + 1,
                     grid: searchResults,
+                    categoryRow: i,
                   })
                 })}
               </div>
@@ -733,6 +748,7 @@ export default class Picker extends Component {
           visibility: hidden ? 'hidden' : undefined,
           display: hidden ? 'none' : undefined,
         }}
+        onKeyDown={this.handleSearchKeyDown}
       >
         {categories.map((category) => {
           const { root, rows } = this.refs.categories.get(category.id)
@@ -786,6 +802,7 @@ export default class Picker extends Component {
                             pos: [row.index, ii],
                             posinset: row.posinset + ii,
                             grid: this.grid,
+                            categoryRow: i,
                           })
                         })}
                     </div>
@@ -822,7 +839,7 @@ export default class Picker extends Component {
           ref={this.refs.skinToneButton}
           class="skin-tone-button flex flex-auto flex-center flex-middle"
           aria-selected={this.state.showSkins ? '' : undefined}
-          aria-label={I18n.skins.choose}
+          aria-label={`${I18n.skins.choose}, ${I18n.skins.currently_selected} ${currSkinLabelMap[this.state.skin]}`}
           title={I18n.skins.choose}
           onClick={this.openSkins}
           style={{
@@ -833,7 +850,7 @@ export default class Picker extends Component {
           aria-haspopup={true}
           aria-expanded={this.state.showSkins}
         >
-          <span class={`skin-tone skin-tone-${this.state.skin}`} aria-label={currSkinLabelMap[this.state.skin]}></span>
+          <span class={`skin-tone skin-tone-${this.state.skin}`} ></span>
         </button>
       </div>
     )
