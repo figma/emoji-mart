@@ -800,6 +800,14 @@ export default class Picker extends Component {
   }
 
   renderSkinToneButton() {
+    const currSkinLabelMap = {
+      1: I18n.skins[1],
+      2: I18n.skins[2],
+      3: I18n.skins[3],
+      4: I18n.skins[4], 
+      5: I18n.skins[5],
+      6: I18n.skins[6],
+    }
     return (
       <div
         class="flex flex-auto flex-center flex-middle"
@@ -821,8 +829,11 @@ export default class Picker extends Component {
             width: this.props.emojiSize,
             height: this.props.emojiSize,
           }}
+          aria-controls={"skin-tone-selector"}
+          aria-haspopup={true}
+          aria-expanded={this.state.showSkins}
         >
-          <span class={`skin-tone skin-tone-${this.state.skin}`}></span>
+          <span class={`skin-tone skin-tone-${this.state.skin}`} aria-label={currSkinLabelMap[this.state.skin]}></span>
         </button>
       </div>
     )
@@ -848,6 +859,7 @@ export default class Picker extends Component {
       <div
         ref={this.refs.menu}
         role="radiogroup"
+        id={'skin-tone-selector'}
         aria-label={I18n.skins.choose}
         class="menu hidden"
         data-position={position.top ? 'top' : 'bottom'}
