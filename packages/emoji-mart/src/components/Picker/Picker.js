@@ -22,6 +22,7 @@ export default class Picker extends Component {
       skin: Store.get('skin') || props.skin,
       theme: this.initTheme(props.theme),
       visibleRows: { 0: true },
+      activeCategoryId: null,
     }
   }
 
@@ -76,7 +77,7 @@ export default class Picker extends Component {
       }
       this.refs.buttons.push(buttonRefs)
 
-      this.refs.categories.set(category.id, { root: createRef(), rows })
+      this.refs.categories.set(category.id, { root: createRef(), contentRef: createRef(), rows })
     }
   }
 
@@ -251,7 +252,7 @@ export default class Picker extends Component {
     }
 
     this.ignoreMouse()
-    this.setState({ searchResults: grid, pos }, afterRender)
+    this.setState({ searchResults: grid, pos, activeCategoryId: null }, afterRender)
   }
 
   handleKeyDown = (e) => {
@@ -301,6 +302,14 @@ export default class Picker extends Component {
         e.preventDefault()
         this.handleEmojiClick({ pos: this.state.pos })
         break
+
+      case 'Tab': 
+        if (this.state.activeCategoryId) {
+          e.preventDefault()
+          const contentRef = this.refs.categories.get(this.state.activeCategoryId).contentRef
+          contentRef.current?.focus()
+        }
+        break;
 
       case 'Escape':
         e.preventDefault()
@@ -478,6 +487,7 @@ export default class Picker extends Component {
 
   handleCategorySelect = ({ category, i }) => {
     this.scrollTo(i == 0 ? { row: -1 } : { categoryId: category.id })
+    this.setState({activeCategoryId: category.id})
   }
 
   handleEmojiOver(pos) {
@@ -756,7 +766,7 @@ export default class Picker extends Component {
         onKeyDown={this.handleNavKeyDown}
       >
         {categories.map((category) => {
-          const { root, rows } = this.refs.categories.get(category.id)
+          const { root, contentRef, rows } = this.refs.categories.get(category.id)
 
           return (
             <div
@@ -769,6 +779,7 @@ export default class Picker extends Component {
                 <h2> {category.name || I18n.categories[category.id]} </h2>
               </div>
               <div
+                ref={contentRef}
                 class="relative"
                 style={{
                   height: rows.length * this.props.emojiButtonSize,

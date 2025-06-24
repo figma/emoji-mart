@@ -90,6 +90,11 @@ export default class Mavigation extends PureComponent {
                 class="flex flex-grow flex-center"
                 role="tab"
                 ref={this.tabRefs[i]}
+                onClick={() => {
+                  this.props.onCategoryChange({category, i})
+                  this.setState({categoryIndex: i})
+                  this.tabRefs[i].current?.focus()
+                }}
               >
                 {this.renderIcon(category)}
               </button>
