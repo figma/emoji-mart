@@ -38,7 +38,6 @@ export default class Picker extends Component {
       searchInput: createRef(),
       skinToneButton: createRef(),
       skinToneRadio: createRef(),
-      buttons: [],
     }
 
     this.grid = []
@@ -62,22 +61,17 @@ export default class Picker extends Component {
     for (let category of categories) {
       const rows = []
       let row = addRow(rows, category)
-      let buttonRefs = []
 
       for (let emoji of category.emojis) {
         if (row.length == this.props.perLine) {
           row = addRow(rows, category)
-          this.refs.buttons.push(buttonRefs)
-          buttonRefs = []
         }
 
         this.grid.setsize += 1
         row.push(emoji)
-        buttonRefs.push(createRef())
       }
-      this.refs.buttons.push(buttonRefs)
 
-      this.refs.categories.set(category.id, { root: createRef(), contentRef: createRef(), rows })
+      this.refs.categories.set(category.id, { root: createRef(), firstEmojiRef: createRef(), rows })
     }
   }
 
@@ -306,10 +300,60 @@ export default class Picker extends Component {
       case 'Tab': 
         if (this.state.activeCategoryId) {
           e.preventDefault()
-          const contentRef = this.refs.categories.get(this.state.activeCategoryId).contentRef
-          contentRef.current?.focus()
+          const firstEmojiRef = this.refs.categories.get(this.state.activeCategoryId).firstEmojiRef
+          firstEmojiRef.current?.focus()
         }
         break;
+
+      case 'Escape':
+        e.preventDefault()
+        if (this.state.searchResults) {
+          this.clearSearch()
+        } else if (this.props.onEscapeKeydown) {
+          this.props.onEscapeKeydown()
+        } else {
+          this.unfocusSearch()
+        }
+        break
+
+      default:
+        break
+    }
+  }
+    
+  handleGridKeyDown = (e) => {
+    const input = e.currentTarget
+    e.stopImmediatePropagation()
+
+    switch (e.key) {
+      case 'ArrowLeft':
+        // if (specialKey) return
+        // e.preventDefault()
+        this.navigate({ e, input, left: true })
+        break
+
+      case 'ArrowRight':
+        // if (specialKey) return
+        // e.preventDefault()
+        this.navigate({ e, input, right: true })
+        break
+
+      case 'ArrowUp':
+        // if (specialKey) return
+        // e.preventDefault()
+        this.navigate({ e, input, up: true })
+        break
+
+      case 'ArrowDown':
+        // if (specialKey) return
+        // e.preventDefault()
+        this.navigate({ e, input, down: true })
+        break
+
+      case 'Enter':
+        e.preventDefault()
+        this.handleEmojiClick({ pos: this.state.pos })
+        break
 
       case 'Escape':
         e.preventDefault()
@@ -364,7 +408,6 @@ export default class Picker extends Component {
           (right || down) &&
           (!input.value || input.selectionStart == input.value.length)
         ) {
-          this.refs.buttons[0][0].current?.focus()
           return [0, 0]
         }
 
@@ -384,14 +427,12 @@ export default class Picker extends Component {
             p1 = left ? 0 : grid.length - 1
             p2 = left ? 0 : grid[p1].length - 1
 
-            this.refs.buttons[p1][p2].current?.focus()
             return [p1, p2]
           }
 
           p2 = left ? row.length - 1 : 0
         }
 
-        this.refs.buttons[p1][p2].current?.focus()
         return [p1, p2]
       }
 
@@ -403,7 +444,6 @@ export default class Picker extends Component {
           p1 = up ? 0 : grid.length - 1
           p2 = up ? 0 : grid[p1].length - 1
 
-          this.refs.buttons[p1][p2].current?.focus()
           return [p1, p2]
         }
 
@@ -411,7 +451,6 @@ export default class Picker extends Component {
           p2 = row.length - 1
         }
 
-        this.refs.buttons[p1][p2].current?.focus()
         return [p1, p2]
       }
     })()
@@ -630,7 +669,7 @@ export default class Picker extends Component {
     )
   }
 
-  renderEmojiButton(emoji, { pos, posinset, grid, categoryRow }) {
+  renderEmojiButton(emoji, { pos, posinset, grid }) {
     const size = this.props.emojiButtonSize
     const skin = this.state.tempSkin || this.state.skin
     const selected = deepEqual(this.state.pos, pos)
@@ -647,11 +686,11 @@ export default class Picker extends Component {
           title={this.props.previewPosition == 'none' ? emoji.id : undefined}
           type="button"
           class="flex flex-center flex-middle"
-          tabindex={-1}
+          tabindex={selected ? 0 : -1}
           onClick={() => this.handleEmojiClick({ emoji })}
           onMouseEnter={() => this.handleEmojiOver(pos)}
           onMouseLeave={() => this.handleEmojiOver()}
-          ref={this.refs.buttons[pos[0]][pos[1]]}
+          ref={this.props.firstEmojiRef}
           style={{
             width: this.props.emojiButtonSize,
             height: this.props.emojiButtonSize,
@@ -733,7 +772,7 @@ export default class Picker extends Component {
     return (
       <div class="category" ref={this.refs.search}>
         <div class="sticky padding-small">{I18n.categories.search}</div>
-        <div onKeyDown={this.handleNavKeyDown}>
+        <div onKeyDown={this.handleGridKeyDown}>
           {searchResults.map((row, i) => {
             return (
               <div class="flex">
@@ -742,7 +781,7 @@ export default class Picker extends Component {
                     pos: [i, ii],
                     posinset: i * this.props.perLine + ii + 1,
                     grid: searchResults,
-                    categoryRow: i,
+                    firstEmojiRef: null
                   })
                 })}
               </div>
@@ -763,10 +802,10 @@ export default class Picker extends Component {
           visibility: hidden ? 'hidden' : undefined,
           display: hidden ? 'none' : undefined,
         }}
-        onKeyDown={this.handleNavKeyDown}
+        onKeyDown={this.handleGridKeyDown}
       >
         {categories.map((category) => {
-          const { root, contentRef, rows } = this.refs.categories.get(category.id)
+          const { root, firstEmojiRef, rows } = this.refs.categories.get(category.id)
 
           return (
             <div
@@ -779,7 +818,6 @@ export default class Picker extends Component {
                 <h2> {category.name || I18n.categories[category.id]} </h2>
               </div>
               <div
-                ref={contentRef}
                 class="relative"
                 style={{
                   height: rows.length * this.props.emojiButtonSize,
@@ -817,7 +855,7 @@ export default class Picker extends Component {
                             pos: [row.index, ii],
                             posinset: row.posinset + ii,
                             grid: this.grid,
-                            categoryRow: i,
+                            btnRef: firstEmojiRef ?? null
                           })
                         })}
                     </div>
