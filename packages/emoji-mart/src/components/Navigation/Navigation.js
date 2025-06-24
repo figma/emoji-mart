@@ -1,3 +1,4 @@
+import { createRef } from 'preact'
 import { PureComponent } from 'preact/compat'
 import { Data, I18n } from '../../config'
 import Icons from '../../icons'
@@ -14,6 +15,8 @@ export default class Mavigation extends PureComponent {
       categoryId: this.categories[0].id,
       categoryIndex: 0,
     }
+
+    this.tabRefs = this.categories.map((_) => createRef())
   }
 
   renderIcon(category) {
@@ -48,6 +51,7 @@ export default class Mavigation extends PureComponent {
         if (this.state.categoryIndex > 0) {
           this.setState({ categoryIndex: newCategoryIndex })
           this.props.onCategoryChange({category: this.categories[newCategoryIndex], i: newCategoryIndex})
+          this.tabRefs[newCategoryIndex].current?.focus()
         }
         break
       case 'ArrowRight':
@@ -55,6 +59,8 @@ export default class Mavigation extends PureComponent {
         if (this.state.categoryIndex < this.categories.length - 1) {
           this.setState({ categoryIndex: newCategoryIndex })
           this.props.onCategoryChange({category: this.categories[newCategoryIndex], i: newCategoryIndex})
+
+          this.tabRefs[newCategoryIndex].current?.focus()
         }
         break
       case 'Tab': 
@@ -83,6 +89,7 @@ export default class Mavigation extends PureComponent {
                 type="button"
                 class="flex flex-grow flex-center"
                 role="tab"
+                ref={this.tabRefs[i]}
               >
                 {this.renderIcon(category)}
               </button>
