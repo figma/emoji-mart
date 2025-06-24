@@ -476,7 +476,7 @@ export default class Picker extends Component {
     }, 100)
   }
 
-  handleCategoryClick = ({ category, i }) => {
+  handleCategorySelect = ({ category, i }) => {
     this.scrollTo(i == 0 ? { row: -1 } : { categoryId: category.id })
   }
 
@@ -563,7 +563,8 @@ export default class Picker extends Component {
         theme={this.state.theme}
         unfocused={!!this.state.searchResults}
         position={this.props.navPosition}
-        onClick={this.handleCategoryClick}
+        onCategoryChange={this.handleCategorySelect}
+        searchInputRef={this.refs.searchInput}
       />
     )
   }
@@ -636,7 +637,7 @@ export default class Picker extends Component {
           title={this.props.previewPosition == 'none' ? emoji.id : undefined}
           type="button"
           class="flex flex-center flex-middle"
-          tabindex={categoryRow === 0 && pos[1] === 0 ? 0 : -1}
+          tabindex={-1}
           onClick={() => this.handleEmojiClick({ emoji })}
           onMouseEnter={() => this.handleEmojiOver(pos)}
           onMouseLeave={() => this.handleEmojiOver()}
@@ -746,7 +747,6 @@ export default class Picker extends Component {
     const { categories } = Data
     const hidden = !!this.state.searchResults
 
-    let val = 0
     return (
       <div
         style={{
@@ -802,7 +802,6 @@ export default class Picker extends Component {
                       {visible &&
                         emojiIds.map((emojiId, ii) => {
                           const emoji = SearchIndex.get(emojiId)
-                          val = val + 1
                           return this.renderEmojiButton(emoji, {
                             pos: [row.index, ii],
                             posinset: row.posinset + ii,
@@ -822,14 +821,6 @@ export default class Picker extends Component {
   }
 
   renderSkinToneButton() {
-    const currSkinLabelMap = {
-      1: I18n.skins[1],
-      2: I18n.skins[2],
-      3: I18n.skins[3],
-      4: I18n.skins[4],
-      5: I18n.skins[5],
-      6: I18n.skins[6],
-    }
     return (
       <div
         class="flex flex-auto flex-center flex-middle"
@@ -844,9 +835,7 @@ export default class Picker extends Component {
           ref={this.refs.skinToneButton}
           class="skin-tone-button flex flex-auto flex-center flex-middle"
           aria-selected={this.state.showSkins ? '' : undefined}
-          aria-label={`${I18n.skins.choose}, ${
-            currSkinLabelMap[this.state.skin]
-          }`}
+          aria-label={`${I18n.skins.choose}, ${I18n.skins[this.state.skin]}`}
           title={I18n.skins.choose}
           onClick={this.openSkins}
           style={{
