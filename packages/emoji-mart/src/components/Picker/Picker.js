@@ -298,8 +298,11 @@ export default class Picker extends Component {
         break
 
       case 'Tab': 
+        console.log('tab')
         if (this.state.activeCategoryId) {
           e.preventDefault()
+          console.log('are we here??')
+          console.log(this.state.activeCategoryId)
           const firstEmojiRef = this.refs.categories.get(this.state.activeCategoryId).firstEmojiRef
           firstEmojiRef.current?.focus()
         }
