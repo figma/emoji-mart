@@ -464,8 +464,9 @@ export default class Picker extends Component {
     }, 100)
   }
 
-  handleCategoryClick = ({ category, i }) => {
+  handleCategorySelect = ({ category, i }) => {
     this.scrollTo(i == 0 ? { row: -1 } : { categoryId: category.id })
+    this.setState({activeCategoryId: category.id})
   }
 
   handleEmojiOver(pos) {
@@ -551,7 +552,8 @@ export default class Picker extends Component {
         theme={this.state.theme}
         unfocused={!!this.state.searchResults}
         position={this.props.navPosition}
-        onClick={this.handleCategoryClick}
+        onCategoryChange={this.handleCategorySelect}
+        searchInputRef={this.refs.searchInput}
       />
     )
   }

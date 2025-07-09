@@ -1,6 +1,7 @@
 import { PureComponent } from 'preact/compat'
 import { Data, I18n } from '../../config'
 import Icons from '../../icons'
+import { createRef } from 'preact'
 
 export default class Mavigation extends PureComponent {
   constructor() {
@@ -12,7 +13,10 @@ export default class Mavigation extends PureComponent {
 
     this.state = {
       categoryId: this.categories[0].id,
+      categoryIndex: 0,
     }
+
+    this.tabRefs = this.categories.map((_) => createRef())
   }
 
   renderIcon(category) {
@@ -36,20 +40,46 @@ export default class Mavigation extends PureComponent {
     return Icons.categories[category.id]
   }
 
-  render() {
-    let selectedCategoryIndex = null
+    handleKeyDown = (e) => {
+    e.stopImmediatePropagation()
+    e.preventDefault()
 
+    var newCategoryIndex = null
+    switch (e.key) {
+      case 'ArrowLeft':
+         newCategoryIndex = this.state.categoryIndex - 1
+        if (this.state.categoryIndex > 0) {
+          this.setState({ categoryIndex: newCategoryIndex })
+          this.props.onCategoryChange({category: this.categories[newCategoryIndex], i: newCategoryIndex})
+          this.tabRefs[newCategoryIndex].current?.focus()
+        }
+        break
+      case 'ArrowRight':
+        newCategoryIndex = this.state.categoryIndex + 1
+        if (this.state.categoryIndex < this.categories.length - 1) {
+          this.setState({ categoryIndex: newCategoryIndex })
+          this.props.onCategoryChange({category: this.categories[newCategoryIndex], i: newCategoryIndex})
+
+          this.tabRefs[newCategoryIndex].current?.focus()
+        }
+        break
+      case 'Tab': 
+        if (!e.shift && this.props.searchInputRef.current) {  
+          this.props.searchInputRef.current.focus()
+        }
+      default:
+        break
+    }
+  }
+
+  render() {
     return (
       <nav id="nav" class="padding" data-position={this.props.position}>
-        <div class="flex relative" role="tablist">
+        <div class="flex relative" role="tablist" tabIndex={0} onKeyDown={this.handleKeyDown}>
           {this.categories.map((category, i) => {
             const title = category.name || I18n.categories[category.id]
             const selected =
               !this.props.unfocused && category.id == this.state.categoryId
-
-            if (selected) {
-              selectedCategoryIndex = i
-            }
 
             return (
               <button
@@ -59,9 +89,12 @@ export default class Mavigation extends PureComponent {
                 type="button"
                 class="flex flex-grow flex-center"
                 onClick={() => {
-                  this.props.onClick({ category, i })
+                  this.props.onCategoryChange({ category, i })
+                  this.setState({categoryIndex: i})
+                  this.tabRefs[i].current?.focus()
                 }}
                 role="tab"
+                ref={this.tabRefs[i]}
               >
                 {this.renderIcon(category)}
               </button>
@@ -72,8 +105,8 @@ export default class Mavigation extends PureComponent {
             class="bar"
             style={{
               width: `${100 / this.categories.length}%`,
-              opacity: selectedCategoryIndex == null ? 0 : 1,
-              transform: `translateX(${selectedCategoryIndex * 100}%)`,
+              opacity: this.props.unfocused == null ? 0 : 1,
+              transform: `translateX(${this.state.categoryIndex * 100}%)`,
             }}
           ></div>
         </div>
