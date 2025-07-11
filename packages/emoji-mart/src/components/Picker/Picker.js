@@ -136,9 +136,9 @@ export default class Picker extends Component {
     if (!navigation) return
 
     const visibleCategories = new Map()
-    const setFocusedCategory = (categoryId) => {
+    const setFocusedCategory = (categoryId, categoryIndex) => {
       if (categoryId != navigation.state.categoryId) {
-        navigation.setState({ categoryId })
+        navigation.setState({ categoryId, categoryIndex })
       }
     }
 
@@ -157,12 +157,13 @@ export default class Picker extends Component {
 
       const lastCategory = ratios[ratios.length - 1]
       if (lastCategory[1] == 1) {
-        return setFocusedCategory(lastCategory[0])
+        return setFocusedCategory(lastCategory[0], ratios.length - 1)
       }
 
-      for (const [id, ratio] of ratios) {
+      for (let i = 0; i < ratios.length; i += 1 ) {
+        const [id, ratio] = ratios[i]
         if (ratio) {
-          setFocusedCategory(id)
+          setFocusedCategory(id, i)
           break
         }
       }
