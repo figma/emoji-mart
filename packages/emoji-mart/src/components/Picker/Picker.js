@@ -639,7 +639,7 @@ export default class Picker extends Component {
           )}
         </div>
 
-        {!emoji && this.renderSkinToneButton()}
+        {this.renderSkinToneButton()}
       </div>
     )
   }
