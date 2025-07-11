@@ -64,7 +64,8 @@ export default class Mavigation extends PureComponent {
         }
         break
       case 'Tab': 
-        if (!e.shift && this.props.searchInputRef.current) {  
+        if (!e.shiftKey && this.props.searchInputRef.current) {  
+          e.preventDefault()
           this.props.searchInputRef.current.focus()
         }
       default:
@@ -75,7 +76,7 @@ export default class Mavigation extends PureComponent {
   render() {
     return (
       <nav id="nav" class="padding" data-position={this.props.position}>
-        <div class="flex relative" role="tablist" tabIndex={0} onKeyDown={this.handleKeyDown}>
+        <div class="flex relative" role="tablist" onKeyDown={this.handleKeyDown}>
           {this.categories.map((category, i) => {
             const title = category.name || I18n.categories[category.id]
             const selected =
@@ -93,6 +94,7 @@ export default class Mavigation extends PureComponent {
                   this.setState({categoryIndex: i})
                   this.tabRefs[i].current?.focus()
                 }}
+                tabIndex={this.state.categoryIndex === i ? 0 : -1}
                 role="tab"
                 ref={this.tabRefs[i]}
               >
