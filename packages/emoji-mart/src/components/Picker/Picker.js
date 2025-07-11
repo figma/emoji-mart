@@ -269,15 +269,9 @@ export default class Picker extends Component {
   }
 
   handleSearchKeyDown = (e) => {
-    const input = e.currentTarget
     e.stopImmediatePropagation()
 
     switch (e.key) {
-      case 'Enter':
-        e.preventDefault()
-        this.handleEmojiClick({ pos: this.state.pos })
-        break
-
       case 'Escape':
         e.preventDefault()
         if (this.state.searchResults) {
