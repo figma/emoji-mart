@@ -22,6 +22,8 @@ export default class Picker extends Component {
       skin: Store.get('skin') || props.skin,
       theme: this.initTheme(props.theme),
       visibleRows: { 0: true },
+      activeCategoryId: null,
+      currentTargetEmojiPosition: [0, 0]
     }
   }
 
@@ -37,6 +39,7 @@ export default class Picker extends Component {
       searchInput: createRef(),
       skinToneButton: createRef(),
       skinToneRadio: createRef(),
+      currentTargetEmoji: createRef()
     }
 
     this.grid = []
@@ -57,6 +60,7 @@ export default class Picker extends Component {
       return row
     }
 
+    let numRows = 0
     for (let category of categories) {
       const rows = []
       let row = addRow(rows, category)
@@ -70,7 +74,8 @@ export default class Picker extends Component {
         row.push(emoji)
       }
 
-      this.refs.categories.set(category.id, { root: createRef(), rows })
+      this.refs.categories.set(category.id, { root: createRef(), firstEmojiPosition: [numRows, 0], rows })
+      numRows += rows.length
     }
   }
 
@@ -210,7 +215,7 @@ export default class Picker extends Component {
     const emoji = this.getEmojiByPos(this.state.pos)
     if (!emoji) return
 
-    this.setState({ pos: [-1, -1] })
+    this.setState({ pos: [-1, -1], currentTargetEmojiPosition: [0, 0] })
   }
 
   handleSearchInput = async () => {
@@ -225,7 +230,7 @@ export default class Picker extends Component {
     }
 
     if (!searchResults) {
-      return this.setState({ searchResults, pos: [-1, -1] }, afterRender)
+      this.setState({ searchResults, pos: [-1, -1], currentTargetEmojiPosition: [0, 0] }, afterRender)
     }
 
     const pos = input.selectionStart == input.value.length ? [0, 0] : [-1, -1]
@@ -245,7 +250,7 @@ export default class Picker extends Component {
     }
 
     this.ignoreMouse()
-    this.setState({ searchResults: grid, pos }, afterRender)
+    this.setState({ searchResults: grid, pos, currentTargetEmojiPosition: [0, 0] }, afterRender)
   }
 
   handleKeyDown = (e) => {
@@ -263,6 +268,32 @@ export default class Picker extends Component {
   }
 
   handleSearchKeyDown = (e) => {
+    const input = e.currentTarget
+    e.stopImmediatePropagation()
+
+    switch (e.key) {
+      case 'Enter':
+        e.preventDefault()
+        this.handleEmojiClick({ pos: this.state.pos })
+        break
+
+      case 'Escape':
+        e.preventDefault()
+        if (this.state.searchResults) {
+          this.clearSearch()
+        } else if (this.props.onEscapeKeydown) {
+          this.props.onEscapeKeydown()
+        } else {
+          this.unfocusSearch()
+        }
+        break
+
+      default:
+        break
+    }
+  }
+
+  handleGridKeyDown = (e) => {
     const input = e.currentTarget
     e.stopImmediatePropagation()
 
@@ -399,14 +430,15 @@ export default class Picker extends Component {
       e.preventDefault()
     } else {
       if (this.state.pos[0] > -1) {
-        this.setState({ pos: [-1, -1] })
+        this.setState({ pos: [-1, -1], currentTargetEmojiPosition: [0, 0] })
       }
 
       return
     }
 
-    this.setState({ pos, keyboard: true }, () => {
+    this.setState({ pos, currentTargetEmojiPosition: pos, keyboard: true }, () => {
       this.scrollTo({ row: pos[0] })
+      this.refs.currentTargetEmoji.current?.focus()
     })
   }
 
@@ -467,11 +499,13 @@ export default class Picker extends Component {
   handleCategorySelect = ({ category, i }) => {
     this.scrollTo(i == 0 ? { row: -1 } : { categoryId: category.id })
     this.setState({activeCategoryId: category.id})
+    const firstEmojiPosition = this.refs.categories.get(category.id).firstEmojiPosition
+    this.setState({currentTargetEmojiPosition: firstEmojiPosition})
   }
 
   handleEmojiOver(pos) {
     if (this.mouseIsIgnored || this.state.showSkins) return
-    this.setState({ pos: pos || [-1, -1], keyboard: false })
+    this.setState({ pos: pos || [-1, -1], keyboard: false, currentTargetEmojiPosition: pos || [0, 0] })
   }
 
   handleEmojiClick({ emoji, pos }) {
@@ -614,6 +648,8 @@ export default class Picker extends Component {
     const skin = this.state.tempSkin || this.state.skin
     const selected = deepEqual(this.state.pos, pos)
     const key = pos.concat(emoji.id).join('')
+    const isCurrentEmojiTarget = pos[0] === this.state.currentTargetEmojiPosition[0] && pos[1] === this.state.currentTargetEmojiPosition[1]
+    const tabIndex = isCurrentEmojiTarget ? 0 : -1
 
     return (
       <PureInlineComponent key={key} {...{ selected, skin, size }}>
@@ -626,7 +662,11 @@ export default class Picker extends Component {
           title={this.props.previewPosition == 'none' ? emoji.id : undefined}
           type="button"
           class="flex flex-center flex-middle"
-          tabindex="-1"
+          tabIndex={tabIndex}
+          ref={isCurrentEmojiTarget ? this.refs.currentTargetEmoji : undefined}
+          onFocus={() => {  
+            this.setState({pos: pos})
+          }}
           onClick={() => this.handleEmojiClick({ emoji })}
           onMouseEnter={() => this.handleEmojiOver(pos)}
           onMouseLeave={() => this.handleEmojiOver()}
@@ -706,7 +746,7 @@ export default class Picker extends Component {
     return (
       <div class="category" ref={this.refs.search}>
         <div class="sticky padding-small">{I18n.categories.search}</div>
-        <div>
+        <div onKeyDown={this.handleGridKeyDown}>
           {searchResults.map((row, i) => {
             return (
               <div class="flex">
@@ -735,6 +775,7 @@ export default class Picker extends Component {
           visibility: hidden ? 'hidden' : undefined,
           display: hidden ? 'none' : undefined,
         }}
+        onKeyDown={this.handleGridKeyDown}
       >
         {categories.map((category) => {
           const { root, rows } = this.refs.categories.get(category.id)
@@ -756,7 +797,6 @@ export default class Picker extends Component {
                 }}
                 role="list"
                 aria-label={category.name || I18n.categories[category.id]}
-                tabIndex={0}
               >
                 {rows.map((row, i) => {
                   const targetRow =
@@ -923,7 +963,7 @@ export default class Picker extends Component {
           <div class="padding-lr">{this.renderSearch()}</div>
         )}
 
-        <div ref={this.refs.scroll} class="scroll flex-grow padding-lr">
+        <div ref={this.refs.scroll} class="scroll flex-grow padding-lr" tabIndex={-1}>
           <div
             style={{
               width: this.props.perLine * this.props.emojiButtonSize,
