@@ -39,7 +39,7 @@ export default class Picker extends Component {
       searchInput: createRef(),
       skinToneButton: createRef(),
       skinToneRadio: createRef(),
-      currentTargetEmoji: createRef()
+      refCurrentTargetEmoji: createRef()
     }
 
     this.grid = []
@@ -435,7 +435,7 @@ export default class Picker extends Component {
 
     this.setState({ pos, currentTargetEmojiPosition: pos, keyboard: true }, () => {
       this.scrollTo({ row: pos[0] })
-      this.refs.currentTargetEmoji.current?.focus()
+      this.refs.refCurrentTargetEmoji.current?.focus()
     })
   }
 
@@ -655,7 +655,7 @@ export default class Picker extends Component {
       console.log(`the current focus position is: ${pos}`)
 
       console.log(`when rendering emojis, the current ref for target emoji is: `)
-      console.log(this.refs.currentTargetEmoji)
+      console.log(this.refs.refCurrentTargetEmoji)
     }
 
     return (
@@ -670,7 +670,7 @@ export default class Picker extends Component {
           type="button"
           class="flex flex-center flex-middle"
           tabIndex={tabIndex}
-          ref={isCurrentEmojiTarget ? this.refs.currentTargetEmoji : undefined}
+          ref={ undefined}
           onFocus={() => {  
             this.setState({pos: pos})
           }}
@@ -776,7 +776,6 @@ export default class Picker extends Component {
     const { categories } = Data
     const hidden = !!this.state.searchResults
 
-//     console.log(this.refs.currentTargetEmoji)
     return (
       <div
         style={{
