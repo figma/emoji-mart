@@ -77,6 +77,7 @@ export default class Picker extends Component {
       this.refs.categories.set(category.id, { root: createRef(), firstEmojiPosition: [numRows, 0], rows })
       numRows += rows.length
     }
+    console.log(this.refs.categories)
   }
 
   componentDidMount() {
@@ -647,9 +648,11 @@ export default class Picker extends Component {
     const tabIndex = isCurrentEmojiTarget ? 0 : -1
 
     if(isCurrentEmojiTarget) {
-      console.log(`the current emoji is: ${emoji}`)
+      console.log(`the current emoji is: `)
+      console.log(emoji)
       console.log(`the current state for the current target emoji position is: ${this.state.currentTargetEmojiPosition}`)
       console.log(`the current focus position is: ${pos}`)
+      console.log(`the tab index of the active emoji is: ${tabIndex}`)
     }
 
     return (
@@ -770,7 +773,8 @@ export default class Picker extends Component {
     const { categories } = Data
     const hidden = !!this.state.searchResults
 
-    console.log(`when rendering categories, the current ref for target emoji is: ${this.refs.currentTargetEmoji}`)
+    console.log(`when rendering categories, the current ref for target emoji is: `)
+    console.log(this.refs.currentTargetEmoji)
     return (
       <div
         style={{
