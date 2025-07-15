@@ -421,6 +421,7 @@ export default class Picker extends Component {
       }
     })()
 
+    console.log(`when navigating, the new position is: ${pos}`)
     if (pos) {
       e.preventDefault()
     } else {
@@ -493,9 +494,8 @@ export default class Picker extends Component {
 
   handleCategorySelect = ({ category, i }) => {
     this.scrollTo(i == 0 ? { row: -1 } : { categoryId: category.id })
-    this.setState({activeCategoryId: category.id})
     const firstEmojiPosition = this.refs.categories.get(category.id).firstEmojiPosition
-    this.setState({currentTargetEmojiPosition: firstEmojiPosition})
+    this.setState({currentTargetEmojiPosition: firstEmojiPosition, activeCategoryId: category.id})
   }
 
   handleEmojiOver(pos) {
@@ -646,6 +646,12 @@ export default class Picker extends Component {
     const isCurrentEmojiTarget = pos[0] === this.state.currentTargetEmojiPosition[0] && pos[1] === this.state.currentTargetEmojiPosition[1]
     const tabIndex = isCurrentEmojiTarget ? 0 : -1
 
+    if(isCurrentEmojiTarget) {
+      console.log(`the current emoji is: ${emoji}`)
+      console.log(`the current state for the current target emoji position is: ${this.state.currentTargetEmojiPosition}`)
+      console.log(`the current focus position is: ${pos}`)
+    }
+
     return (
       <PureInlineComponent key={key} {...{ selected, skin, size }}>
         <button
@@ -764,6 +770,7 @@ export default class Picker extends Component {
     const { categories } = Data
     const hidden = !!this.state.searchResults
 
+    console.log(`when rendering categories, the current ref for target emoji is: ${this.refs.currentTargetEmoji}`)
     return (
       <div
         style={{

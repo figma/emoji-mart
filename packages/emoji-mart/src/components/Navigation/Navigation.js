@@ -52,6 +52,8 @@ export default class Mavigation extends PureComponent {
           this.setState({ categoryIndex: newCategoryIndex })
           this.props.onCategoryChange({category: this.categories[newCategoryIndex], i: newCategoryIndex})
           this.tabRefs[newCategoryIndex].current?.focus()
+
+          console.log(`when keyboard naving, new state is tabindex of ${newCategoryIndex}`)
         }
         break
       case 'ArrowRight':
@@ -60,6 +62,7 @@ export default class Mavigation extends PureComponent {
           this.setState({ categoryIndex: newCategoryIndex })
           this.props.onCategoryChange({category: this.categories[newCategoryIndex], i: newCategoryIndex})
 
+          console.log(`when keyboard naving, new state is tabindex of ${newCategoryIndex}`) 
           this.tabRefs[newCategoryIndex].current?.focus()
         }
         break
