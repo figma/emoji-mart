@@ -496,6 +496,7 @@ export default class Picker extends Component {
   handleCategorySelect = ({ category, i }) => {
     this.scrollTo(i == 0 ? { row: -1 } : { categoryId: category.id })
     const firstEmojiPosition = this.refs.categories.get(category.id).firstEmojiPosition
+    console.log(`upon category select, the first emoji position is: ${firstEmojiPosition}`)
     this.setState({currentTargetEmojiPosition: firstEmojiPosition, activeCategoryId: category.id})
   }
 
@@ -952,6 +953,10 @@ export default class Picker extends Component {
   }
 
   render() {
+    console.log(`UPON RENDER, the active category is ${this.state.activeCategoryId} and the current target emoji is ${this.state.currentTargetEmojiPosition} `)
+    // console.log(this.state.activeCategoryId)
+    // console.log(this.state.currentTargetEmojiPosition)
+    
     return (
       <section
         id="root"
