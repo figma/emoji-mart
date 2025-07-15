@@ -652,7 +652,9 @@ export default class Picker extends Component {
       console.log(emoji)
       console.log(`the current state for the current target emoji position is: ${this.state.currentTargetEmojiPosition}`)
       console.log(`the current focus position is: ${pos}`)
-      console.log(`the tab index of the active emoji is: ${tabIndex}`)
+
+      console.log(`when rendering emojis, the current ref for target emoji is: `)
+      console.log(this.refs.currentTargetEmoji)
     }
 
     return (
@@ -773,8 +775,7 @@ export default class Picker extends Component {
     const { categories } = Data
     const hidden = !!this.state.searchResults
 
-    console.log(`when rendering categories, the current ref for target emoji is: `)
-    console.log(this.refs.currentTargetEmoji)
+//     console.log(this.refs.currentTargetEmoji)
     return (
       <div
         style={{
