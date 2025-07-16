@@ -493,9 +493,8 @@ export default class Picker extends Component {
 
   handleCategorySelect = ({ category, i }) => {
     this.scrollTo(i == 0 ? { row: -1 } : { categoryId: category.id })
-    this.setState({activeCategoryId: category.id})
     const firstEmojiPosition = this.refs.categories.get(category.id).firstEmojiPosition
-    this.setState({currentTargetEmojiPosition: firstEmojiPosition})
+    this.setState({currentTargetEmojiPosition: firstEmojiPosition, activeCategoryId: category.id})
   }
 
   handleEmojiOver(pos) {
@@ -647,7 +646,7 @@ export default class Picker extends Component {
     const tabIndex = isCurrentEmojiTarget ? 0 : -1
 
     return (
-      <PureInlineComponent key={key} {...{ selected, skin, size }}>
+      <PureInlineComponent key={key} {...{ selected, skin, size, isCurrentEmojiTarget }}>
         <button
           aria-label={emoji.id}
           aria-selected={selected || undefined}
@@ -939,7 +938,7 @@ export default class Picker extends Component {
     )
   }
 
-  render() {
+  render() {    
     return (
       <section
         id="root"
