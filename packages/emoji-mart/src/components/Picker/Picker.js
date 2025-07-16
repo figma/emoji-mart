@@ -1,13 +1,12 @@
 import { Component, createRef } from 'preact'
 
-import { deepEqual, sleep } from '../../utils'
+import { sleep, deepEqual } from '../../utils'
 import { Data, I18n } from '../../config'
 import { SearchIndex, Store, FrequentlyUsed } from '../../helpers'
 import Icons from '../../icons'
 
-import { Emoji } from '../Emoji'
+import { Emoji, EmojiButton } from '../Emoji'
 import { Navigation } from '../Navigation'
-import { PureInlineComponent } from '../HOCs'
 
 const Performance = {
   rowsPerRender: 10,
@@ -23,7 +22,8 @@ export default class Picker extends Component {
       theme: this.initTheme(props.theme),
       visibleRows: { 0: true },
       activeCategoryId: null,
-      currentTargetEmojiPosition: [0, 0]
+      currentTargetEmojiPosition: [0, 0],
+      showSkins: null
     }
   }
 
@@ -39,7 +39,7 @@ export default class Picker extends Component {
       searchInput: createRef(),
       skinToneButton: createRef(),
       skinToneRadio: createRef(),
-      refCurrentTargetEmoji: createRef()
+      currentTargetEmoji: createRef()
     }
 
     this.grid = []
@@ -435,7 +435,7 @@ export default class Picker extends Component {
 
     this.setState({ pos, currentTargetEmojiPosition: pos, keyboard: true }, () => {
       this.scrollTo({ row: pos[0] })
-      this.refs.refCurrentTargetEmoji.current?.focus()
+      this.refs.currentTargetEmoji.current?.focus()
     })
   }
 
@@ -501,6 +501,9 @@ export default class Picker extends Component {
   }
 
   handleEmojiOver(pos) {
+    console.log(this)
+    console.log(this.state)
+    console.log(this.state.showSkins)
     if (this.mouseIsIgnored || this.state.showSkins) return
     this.setState({ pos: pos || [-1, -1], keyboard: false, currentTargetEmojiPosition: pos || [0, 0] })
   }
@@ -640,76 +643,6 @@ export default class Picker extends Component {
     )
   }
 
-  renderEmojiButton(emoji, { pos, posinset, grid }) {
-    const size = this.props.emojiButtonSize
-    const skin = this.state.tempSkin || this.state.skin
-    const selected = deepEqual(this.state.pos, pos)
-    const key = pos.concat(emoji.id).join('')
-    const isCurrentEmojiTarget = pos[0] === this.state.currentTargetEmojiPosition[0] && pos[1] === this.state.currentTargetEmojiPosition[1]
-    const tabIndex = isCurrentEmojiTarget ? 0 : -1
-
-    if(isCurrentEmojiTarget) {
-      console.log(`the current emoji is: `)
-      console.log(emoji)
-      console.log(`the current state for the current target emoji position is: ${this.state.currentTargetEmojiPosition}`)
-      console.log(`the current focus position is: ${pos}`)
-
-      console.log(`when rendering emojis, the current ref for target emoji is: `)
-      console.log(this.refs.refCurrentTargetEmoji)
-    }
-
-    return (
-      <PureInlineComponent key={key} {...{ selected, skin, size }}>
-        <button
-          aria-label={emoji.id}
-          aria-selected={selected || undefined}
-          aria-posinset={posinset}
-          aria-setsize={grid.setsize}
-          data-keyboard={this.state.keyboard}
-          title={this.props.previewPosition == 'none' ? emoji.id : undefined}
-          type="button"
-          class="flex flex-center flex-middle"
-          tabIndex={tabIndex}
-          ref={ undefined}
-          onFocus={() => {  
-            this.setState({pos: pos})
-          }}
-          onClick={() => this.handleEmojiClick({ emoji })}
-          onMouseEnter={() => this.handleEmojiOver(pos)}
-          onMouseLeave={() => this.handleEmojiOver()}
-          style={{
-            width: this.props.emojiButtonSize,
-            height: this.props.emojiButtonSize,
-            fontSize: this.props.emojiSize,
-            lineHeight: 0,
-            fontFamily:
-              'EmojiMart, Segoe UI Emoji, Segoe UI Symbol, Segoe UI, Apple Color Emoji, Twemoji Mozilla, Noto Color Emoji, Android Emoji',
-          }}
-        >
-          <div
-            aria-hidden="true"
-            class="background"
-            style={{
-              borderRadius: this.props.emojiButtonRadius,
-              backgroundColor: this.props.emojiButtonColors
-                ? this.props.emojiButtonColors[
-                    (posinset - 1) % this.props.emojiButtonColors.length
-                  ]
-                : undefined,
-            }}
-          ></div>
-          <Emoji
-            emoji={emoji}
-            set={this.props.set}
-            size={this.props.emojiSize}
-            skin={skin}
-            spritesheet={true}
-          />
-        </button>
-      </PureInlineComponent>
-    )
-  }
-
   renderSearch() {
     return (
       <div>
@@ -758,11 +691,27 @@ export default class Picker extends Component {
             return (
               <div class="flex">
                 {row.map((emoji, ii) => {
-                  return this.renderEmojiButton(emoji, {
-                    pos: [i, ii],
-                    posinset: i * this.props.perLine + ii + 1,
-                    grid: searchResults,
-                  })
+                  return <EmojiButton
+                    emoji={emoji}
+                    pos={[i, ii]}
+                    posinset={i * this.props.perLine + ii + 1}
+                    grid={searchResults}
+                    skin={this.state.tempSkin || this.state.skin}
+                    selected={deepEqual(this.state.pos, [i, ii])}
+                    isCurrentEmojiTarget={pos[0] === this.state.currentTargetEmojiPosition[0] && pos[1] === this.state.currentTargetEmojiPosition[1]}
+                    currentTargetEmojiPosition={this.state.currentTargetEmojiPosition}
+                    keyboard={this.state.keyboard}
+                    handleFocus={() => {  
+                      this.setState({pos: pos})
+                    }}
+                    emojiButtonSize={this.props.emojiButtonSize}
+                    previewPosition={this.props.previewPosition}
+                    emojiSize={this.props.emojiSize}
+                    emojiButtonRadius={this.props.emojiButtonRadius}
+                    emojiButtonColors={this.props.emojiButtonColors}
+                    set={this.props.set}
+                    currentTargetEmojiRef={this.refs.currentTargetEmoji}
+                  /> 
                 })}
               </div>
             )
@@ -830,12 +779,32 @@ export default class Picker extends Component {
                       {visible &&
                         emojiIds.map((emojiId, ii) => {
                           const emoji = SearchIndex.get(emojiId)
+                          const pos = [i, ii]
+                          const posinset = i * this.props.perLine + ii + 1
 
-                          return this.renderEmojiButton(emoji, {
-                            pos: [row.index, ii],
-                            posinset: row.posinset + ii,
-                            grid: this.grid,
-                          })
+                          return <EmojiButton
+                              emoji={emoji}
+                              pos={pos}
+                              posinset={posinset}
+                              grid={this.grid}
+                              skin={this.state.tempSkin || this.state.skin}
+                              selected={deepEqual(this.state.pos, [i, ii])}
+                              isCurrentEmojiTarget={pos[0] === this.state.currentTargetEmojiPosition[0] && pos[1] === this.state.currentTargetEmojiPosition[1]}
+                              currentTargetEmojiPosition={this.state.currentTargetEmojiPosition}
+                              keyboard={this.state.keyboard}
+                              handleFocus={() => {  
+                                this.setState({pos: pos})
+                              }}
+                              emojiButtonSize={this.props.emojiButtonSize}
+                              previewPosition={this.props.previewPosition}
+                              emojiSize={this.props.emojiSize}
+                              emojiButtonRadius={this.props.emojiButtonRadius}
+                              emojiButtonColors={this.props.emojiButtonColors}
+                              set={this.props.set}
+                              currentTargetEmojiRef={this.refs.currentTargetEmoji}
+                              handleEmojiClick={this.handleEmojiClick}
+                              handleEmojiOver={this.handleEmojiOver}
+                            />
                         })}
                     </div>
                   )
