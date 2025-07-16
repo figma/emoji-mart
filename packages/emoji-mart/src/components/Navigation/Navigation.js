@@ -40,17 +40,20 @@ export default class Mavigation extends PureComponent {
     return Icons.categories[category.id]
   }
 
-    handleKeyDown = (e) => {
+  handleKeyDown = (e) => {
     e.stopImmediatePropagation()
     e.preventDefault()
 
     var newCategoryIndex = null
     switch (e.key) {
       case 'ArrowLeft':
-         newCategoryIndex = this.state.categoryIndex - 1
+        newCategoryIndex = this.state.categoryIndex - 1
         if (this.state.categoryIndex > 0) {
           this.setState({ categoryIndex: newCategoryIndex })
-          this.props.onCategoryChange({category: this.categories[newCategoryIndex], i: newCategoryIndex})
+          this.props.onCategoryChange({
+            category: this.categories[newCategoryIndex],
+            i: newCategoryIndex,
+          })
           this.tabRefs[newCategoryIndex].current?.focus()
         }
         break
@@ -58,13 +61,16 @@ export default class Mavigation extends PureComponent {
         newCategoryIndex = this.state.categoryIndex + 1
         if (this.state.categoryIndex < this.categories.length - 1) {
           this.setState({ categoryIndex: newCategoryIndex })
-          this.props.onCategoryChange({category: this.categories[newCategoryIndex], i: newCategoryIndex})
+          this.props.onCategoryChange({
+            category: this.categories[newCategoryIndex],
+            i: newCategoryIndex,
+          })
 
           this.tabRefs[newCategoryIndex].current?.focus()
         }
         break
-      case 'Tab': 
-        if (!e.shiftKey && this.props.searchInputRef.current) {  
+      case 'Tab':
+        if (!e.shiftKey && this.props.searchInputRef.current) {
           e.preventDefault()
           this.props.searchInputRef.current.focus()
         }
@@ -76,7 +82,11 @@ export default class Mavigation extends PureComponent {
   render() {
     return (
       <nav id="nav" class="padding" data-position={this.props.position}>
-        <div class="flex relative" role="tablist" onKeyDown={this.handleKeyDown}>
+        <div
+          class="flex relative"
+          role="tablist"
+          onKeyDown={this.handleKeyDown}
+        >
           {this.categories.map((category, i) => {
             const title = category.name || I18n.categories[category.id]
             const selected =
@@ -91,7 +101,7 @@ export default class Mavigation extends PureComponent {
                 class="flex flex-grow flex-center"
                 onClick={() => {
                   this.props.onCategoryChange({ category, i })
-                  this.setState({categoryIndex: i})
+                  this.setState({ categoryIndex: i })
                   this.tabRefs[i].current?.focus()
                 }}
                 tabIndex={this.state.categoryIndex === i ? 0 : -1}

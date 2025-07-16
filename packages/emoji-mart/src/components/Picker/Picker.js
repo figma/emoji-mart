@@ -23,7 +23,7 @@ export default class Picker extends Component {
       theme: this.initTheme(props.theme),
       visibleRows: { 0: true },
       activeCategoryId: null,
-      currentTargetEmojiPosition: [0, 0]
+      currentTargetEmojiPosition: [0, 0],
     }
   }
 
@@ -39,7 +39,7 @@ export default class Picker extends Component {
       searchInput: createRef(),
       skinToneButton: createRef(),
       skinToneRadio: createRef(),
-      currentTargetEmoji: createRef()
+      currentTargetEmoji: createRef(),
     }
 
     this.grid = []
@@ -74,7 +74,11 @@ export default class Picker extends Component {
         row.push(emoji)
       }
 
-      this.refs.categories.set(category.id, { root: createRef(), firstEmojiPosition: [numRows, 0], rows })
+      this.refs.categories.set(category.id, {
+        root: createRef(),
+        firstEmojiPosition: [numRows, 0],
+        rows,
+      })
       numRows += rows.length
     }
   }
@@ -160,7 +164,7 @@ export default class Picker extends Component {
         return setFocusedCategory(lastCategory[0], ratios.length - 1)
       }
 
-      for (let i = 0; i < ratios.length; i += 1 ) {
+      for (let i = 0; i < ratios.length; i += 1) {
         const [id, ratio] = ratios[i]
         if (ratio) {
           setFocusedCategory(id, i)
@@ -231,7 +235,10 @@ export default class Picker extends Component {
     }
 
     if (!searchResults) {
-      this.setState({ searchResults, pos: [-1, -1], currentTargetEmojiPosition: [0, 0] }, afterRender)
+      this.setState(
+        { searchResults, pos: [-1, -1], currentTargetEmojiPosition: [0, 0] },
+        afterRender,
+      )
     }
 
     const pos = input.selectionStart == input.value.length ? [0, 0] : [-1, -1]
@@ -251,7 +258,10 @@ export default class Picker extends Component {
     }
 
     this.ignoreMouse()
-    this.setState({ searchResults: grid, pos, currentTargetEmojiPosition: [0, 0] }, afterRender)
+    this.setState(
+      { searchResults: grid, pos, currentTargetEmojiPosition: [0, 0] },
+      afterRender,
+    )
   }
 
   handleKeyDown = (e) => {
@@ -431,10 +441,13 @@ export default class Picker extends Component {
       return
     }
 
-    this.setState({ pos, currentTargetEmojiPosition: pos, keyboard: true }, () => {
-      this.scrollTo({ row: pos[0] })
-      this.refs.currentTargetEmoji.current?.focus()
-    })
+    this.setState(
+      { pos, currentTargetEmojiPosition: pos, keyboard: true },
+      () => {
+        this.scrollTo({ row: pos[0] })
+        this.refs.currentTargetEmoji.current?.focus()
+      },
+    )
   }
 
   scrollTo({ categoryId, row }) {
@@ -493,13 +506,22 @@ export default class Picker extends Component {
 
   handleCategorySelect = ({ category, i }) => {
     this.scrollTo(i == 0 ? { row: -1 } : { categoryId: category.id })
-    const firstEmojiPosition = this.refs.categories.get(category.id).firstEmojiPosition
-    this.setState({currentTargetEmojiPosition: firstEmojiPosition, activeCategoryId: category.id})
+    const firstEmojiPosition = this.refs.categories.get(
+      category.id,
+    ).firstEmojiPosition
+    this.setState({
+      currentTargetEmojiPosition: firstEmojiPosition,
+      activeCategoryId: category.id,
+    })
   }
 
   handleEmojiOver(pos) {
     if (this.mouseIsIgnored || this.state.showSkins) return
-    this.setState({ pos: pos || [-1, -1], keyboard: false, currentTargetEmojiPosition: pos || [0, 0] })
+    this.setState({
+      pos: pos || [-1, -1],
+      keyboard: false,
+      currentTargetEmojiPosition: pos || [0, 0],
+    })
   }
 
   handleEmojiClick({ emoji, pos }) {
@@ -642,11 +664,16 @@ export default class Picker extends Component {
     const skin = this.state.tempSkin || this.state.skin
     const selected = deepEqual(this.state.pos, pos)
     const key = pos.concat(emoji.id).join('')
-    const isCurrentEmojiTarget = pos[0] === this.state.currentTargetEmojiPosition[0] && pos[1] === this.state.currentTargetEmojiPosition[1]
+    const isCurrentEmojiTarget =
+      pos[0] === this.state.currentTargetEmojiPosition[0] &&
+      pos[1] === this.state.currentTargetEmojiPosition[1]
     const tabIndex = isCurrentEmojiTarget ? 0 : -1
 
     return (
-      <PureInlineComponent key={key} {...{ selected, skin, size, isCurrentEmojiTarget }}>
+      <PureInlineComponent
+        key={key}
+        {...{ selected, skin, size, isCurrentEmojiTarget }}
+      >
         <button
           aria-label={emoji.id}
           aria-selected={selected || undefined}
@@ -658,8 +685,8 @@ export default class Picker extends Component {
           class="flex flex-center flex-middle"
           tabIndex={tabIndex}
           ref={isCurrentEmojiTarget ? this.refs.currentTargetEmoji : undefined}
-          onFocus={() => {  
-            this.setState({pos: pos})
+          onFocus={() => {
+            this.setState({ pos: pos })
           }}
           onClick={() => this.handleEmojiClick({ emoji })}
           onMouseEnter={() => this.handleEmojiOver(pos)}
@@ -712,7 +739,9 @@ export default class Picker extends Component {
               onInput={this.handleSearchInput}
               onKeyDown={this.handleSearchKeyDown}
             ></input>
-            <span class="icon loupe flex" aria-hidden={true}>{Icons.search.loupe}</span>
+            <span class="icon loupe flex" aria-hidden={true}>
+              {Icons.search.loupe}
+            </span>
             {this.state.searchResults && (
               <button
                 title="Clear"
@@ -938,7 +967,7 @@ export default class Picker extends Component {
     )
   }
 
-  render() {    
+  render() {
     return (
       <section
         id="root"
@@ -957,7 +986,11 @@ export default class Picker extends Component {
           <div class="padding-lr">{this.renderSearch()}</div>
         )}
 
-        <div ref={this.refs.scroll} class="scroll flex-grow padding-lr" tabIndex={-1}>
+        <div
+          ref={this.refs.scroll}
+          class="scroll flex-grow padding-lr"
+          tabIndex={-1}
+        >
           <div
             style={{
               width: this.props.perLine * this.props.emojiButtonSize,
