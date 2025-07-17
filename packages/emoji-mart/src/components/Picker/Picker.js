@@ -293,8 +293,9 @@ export default class Picker extends Component {
         break
       case 'Enter':
         const input = this.refs.searchInput.current
+        const { value } = input
         e.preventDefault()
-        if (input) {
+        if (value) {
           // When someone hits enter with text in the search bar
           // We want to add the first emoji that shows up
           this.handleEmojiClick({ pos: [0, 0] })
