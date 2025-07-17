@@ -22,7 +22,6 @@ export default class Picker extends Component {
       skin: Store.get('skin') || props.skin,
       theme: this.initTheme(props.theme),
       visibleRows: { 0: true },
-      activeCategoryId: null,
       currentTargetEmojiPosition: [0, 0],
     }
   }
@@ -292,7 +291,15 @@ export default class Picker extends Component {
           this.unfocusSearch()
         }
         break
-
+      case 'Enter':
+        const input = this.refs.searchInput.current
+        e.preventDefault()
+        if (input) {
+          // When someone hits enter with text in the search bar
+          // We want to add the first emoji that shows up
+          this.handleEmojiClick({ pos: [0, 0] })
+        }
+        break
       default:
         break
     }
@@ -511,7 +518,6 @@ export default class Picker extends Component {
     ).firstEmojiPosition
     this.setState({
       currentTargetEmojiPosition: firstEmojiPosition,
-      activeCategoryId: category.id,
     })
   }
 
@@ -603,7 +609,6 @@ export default class Picker extends Component {
         unfocused={!!this.state.searchResults}
         position={this.props.navPosition}
         onCategoryChange={this.handleCategorySelect}
-        searchInputRef={this.refs.searchInput}
       />
     )
   }
@@ -667,6 +672,8 @@ export default class Picker extends Component {
     const isCurrentEmojiTarget =
       pos[0] === this.state.currentTargetEmojiPosition[0] &&
       pos[1] === this.state.currentTargetEmojiPosition[1]
+
+    // This is used for a roving tab index in the grid
     const tabIndex = isCurrentEmojiTarget ? 0 : -1
 
     return (

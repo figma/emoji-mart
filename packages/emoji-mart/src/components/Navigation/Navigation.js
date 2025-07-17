@@ -12,7 +12,6 @@ export default class Mavigation extends PureComponent {
     })
 
     this.state = {
-      categoryId: this.categories[0].id,
       categoryIndex: 0,
     }
 
@@ -41,12 +40,11 @@ export default class Mavigation extends PureComponent {
   }
 
   handleKeyDown = (e) => {
-    e.stopImmediatePropagation()
-    e.preventDefault()
-
     var newCategoryIndex = null
     switch (e.key) {
       case 'ArrowLeft':
+        e.stopImmediatePropagation()
+        e.preventDefault()
         newCategoryIndex = this.state.categoryIndex - 1
         if (this.state.categoryIndex > 0) {
           this.setState({ categoryIndex: newCategoryIndex })
@@ -58,6 +56,8 @@ export default class Mavigation extends PureComponent {
         }
         break
       case 'ArrowRight':
+        e.stopImmediatePropagation()
+        e.preventDefault()
         newCategoryIndex = this.state.categoryIndex + 1
         if (this.state.categoryIndex < this.categories.length - 1) {
           this.setState({ categoryIndex: newCategoryIndex })
@@ -69,11 +69,6 @@ export default class Mavigation extends PureComponent {
           this.tabRefs[newCategoryIndex].current?.focus()
         }
         break
-      case 'Tab':
-        if (!e.shiftKey && this.props.searchInputRef.current) {
-          e.preventDefault()
-          this.props.searchInputRef.current.focus()
-        }
       default:
         break
     }
@@ -90,7 +85,7 @@ export default class Mavigation extends PureComponent {
           {this.categories.map((category, i) => {
             const title = category.name || I18n.categories[category.id]
             const selected =
-              !this.props.unfocused && category.id == this.state.categoryId
+              !this.props.unfocused && i == this.state.categoryIndex
 
             return (
               <button
@@ -104,6 +99,7 @@ export default class Mavigation extends PureComponent {
                   this.setState({ categoryIndex: i })
                   this.tabRefs[i].current?.focus()
                 }}
+                // This adds a roving index for the tabs, so that users always focus back onto the same tab
                 tabIndex={this.state.categoryIndex === i ? 0 : -1}
                 role="tab"
                 ref={this.tabRefs[i]}
