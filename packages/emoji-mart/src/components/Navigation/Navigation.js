@@ -39,34 +39,31 @@ export default class Mavigation extends PureComponent {
     return Icons.categories[category.id]
   }
 
+
+  setCategoryIndex = (index) => {
+    this.props.onCategoryChange({category: this.categories[index], i: index})
+    this.setState({categoryIndex: index})
+    this.tabRefs[index].current?.focus()
+  }
+
   handleKeyDown = (e) => {
     var newCategoryIndex = null
     switch (e.key) {
       case 'ArrowLeft':
         e.stopImmediatePropagation()
         e.preventDefault()
-        newCategoryIndex = this.state.categoryIndex - 1
         if (this.state.categoryIndex > 0) {
-          this.setState({ categoryIndex: newCategoryIndex })
-          this.props.onCategoryChange({
-            category: this.categories[newCategoryIndex],
-            i: newCategoryIndex,
-          })
-          this.tabRefs[newCategoryIndex].current?.focus()
+          newCategoryIndex = this.state.categoryIndex - 1
+          this.setCategoryIndex(newCategoryIndex)
         }
         break
       case 'ArrowRight':
         e.stopImmediatePropagation()
         e.preventDefault()
-        newCategoryIndex = this.state.categoryIndex + 1
         if (this.state.categoryIndex < this.categories.length - 1) {
-          this.setState({ categoryIndex: newCategoryIndex })
-          this.props.onCategoryChange({
-            category: this.categories[newCategoryIndex],
-            i: newCategoryIndex,
-          })
+          newCategoryIndex = this.state.categoryIndex + 1
 
-          this.tabRefs[newCategoryIndex].current?.focus()
+          this.setCategoryIndex(newCategoryIndex)
         }
         break
       default:
@@ -85,7 +82,7 @@ export default class Mavigation extends PureComponent {
           {this.categories.map((category, i) => {
             const title = category.name || I18n.categories[category.id]
             const selected =
-              !this.props.unfocused && i == this.state.categoryIndex
+              !this.props.showTabBar && i == this.state.categoryIndex
 
             return (
               <button
@@ -95,9 +92,7 @@ export default class Mavigation extends PureComponent {
                 type="button"
                 class="flex flex-grow flex-center"
                 onClick={() => {
-                  this.props.onCategoryChange({ category, i })
-                  this.setState({ categoryIndex: i })
-                  this.tabRefs[i].current?.focus()
+                  this.setCategoryIndex(i)
                 }}
                 // This adds a roving index for the tabs, so that users always focus back onto the same tab
                 tabIndex={this.state.categoryIndex === i ? 0 : -1}
@@ -113,7 +108,7 @@ export default class Mavigation extends PureComponent {
             class="bar"
             style={{
               width: `${100 / this.categories.length}%`,
-              opacity: this.props.unfocused == null ? 0 : 1,
+              opacity: this.props.showTabBar ? 0 : 1,
               transform: `translateX(${this.state.categoryIndex * 100}%)`,
             }}
           ></div>

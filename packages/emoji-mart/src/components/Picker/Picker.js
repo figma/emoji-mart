@@ -22,7 +22,13 @@ export default class Picker extends Component {
       skin: Store.get('skin') || props.skin,
       theme: this.initTheme(props.theme),
       visibleRows: { 0: true },
-      currentTargetEmojiPosition: [0, 0],
+      /* pos is the current location the user has focused, while rememberedEmojiPosition
+       is the emoji that would receive focus if the user tabbed to the emoji list from 
+       anywhere else. When the user is in the grid, these are the same value, but when
+        naving between tabs, pos would be [-1, -1] while rememberedEmojiPosition would 
+        be the position which corresponds to the previously roved-to emoji
+      */ 
+     rememberedEmojiPosition: [0, 0],
     }
   }
 
@@ -219,7 +225,7 @@ export default class Picker extends Component {
     const emoji = this.getEmojiByPos(this.state.pos)
     if (!emoji) return
 
-    this.setState({ pos: [-1, -1], currentTargetEmojiPosition: [0, 0] })
+    this.setState({ pos: [-1, -1], rememberedEmojiPosition: [0, 0] })
   }
 
   handleSearchInput = async () => {
@@ -235,9 +241,10 @@ export default class Picker extends Component {
 
     if (!searchResults) {
       this.setState(
-        { searchResults, pos: [-1, -1], currentTargetEmojiPosition: [0, 0] },
+        { searchResults, pos: [-1, -1], rememberedEmojiPosition: [0, 0] },
         afterRender,
       )
+      return
     }
 
     const pos = input.selectionStart == input.value.length ? [0, 0] : [-1, -1]
@@ -258,7 +265,7 @@ export default class Picker extends Component {
 
     this.ignoreMouse()
     this.setState(
-      { searchResults: grid, pos, currentTargetEmojiPosition: [0, 0] },
+      { searchResults: grid, pos, rememberedEmojiPosition: [0, 0] },
       afterRender,
     )
   }
@@ -281,19 +288,8 @@ export default class Picker extends Component {
     e.stopImmediatePropagation()
 
     switch (e.key) {
-      case 'Escape':
-        e.preventDefault()
-        if (this.state.searchResults) {
-          this.clearSearch()
-        } else if (this.props.onEscapeKeydown) {
-          this.props.onEscapeKeydown()
-        } else {
-          this.unfocusSearch()
-        }
-        break
       case 'Enter':
-        const input = this.refs.searchInput.current
-        const { value } = input
+        const value = this.refs.searchInput.current?.value
         e.preventDefault()
         if (value) {
           // When someone hits enter with text in the search bar
@@ -312,26 +308,18 @@ export default class Picker extends Component {
 
     switch (e.key) {
       case 'ArrowLeft':
-        // if (specialKey) return
-        // e.preventDefault()
         this.navigate({ e, input, left: true })
         break
 
       case 'ArrowRight':
-        // if (specialKey) return
-        // e.preventDefault()
         this.navigate({ e, input, right: true })
         break
 
       case 'ArrowUp':
-        // if (specialKey) return
-        // e.preventDefault()
         this.navigate({ e, input, up: true })
         break
 
       case 'ArrowDown':
-        // if (specialKey) return
-        // e.preventDefault()
         this.navigate({ e, input, down: true })
         break
 
@@ -443,14 +431,14 @@ export default class Picker extends Component {
       e.preventDefault()
     } else {
       if (this.state.pos[0] > -1) {
-        this.setState({ pos: [-1, -1], currentTargetEmojiPosition: [0, 0] })
+        this.setState({ pos: [-1, -1], rememberedEmojiPosition: [0, 0] })
       }
 
       return
     }
 
     this.setState(
-      { pos, currentTargetEmojiPosition: pos, keyboard: true },
+      { pos, rememberedEmojiPosition: pos, keyboard: true },
       () => {
         this.scrollTo({ row: pos[0] })
         this.refs.currentTargetEmoji.current?.focus()
@@ -518,7 +506,7 @@ export default class Picker extends Component {
       category.id,
     ).firstEmojiPosition
     this.setState({
-      currentTargetEmojiPosition: firstEmojiPosition,
+      rememberedEmojiPosition: firstEmojiPosition,
     })
   }
 
@@ -527,7 +515,7 @@ export default class Picker extends Component {
     this.setState({
       pos: pos || [-1, -1],
       keyboard: false,
-      currentTargetEmojiPosition: pos || [0, 0],
+      rememberedEmojiPosition: pos || [0, 0],
     })
   }
 
@@ -607,7 +595,7 @@ export default class Picker extends Component {
       <Navigation
         ref={this.refs.navigation}
         theme={this.state.theme}
-        unfocused={!!this.state.searchResults}
+        showTabBar={!!this.state.searchResults}
         position={this.props.navPosition}
         onCategoryChange={this.handleCategorySelect}
       />
@@ -671,8 +659,8 @@ export default class Picker extends Component {
     const selected = deepEqual(this.state.pos, pos)
     const key = pos.concat(emoji.id).join('')
     const isCurrentEmojiTarget =
-      pos[0] === this.state.currentTargetEmojiPosition[0] &&
-      pos[1] === this.state.currentTargetEmojiPosition[1]
+      pos[0] === this.state.rememberedEmojiPosition[0] &&
+      pos[1] === this.state.rememberedEmojiPosition[1]
 
     // This is used for a roving tab index in the grid
     const tabIndex = isCurrentEmojiTarget ? 0 : -1
@@ -997,7 +985,6 @@ export default class Picker extends Component {
         <div
           ref={this.refs.scroll}
           class="scroll flex-grow padding-lr"
-          tabIndex={-1}
         >
           <div
             style={{
