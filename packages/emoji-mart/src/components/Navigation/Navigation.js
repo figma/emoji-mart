@@ -39,10 +39,9 @@ export default class Mavigation extends PureComponent {
     return Icons.categories[category.id]
   }
 
-
   setCategoryIndex = (index) => {
-    this.props.onCategoryChange({category: this.categories[index], i: index})
-    this.setState({categoryIndex: index})
+    this.props.onCategoryChange({ category: this.categories[index], i: index })
+    this.setState({ categoryIndex: index })
     this.tabRefs[index].current?.focus()
   }
 

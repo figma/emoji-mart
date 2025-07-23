@@ -27,8 +27,8 @@ export default class Picker extends Component {
        anywhere else. When the user is in the grid, these are the same value, but when
         naving between tabs, pos would be [-1, -1] while rememberedEmojiPosition would 
         be the position which corresponds to the previously roved-to emoji
-      */ 
-     rememberedEmojiPosition: [0, 0],
+      */
+      rememberedEmojiPosition: [0, 0],
     }
   }
 
@@ -437,13 +437,10 @@ export default class Picker extends Component {
       return
     }
 
-    this.setState(
-      { pos, rememberedEmojiPosition: pos, keyboard: true },
-      () => {
-        this.scrollTo({ row: pos[0] })
-        this.refs.currentTargetEmoji.current?.focus()
-      },
-    )
+    this.setState({ pos, rememberedEmojiPosition: pos, keyboard: true }, () => {
+      this.scrollTo({ row: pos[0] })
+      this.refs.currentTargetEmoji.current?.focus()
+    })
   }
 
   scrollTo({ categoryId, row }) {
@@ -982,10 +979,7 @@ export default class Picker extends Component {
           <div class="padding-lr">{this.renderSearch()}</div>
         )}
 
-        <div
-          ref={this.refs.scroll}
-          class="scroll flex-grow padding-lr"
-        >
+        <div ref={this.refs.scroll} class="scroll flex-grow padding-lr">
           <div
             style={{
               width: this.props.perLine * this.props.emojiButtonSize,
