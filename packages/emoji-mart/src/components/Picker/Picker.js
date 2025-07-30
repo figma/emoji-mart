@@ -639,7 +639,9 @@ export default class Picker extends Component {
           {emoji ? (
             <div class="ellipsis color-c">{emoji.skins[0].shortcodes}</div>
           ) : noSearchResults ? (
-            <div class="ellipsis color-c" aria-live="polite">{I18n.search_no_results}</div>
+            <div class="ellipsis color-c" aria-live="polite">
+              {I18n.search_no_results}
+            </div>
           ) : (
             <div class="color-c">{I18n.pick}</div>
           )}
