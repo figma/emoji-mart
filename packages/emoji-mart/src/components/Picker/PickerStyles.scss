@@ -44,8 +44,8 @@
   --color-b: var(--em-color-secondary);
   --color-c: var(--em-color-tertiary);
 
-  --padding: 12px;
-  --padding-small: calc(var(--padding) / 2);
+  --padding-emoji-picker: 12px;
+  --padding-small: calc(var(--padding-emoji-picker) / 2);
 
   --sidebar-width: 16px;
 
@@ -137,15 +137,15 @@
 .flex-middle { align-items: center }
 .flex-wrap { flex-wrap: wrap }
 
-.padding { padding: var(--padding) }
-.padding-t { padding-top: var(--padding) }
-.padding-lr { padding-left: var(--padding); padding-right: var(--padding) }
-.padding-r { padding-right: var(--padding) }
+.padding { padding: var(--padding-emoji-picker) }
+.padding-t { padding-top: var(--padding-emoji-picker) }
+.padding-lr { padding-left: var(--padding-emoji-picker); padding-right: var(--padding-emoji-picker) }
+.padding-r { padding-right: var(--padding-emoji-picker) }
 .padding-small { padding: var(--padding-small) }
 .padding-small-b { padding-bottom: var(--padding-small)}
 .padding-small-lr { padding-left: var(--padding-small); padding-right: var(--padding-small)}
-.margin { margin: var(--padding) }
-.margin-l { margin-left: var(--padding) }
+.margin { margin: var(--padding-emoji-picker) }
+.margin-l { margin-left: var(--padding-emoji-picker) }
 .margin-small-l { margin-left: var(--padding-small) }
 .margin-small-lr { margin-left: var(--padding-small); margin-right: var(--padding-small); }
 
@@ -291,7 +291,7 @@ button {
 #preview {
   z-index: 2;
   position: relative;
-  padding: 0px var(--padding);
+  padding: 0px var(--padding-emoji-picker);
   padding-right: var(--sidebar-width);
 }
 
