@@ -44,8 +44,8 @@
   --color-b: var(--em-color-secondary);
   --color-c: var(--em-color-tertiary);
 
-  --padding: 12px;
-  --padding-small: calc(var(--padding) / 2);
+  --padding-emoji-picker: 12px;
+  --padding-small: calc(var(--padding-emoji-picker) / 2);
 
   --sidebar-width: 16px;
 
@@ -85,49 +85,6 @@
   box-sizing: border-box;
   min-width: 0;
 }
-
-.relative { position: relative }
-
-.flex { display: flex }
-.flex-auto { flex: 0 0 auto }
-.flex-center { justify-content: center; }
-.flex-column { flex-direction: column }
-.flex-grow { flex: 1 1 auto }
-.flex-middle { align-items: center }
-.flex-wrap { flex-wrap: wrap }
-
-.padding { padding: var(--padding) }
-.padding-t { padding-top: var(--padding) }
-.padding-lr { padding-left: var(--padding); padding-right: var(--padding) }
-.padding-r { padding-right: var(--padding) }
-.padding-small { padding: var(--padding-small) }
-.padding-small-b { padding-bottom: var(--padding-small)}
-.padding-small-lr { padding-left: var(--padding-small); padding-right: var(--padding-small)}
-.margin { margin: var(--padding) }
-.margin-l { margin-left: var(--padding) }
-.margin-small-l { margin-left: var(--padding-small) }
-.margin-small-lr { margin-left: var(--padding-small); margin-right: var(--padding-small); }
-
-.color-a { color: var(--color-a) }
-.color-b { color: var(--color-b) }
-.color-c { color: var(--color-c) }
-
-.ellipsis {
-  white-space: nowrap;
-  max-width: 100%;
-  width: auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-a {
-  cursor: pointer;
-  color: var(--em-accent);
-
-  &:hover { text-decoration: underline }
-}
-
-.spacer { height: 10px }
 
 .scroll {
   overflow: auto;
@@ -169,6 +126,49 @@ a {
     }
   }
 }
+
+.relative { position: relative }
+
+.flex { display: flex }
+.flex-auto { flex: 0 0 auto }
+.flex-center { justify-content: center; }
+.flex-column { flex-direction: column }
+.flex-grow { flex: 1 1 auto }
+.flex-middle { align-items: center }
+.flex-wrap { flex-wrap: wrap }
+
+.padding { padding: var(--padding-emoji-picker) }
+.padding-t { padding-top: var(--padding-emoji-picker) }
+.padding-lr { padding-left: var(--padding-emoji-picker); padding-right: var(--padding-emoji-picker) }
+.padding-r { padding-right: var(--padding-emoji-picker) }
+.padding-small { padding: var(--padding-small) }
+.padding-small-b { padding-bottom: var(--padding-small)}
+.padding-small-lr { padding-left: var(--padding-small); padding-right: var(--padding-small)}
+.margin { margin: var(--padding-emoji-picker) }
+.margin-l { margin-left: var(--padding-emoji-picker) }
+.margin-small-l { margin-left: var(--padding-small) }
+.margin-small-lr { margin-left: var(--padding-small); margin-right: var(--padding-small); }
+
+.color-a { color: var(--color-a) }
+.color-b { color: var(--color-b) }
+.color-c { color: var(--color-c) }
+
+.ellipsis {
+  white-space: nowrap;
+  max-width: 100%;
+  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+a {
+  cursor: pointer;
+  color: var(--em-accent);
+
+  &:hover { text-decoration: underline }
+}
+
+.spacer { height: 10px }
 
 .sticky {
   position: sticky;
@@ -291,7 +291,7 @@ button {
 #preview {
   z-index: 2;
   position: relative;
-  padding: 0px var(--padding);
+  padding: 0px var(--padding-emoji-picker);
   padding-right: var(--sidebar-width);
 }
 
