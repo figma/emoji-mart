@@ -19,6 +19,7 @@ export default class PickerElement extends ShadowElement {
       onEmojiSelect,
       onClickOutside,
       onEscapeKeydown,
+      set: this.props.set ?? pickerProps.set,
     }
 
     render(<Picker {...props} />, this.shadowRoot)
