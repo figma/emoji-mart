@@ -29,7 +29,8 @@ function getProcessedData(data) {
             emoji.id,
             ...emoji.id.split(/[-|_|\s]+/),
             ...(reverseAliasMap[emoji.id] || '').split(/[-|_|\s]+/),
-            // [emoji.keywords, false],
+            // include keywords if available
+            ...(emoji.keywords || []),
           ]
             .map((string) => {
               if (!string) return ''
@@ -147,19 +148,38 @@ function _init(props, element) {
   const { i18n } = props
   const pickerProps = getProps(props, element)
 
+  // If data is provided as a prop, use it instead of the default data
+  if (props.data) {
+    Data = getProcessedData(props.data)
+  }
+
   if (props.i18n) {
     I18n = i18n
   }
 
-  if (pickerProps.maxFrequentRows) {
-    const emojis = FrequentlyUsed.get(pickerProps)
-    if (emojis.length) {
+  // If opted in, allow the caller to control what shows up in the freuqent section 
+  // (helpful for keeping external ui in sync)
+  if (props.frequentEmojisOverride) {
+    const frequentEmojis = props.frequentEmojisOverride
+    if (frequentEmojis.length) {
       Data.categories.unshift({
         id: 'frequent',
-        emojis: emojis,
+        emojis: frequentEmojis,
       })
     }
   }
+  else {
+    if (pickerProps.maxFrequentRows) {
+      const emojis = FrequentlyUsed.get(pickerProps)
+      if (emojis.length) {
+        Data.categories.unshift({
+          id: 'frequent',
+          emojis: emojis,
+        })
+      }
+    }
+  }
+
 
   initCallback(pickerProps)
 }
