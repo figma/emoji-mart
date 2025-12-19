@@ -16,6 +16,15 @@ function getProcessedData(data) {
   data.natives = {}
   const reverseAliasMap = getReverseAliasMap(data)
   Object.keys(data.emojis).forEach((id) => {
+
+    // data.emojis[id] might have one of two formats
+    // - Legacy :: a list of "skins" (legacy)
+    // - Updated(rich) :: an object such that {skins: [...], keywords: [...]}
+    // -> the lagacy format was created to reduce bundle size. but data passed in as a prop might use the rich format.
+    const skins = data.emojis[id].skins ?? data.emojis[id]
+    keywords = data.emojis[id].keywords ?? []
+    emoji.keywords = keywords
+
     const emoji = {}
     emoji.id = id
     emoji.search =
@@ -40,7 +49,7 @@ function getProcessedData(data) {
         ),
       ].join(',')
 
-    emoji.skins = data.emojis[id]
+    emoji.skins = skins
     emoji.skins.forEach((skin, index) => {
       if (skin) {
         const skinShortcodes = index + 1 == 1 ? '' : `:skin-tone-${index + 1}:`
@@ -160,8 +169,12 @@ function _init(props, element) {
   // If opted in, allow the caller to control what shows up in the freuqent section 
   // (helpful for keeping external ui in sync)
   if (props.frequentEmojisOverride) {
-    const frequentEmojis = props.frequentEmojisOverride
+    let frequentEmojis = props.frequentEmojisOverride
     if (frequentEmojis.length) {
+      // Trim if needed 
+      if (pickerProps.maxFrequentRows) {
+        frequentEmojis = frequentEmojis.slice(0, pickerProps.maxFrequentRows * pickerProps.perLine)
+      }
       Data.categories.unshift({
         id: 'frequent',
         emojis: frequentEmojis,
