@@ -23,10 +23,10 @@ function getProcessedData(data) {
     // -> the lagacy format was created to reduce bundle size. but data passed in as a prop might use the rich format.
     const skins = data.emojis[id].skins ?? data.emojis[id]
     const keywords = data.emojis[id].keywords ?? []
-    emoji.keywords = keywords
 
     const emoji = {}
     emoji.id = id
+    emoji.keywords = keywords
     emoji.search =
       `,` +
       /* TODO: once we load in the emoji data asynchronously, we can add back keyword support.
