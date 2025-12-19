@@ -22,7 +22,7 @@ function getProcessedData(data) {
     // - Updated(rich) :: an object such that {skins: [...], keywords: [...]}
     // -> the lagacy format was created to reduce bundle size. but data passed in as a prop might use the rich format.
     const skins = data.emojis[id].skins ?? data.emojis[id]
-    keywords = data.emojis[id].keywords ?? []
+    const keywords = data.emojis[id].keywords ?? []
     emoji.keywords = keywords
 
     const emoji = {}
