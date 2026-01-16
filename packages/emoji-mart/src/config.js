@@ -16,13 +16,18 @@ function getProcessedData(data) {
   data.natives = {}
   const reverseAliasMap = getReverseAliasMap(data)
   Object.keys(data.emojis).forEach((id) => {
-
     // data.emojis[id] might have one of two formats
     // - Legacy :: a list of "skins" (legacy)
     // - Updated(rich) :: an object such that {skins: [...], keywords: [...]}
     // -> the lagacy format was created to reduce bundle size. but data passed in as a prop might use the rich format.
-    const skins = data.emojis[id].skins ?? data.emojis[id]
-    const keywords = data.emojis[id].keywords ?? []
+    const skins =
+      data.emojis[id] && data.emojis[id].skins
+        ? data.emojis[id].skins
+        : data.emojis[id]
+    const keywords =
+      data.emojis[id] && data.emojis[id].keywords
+        ? data.emojis[id].keywords
+        : []
 
     const emoji = {}
     emoji.id = id
@@ -153,6 +158,36 @@ export function init(options) {
   return promise
 }
 
+function getFrequentlyUsedEmojis(frequentEmojiOverrides, pickerProps) {
+  // If opted in, allow the caller to control what shows up in the freuqent section
+  // (helpful for keeping external ui in sync)
+  if (frequentEmojiOverrides) {
+    let frequentEmojis = frequentEmojiOverrides
+    if (frequentEmojis.length) {
+      // Trim if needed
+      if (pickerProps.maxFrequentRows) {
+        frequentEmojis = frequentEmojis.slice(
+          0,
+          pickerProps.maxFrequentRows * pickerProps.perLine,
+        )
+      }
+      return frequentEmojis
+    }
+  }
+  // Otherwise, if max frequent rows specified, use the cataloged frequently used emojis
+  else {
+    if (pickerProps.maxFrequentRows) {
+      const emojis = FrequentlyUsed.get(pickerProps)
+      if (emojis.length) {
+        return emojis
+      }
+    }
+  }
+
+  // Otherwise; no recents to note, return an empty array
+  return []
+}
+
 function _init(props, element) {
   const { i18n } = props
   const pickerProps = getProps(props, element)
@@ -166,33 +201,16 @@ function _init(props, element) {
     I18n = i18n
   }
 
-  // If opted in, allow the caller to control what shows up in the freuqent section 
-  // (helpful for keeping external ui in sync)
-  if (props.frequentEmojisOverride) {
-    let frequentEmojis = props.frequentEmojisOverride
-    if (frequentEmojis.length) {
-      // Trim if needed 
-      if (pickerProps.maxFrequentRows) {
-        frequentEmojis = frequentEmojis.slice(0, pickerProps.maxFrequentRows * pickerProps.perLine)
-      }
-      Data.categories.unshift({
-        id: 'frequent',
-        emojis: frequentEmojis,
-      })
-    }
+  const frequentEmojis = getFrequentlyUsedEmojis(
+    props.frequentEmojisOverride,
+    pickerProps,
+  )
+  if (frequentEmojis.length) {
+    Data.categories.unshift({
+      id: 'frequent',
+      emojis: frequentEmojis,
+    })
   }
-  else {
-    if (pickerProps.maxFrequentRows) {
-      const emojis = FrequentlyUsed.get(pickerProps)
-      if (emojis.length) {
-        Data.categories.unshift({
-          id: 'frequent',
-          emojis: emojis,
-        })
-      }
-    }
-  }
-
 
   initCallback(pickerProps)
 }
