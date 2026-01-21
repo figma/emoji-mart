@@ -196,7 +196,7 @@ function getFrequentlyUsedEmojis(frequentEmojiOverrides, pickerProps) {
 export function dangerous_forcefullySetData(data, props) {
 
   // Get picker props so we can correctly perform frequents calculations
-  const pickerProps = getProps(props, element)
+  const pickerProps = getProps(props, undefined)
 
   if (data) {
     Data = getProcessedData(data)
