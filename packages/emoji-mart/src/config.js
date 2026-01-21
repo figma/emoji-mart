@@ -188,6 +188,36 @@ function getFrequentlyUsedEmojis(frequentEmojiOverrides, pickerProps) {
   return []
 }
 
+
+/**
+ * *** Odd Pattern Note ***
+ * todo: note what risks are here
+ */
+export function dangerous_forcefullySetData(data, props) {
+
+  // Get picker props so we can correctly perform frequents calculations
+  const pickerProps = getProps(props, element)
+
+  if (data) {
+    Data = getProcessedData(data)
+  }
+  else {
+    Data = getProcessedData(data_default)
+  }
+
+  const frequentEmojis = getFrequentlyUsedEmojis(
+    undefined,
+    pickerProps,
+  )
+  if (frequentEmojis.length) {
+    Data.categories.unshift({
+      id: 'frequent',
+      emojis: frequentEmojis,
+    })
+  }
+
+}
+
 function _init(props, element) {
   const { i18n } = props
   const pickerProps = getProps(props, element)
