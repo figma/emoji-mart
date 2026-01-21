@@ -16,8 +16,22 @@ function getProcessedData(data) {
   data.natives = {}
   const reverseAliasMap = getReverseAliasMap(data)
   Object.keys(data.emojis).forEach((id) => {
+    // data.emojis[id] might have one of two formats
+    // - Legacy :: a list of "skins" (legacy)
+    // - Updated(rich) :: an object such that {skins: [...], keywords: [...]}
+    // -> the lagacy format was created to reduce bundle size. but data passed in as a prop might use the rich format.
+    const skins =
+      data.emojis[id] && data.emojis[id].skins
+        ? data.emojis[id].skins
+        : data.emojis[id]
+    const keywords =
+      data.emojis[id] && data.emojis[id].keywords
+        ? data.emojis[id].keywords
+        : []
+
     const emoji = {}
     emoji.id = id
+    emoji.keywords = keywords
     emoji.search =
       `,` +
       /* TODO: once we load in the emoji data asynchronously, we can add back keyword support.
@@ -29,7 +43,8 @@ function getProcessedData(data) {
             emoji.id,
             ...emoji.id.split(/[-|_|\s]+/),
             ...(reverseAliasMap[emoji.id] || '').split(/[-|_|\s]+/),
-            // [emoji.keywords, false],
+            // include keywords if available
+            ...(emoji.keywords || []),
           ]
             .map((string) => {
               if (!string) return ''
@@ -39,7 +54,7 @@ function getProcessedData(data) {
         ),
       ].join(',')
 
-    emoji.skins = data.emojis[id]
+    emoji.skins = skins
     emoji.skins.forEach((skin, index) => {
       if (skin) {
         const skinShortcodes = index + 1 == 1 ? '' : `:skin-tone-${index + 1}:`
@@ -143,22 +158,58 @@ export function init(options) {
   return promise
 }
 
+function getFrequentlyUsedEmojis(frequentEmojiOverrides, pickerProps) {
+  // If opted in, allow the caller to control what shows up in the freuqent section
+  // (helpful for keeping external ui in sync)
+  if (frequentEmojiOverrides) {
+    let frequentEmojis = frequentEmojiOverrides
+    if (frequentEmojis.length) {
+      // Trim if needed
+      if (pickerProps.maxFrequentRows) {
+        frequentEmojis = frequentEmojis.slice(
+          0,
+          pickerProps.maxFrequentRows * pickerProps.perLine,
+        )
+      }
+      return frequentEmojis
+    }
+  }
+  // Otherwise, if max frequent rows specified, use the cataloged frequently used emojis
+  else {
+    if (pickerProps.maxFrequentRows) {
+      const emojis = FrequentlyUsed.get(pickerProps)
+      if (emojis.length) {
+        return emojis
+      }
+    }
+  }
+
+  // Otherwise; no recents to note, return an empty array
+  return []
+}
+
 function _init(props, element) {
   const { i18n } = props
   const pickerProps = getProps(props, element)
+
+  // If data is provided as a prop, use it instead of the default data
+  if (props.data) {
+    Data = getProcessedData(props.data)
+  }
 
   if (props.i18n) {
     I18n = i18n
   }
 
-  if (pickerProps.maxFrequentRows) {
-    const emojis = FrequentlyUsed.get(pickerProps)
-    if (emojis.length) {
-      Data.categories.unshift({
-        id: 'frequent',
-        emojis: emojis,
-      })
-    }
+  const frequentEmojis = getFrequentlyUsedEmojis(
+    props.frequentEmojisOverride,
+    pickerProps,
+  )
+  if (frequentEmojis.length) {
+    Data.categories.unshift({
+      id: 'frequent',
+      emojis: frequentEmojis,
+    })
   }
 
   initCallback(pickerProps)
