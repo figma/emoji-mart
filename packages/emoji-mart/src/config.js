@@ -203,17 +203,23 @@ export function dangerous_forcefullySetData(data, props) {
   }
   else {
     Data = getProcessedData(data_default)
-  }
 
-  const frequentEmojis = getFrequentlyUsedEmojis(
-    undefined,
-    pickerProps,
-  )
-  if (frequentEmojis.length) {
-    Data.categories.unshift({
-      id: 'frequent',
-      emojis: frequentEmojis,
-    })
+    // todo :: get frequents working for emoji-wheel too
+    const frequentEmojis = getFrequentlyUsedEmojis(
+      undefined,
+      pickerProps,
+    )
+    if (frequentEmojis.length) {
+
+      // Replace if frequents are found 
+      if (Data.categories.find(category => category.id === 'frequent')) {
+        Data.categories = Data.categories.filter(category => category.id !== 'frequent')
+      }
+      Data.categories.unshift({
+        id: 'frequent',
+        emojis: frequentEmojis,
+      })
+    }
   }
 
 }
