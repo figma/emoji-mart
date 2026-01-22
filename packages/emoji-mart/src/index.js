@@ -2,4 +2,4 @@ export { PickerElement as Picker } from './components/Picker'
 export { EmojiElement as Emoji } from './components/Emoji'
 
 export { SearchIndex, Store, NativeSupport } from './helpers'
-export { init, Data, I18n } from './config'
+export { init, Data, I18n, dangerous_forcefullySetData } from './config'
