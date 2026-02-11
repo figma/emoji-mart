@@ -1,10 +1,8 @@
-
 function getStaticAssetHost() {
   if (window.location.hostname === 'figma-gov.com') {
     return 'static.figma-gov.com'
   }
   return 'static.figma.com'
-
 }
 
 function getUrlBase() {
@@ -14,6 +12,5 @@ function getUrlBase() {
 function getUrl(emojiSkin) {
   return getUrlBase() + emojiSkin.unified?.toLowerCase() + '.png'
 }
-
 
 export default { getUrl }
