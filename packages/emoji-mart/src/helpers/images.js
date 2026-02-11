@@ -1,10 +1,19 @@
-// At writing, this URL is not in use. If it is used again,
-// it will need to be updated appropriately to the most
-// recent figma-hosted emoji URL base.
-const URL = 'https://static.figma.com/emoji/5/noto/small/'
+
+function getStaticAssetHost() {
+  if (window.location.hostname === 'figma-gov.com') {
+    return 'static.figma-gov.com'
+  }
+  return 'static.figma.com'
+
+}
+
+function getUrlBase() {
+  return `https://${getStaticAssetHost()}/emoji/5/noto/small/`
+}
 
 function getUrl(emojiSkin) {
-  return URL + emojiSkin.unified?.toLowerCase() + '.png'
+  return getUrlBase() + emojiSkin.unified?.toLowerCase() + '.png'
 }
+
 
 export default { getUrl }
