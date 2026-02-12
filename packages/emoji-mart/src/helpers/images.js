@@ -2,7 +2,7 @@ function getStaticAssetHost() {
   if (window.location.hostname === 'figma-gov.com') {
     return 'static.figma-gov.com'
   }
-  return 'static.figma.com'
+  return 'statics.figma.com'
 }
 
 function getUrlBase() {
